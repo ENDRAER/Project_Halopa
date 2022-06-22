@@ -2,10 +2,9 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
-using Photon.Pun;
 using System;
 
-public class UPlayer : MonoBehaviour, IPunObservable
+public class UPlayer : MonoBehaviour
 {
     [Header("Links")]
     [SerializeField] private Weapons _Weapons;
@@ -14,7 +13,6 @@ public class UPlayer : MonoBehaviour, IPunObservable
     [SerializeField] private GameObject CharacterGO;
     [SerializeField] private GameObject LegsGO;
     [SerializeField] private GameObject WeaponsEmpty;
-    [SerializeField] private PhotonView photonView;
     [SerializeField] public Text HPBar;
     [SerializeField] public Text AmmoBar;
     [SerializeField] public GameObject TakeWeaponButton;
@@ -27,83 +25,35 @@ public class UPlayer : MonoBehaviour, IPunObservable
     [Header("joystick")]
     [SerializeField] private bl_Joystick LJS;
     [SerializeField] private bl_Joystick RJS;
-    [SerializeField] private GameObject _RUlookAt;
     [SerializeField] private GameObject _LUlookAt;
-    [SerializeField] private GameObject _RLookAt;
+    [SerializeField] private GameObject _RUlookAt;
     [SerializeField] private GameObject _LLookAt;
+    [SerializeField] private GameObject _RLookAt;
     [Header("values")]
     private float ForceThrowGrenate = 10;
     private int FactorForceThrowGrenate;
     [SerializeField] private int TotalForceThrowGrenate;
     [SerializeField] private float speed;
-    [SerializeField] public float Health;
+    [Header("Health")]
+    [SerializeField] public float HealthMax;
+    [SerializeField] public float HealthNow;
+    [SerializeField] public float ShieldMax;
+    [SerializeField] public float ShieldNow;
+    [SerializeField] public float MaxTimeToRegShield;
+    [SerializeField] public float NowTimeToRegShield;
+    [SerializeField] public Coroutine CorRegShield;
     [Header("PlayerSettings")]
     [SerializeField] public int[] GrenadeInfo = { 1, 2, 0, 2}; // 0-index; 1-2-vallue grenades; 3-max grenades
-    [SerializeField] public int[] WeaponInfo1 = { 0, 30, 30, 90 , 120};
-    [SerializeField] public int[] WeaponInfo2 = { 1, 6, 6, 18 , 24};
     // 0-index; 1-rounds in the magazine; 2-max rounds in the magazine; 3-total ammunition; 4-max ammunition
     // THIS IS THE DEFAULT FOR AR + PISTOL
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(WeaponInfo1[0]);
-            stream.SendNext(Health);
-        }
-        else
-        {
-            WeaponInfo1[0] = (int)stream.ReceiveNext();
-            Health = (float)stream.ReceiveNext();
-        }
-    }
-
-    void Start()
-    {
-        //Find and sets
-        if (photonView.IsMine)
-        {
-            WeaponsEmpty.layer = 9;
-            HPBar = GameObject.Find("HPBar").GetComponent<Text>();
-            AmmoBar = GameObject.Find("AmmoBar").GetComponent<Text>();
-            GameObject.Find("Main Camera").transform.SetParent(CharacterGO.transform, false);
-            GameObject.Find("SwapWeapon").GetComponent<Button>().onClick.AddListener(SwapWeaponClass);
-            GameObject.Find("SwapGrenade").GetComponent<Button>().onClick.AddListener(SwapGrenadeClass);
-            GameObject.Find("Reload").GetComponent<Button>().onClick.AddListener(ReloadStartClass);
-            TakeWeaponButton = GameObject.Find("TakeWeapon");
-            TakeWeaponButton.SetActive(false);
-            TakeWeaponButton.GetComponent<Button>().onClick.AddListener(TakeWeaponClass);
-            {
-                LJS = GameObject.Find("JoystickL").GetComponent<bl_Joystick>();
-                RJS = GameObject.Find("JoystickR").GetComponent<bl_Joystick>();
-
-                // lookAt Stick
-                _RUlookAt = GameObject.Find("RLookAtAss");
-                _LUlookAt = GameObject.Find("LLookAtAss");
-                _RLookAt = GameObject.Find("RStick");
-                _LLookAt = GameObject.Find("LStick");
-            }//Sticks
-            {
-                EventTrigger ThrowGrenateButton = GameObject.Find("ThrowGrenade").GetComponent<EventTrigger>();
-                //Enter
-                EventTrigger.Entry Enter = new EventTrigger.Entry();
-                Enter.eventID = EventTriggerType.PointerEnter;
-                Enter.callback.AddListener((data) => { ForceGrenateClass(); });
-                ThrowGrenateButton.triggers.Add(Enter);
-                //Exit
-                EventTrigger.Entry Exit = new EventTrigger.Entry();
-                Exit.eventID = EventTriggerType.PointerExit;
-                Exit.callback.AddListener((data) => { ThrowGrenateClass(); });
-                ThrowGrenateButton.triggers.Add(Exit);
-            }//ThrowGrenateButton
-        }
-    }
+    [SerializeField] public int[] WeaponInfo1 = { 0, 30, 30, 90 , 120};
+    [SerializeField] public int[] WeaponInfo2 = { 1, 6, 6, 18 , 24};
 
     void Update()
     {
         {
             AmmoBar.text = (WeaponInfo1[1] + " | " + WeaponInfo1[3]);
-        } // REBUILD THIS AND HARRY UP *****************************
+        } // change textures    // REBUILD THIS AND HARRY UP *****************************
 
         {
             for (int a = 0; WeaponsTextures.Length > a; a++)
@@ -117,43 +67,43 @@ public class UPlayer : MonoBehaviour, IPunObservable
                     WeaponsTextures[a].SetActive(false);
                 }
             }
-        } // change textures
+        } // ammo changer       // REBUILD THIS AND HARRY UP *****************************
 
-        if (photonView.IsMine)
         {
-            // reload first weapon
             if (WeaponInfo1[1] < 1 && IsReloaded == false && WeaponInfo1[3] != 0)
             {
                 StartCoroutine(ReloadCor = RealoadIE());
-            } 
-
-            double KatetLJS = Math.Sqrt((LJS.Vertical * LJS.Vertical) + (LJS.Horizontal * LJS.Horizontal));
-            double KatetRJS = Math.Sqrt((RJS.Vertical * RJS.Vertical) + (RJS.Horizontal * RJS.Horizontal));
-
-            //weapon rot
-            _RUlookAt.transform.LookAt(_RLookAt.transform);
-            _LUlookAt.transform.LookAt(_LLookAt.transform);
-
-            //player
-            { 
-                PlayerRB.AddForce(new Vector2(LJS.Horizontal * speed * Time.deltaTime, LJS.Vertical * speed * Time.deltaTime)); //move
-                if (KatetLJS > 0.1) 
-                {
-                    LegsGO.transform.rotation = Quaternion.Euler(0, 0, LJS.Horizontal <= 0 ? _LUlookAt.transform.eulerAngles.x : -_LUlookAt.transform.eulerAngles.x);
-                    WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, LJS.Horizontal <= 0 ? _LUlookAt.transform.eulerAngles.x : -_LUlookAt.transform.eulerAngles.x);
-                } // rotate Player
-
-                if (KatetRJS > 0.2)
-                {
-                    WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, RJS.Horizontal <= 0 ? _RUlookAt.transform.eulerAngles.x : -_RUlookAt.transform.eulerAngles.x);
-                } // rotate
-
-                if (KatetRJS > 4.8)
-                {
-                    _Weapons.Fire(RJS.Horizontal, WeaponsEmpty.transform.localScale.x);
-                } // fire Weapon
             }
-        }
+        } // reload weapon      // REBUILD THIS AND HARRY UP *****************************
+
+        #region Katets of stiks
+        double KatetLJS = Math.Sqrt((LJS.Vertical * LJS.Vertical) + (LJS.Horizontal * LJS.Horizontal));
+        double KatetRJS = Math.Sqrt((RJS.Vertical * RJS.Vertical) + (RJS.Horizontal * RJS.Horizontal));
+        #endregion
+
+        #region weapon rot
+        _RUlookAt.transform.LookAt(_RLookAt.transform);
+        _LUlookAt.transform.LookAt(_LLookAt.transform);
+        #endregion
+
+        #region run and aim
+        PlayerRB.AddForce(new Vector2(LJS.Horizontal * speed * Time.deltaTime, LJS.Vertical * speed * Time.deltaTime)); //move
+        if (KatetLJS > 0.1) 
+        {
+            LegsGO.transform.rotation = Quaternion.Euler(0, 0, LJS.Horizontal <= 0 ? _LUlookAt.transform.eulerAngles.x : -_LUlookAt.transform.eulerAngles.x);
+            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, LJS.Horizontal <= 0 ? _LUlookAt.transform.eulerAngles.x : -_LUlookAt.transform.eulerAngles.x);
+        } // rotate Player
+
+        if (KatetRJS > 0.2)
+        {
+            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, RJS.Horizontal <= 0 ? _RUlookAt.transform.eulerAngles.x : -_RUlookAt.transform.eulerAngles.x);
+        } // rotate
+
+        if (KatetRJS > 4.8)
+        {
+            _Weapons.Fire(RJS.Horizontal, WeaponsEmpty.transform.localScale.x);
+        } // fire Weapon
+        #endregion
     }
 
     private void FixedUpdate()
@@ -163,8 +113,9 @@ public class UPlayer : MonoBehaviour, IPunObservable
 
     public void SwapWeaponClass()
     {
-        if (ReloadCor != null) { StopCoroutine(ReloadCor); }
+        StopCoroutine(ReloadCor);
         IsReloaded = false;
+
         int[] WeaponCashe = WeaponInfo2;
         WeaponInfo2 = WeaponInfo1;
         WeaponInfo1 = WeaponCashe;
@@ -195,17 +146,19 @@ public class UPlayer : MonoBehaviour, IPunObservable
             }
             i++;
         }
+
         //set values
         int[] InfoCache = WeaponInfo1;
         UniversalBridge _UniversalBridge = _playerTexture.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
         WeaponInfo1 = _UniversalBridge._weaponInfo.ItemInfo;
         _UniversalBridge._weaponInfo.PreDestroy();
         //create new Item
-        GameObject NewWeaponItem = PhotonNetwork.Instantiate(WeaponItemPrefab.name, transform.position, Quaternion.identity);
+        GameObject NewWeaponItem = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
         WeaponItemInfo _weaponInfoCache = NewWeaponItem.GetComponent<WeaponItemInfo>();
         _weaponInfoCache.CustomStart(InfoCache);
     }
 
+    #region reload
     public void ReloadStartClass()
     {
         if (IsReloaded == false && WeaponInfo1[1] != WeaponInfo1[2] && WeaponInfo1[3] != 0)
@@ -213,26 +166,26 @@ public class UPlayer : MonoBehaviour, IPunObservable
             StartCoroutine(ReloadCor = RealoadIE());
         }
     }
+
     private IEnumerator RealoadIE()
     {
         IsReloaded = true;
         Debug.Log("Reloading...");
+        #region Reloading speed
+        switch (WeaponInfo1[0])
         {
-            if (WeaponInfo1[0] == 0)
-            {
+            case 0:
                 yield return new WaitForSeconds(_Weapons.ARReloadSpeed);
-            }
-
-            if (WeaponInfo1[0] == 1)
-            {
+                break;
+            case 1:
                 yield return new WaitForSeconds(_Weapons.PistolReloadSpeed);
-            }
-
-            if (WeaponInfo1[0] == 1)
-            {
+                break;
+            case 2:
                 yield return new WaitForSeconds(_Weapons.SGReloadSpeed);
-            }
-        } // Speed Reloading
+                break;
+        }
+        #endregion
+
         if (WeaponInfo1[3] >= WeaponInfo1[2] - WeaponInfo1[1])
         {
             WeaponInfo1[3] -= WeaponInfo1[2] - WeaponInfo1[1];
@@ -246,6 +199,7 @@ public class UPlayer : MonoBehaviour, IPunObservable
         Debug.Log("%Reloaded%");
         IsReloaded = false;
     }
+    #endregion
 
     public void ForceGrenateClass()
     {
@@ -255,7 +209,7 @@ public class UPlayer : MonoBehaviour, IPunObservable
     public void ThrowGrenateClass()
     {
         if (GrenadeInfo[GrenadeInfo[0]]==0) { return; }
-        GameObject createdGrenate = PhotonNetwork.Instantiate(GrenadeInfo[0] == 1? FGrenade.name : PGrenade.name, transform.position, Quaternion.identity);
+        GameObject createdGrenate = Instantiate(GrenadeInfo[0] == 1? FGrenade : PGrenade, transform.position, Quaternion.identity);
         createdGrenate.GetComponent<Grenade>().Sender = WeaponsEmpty;
         Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
         createdGrenateRB.AddForce(new Vector2(RJS.Horizontal * ForceThrowGrenate * TotalForceThrowGrenate, RJS.Vertical * ForceThrowGrenate * TotalForceThrowGrenate));

@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class Damage : MonoBehaviour
@@ -11,8 +11,8 @@ public class Damage : MonoBehaviour
         if (other.gameObject.GetComponent<UPlayer>() != null)
         {
             UPlayer _UPlayer = other.GetComponent<UPlayer>();
-            _UPlayer.Health -= damage;
-            _UPlayer.HPBar.text = "HP: " + _UPlayer.Health + "/100";
+            _UPlayer.HealthNow -= damage;
+            _UPlayer.HPBar.text = "HP: " + _UPlayer.HealthNow + "/100";
             Destroy(gameObject);
         }
     }

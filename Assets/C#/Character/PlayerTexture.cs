@@ -13,8 +13,8 @@ public class PlayerTexture : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Damage>() != null)
         {
-            _UPlayer.Health -= other.gameObject.GetComponent<Damage>().damage;
-            _UPlayer.HPBar.text = "HP: " + Math.Ceiling(_UPlayer.Health) + "/100";
+            _UPlayer.HealthNow -= other.gameObject.GetComponent<Damage>().damage;
+            _UPlayer.HPBar.text = "HP: " + Math.Ceiling(_UPlayer.HealthNow) + "/100";
         }
 
         if (other.gameObject.tag == "WeaponItem")

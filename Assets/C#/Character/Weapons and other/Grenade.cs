@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using Photon.Pun;
 using System;
 
 public class Grenade : MonoBehaviour
@@ -38,8 +37,7 @@ public class Grenade : MonoBehaviour
         }
         if (MinDistance != 2286669)
         {
-            me.transform.GetComponent<PlayerTexture>()._UPlayer.Health -= (Damage / 100) * ((100 / Distance) * (Distance - MinDistance));
-            me.transform.GetComponent<PlayerTexture>()._UPlayer.HPBar.text = "HP: " + Math.Ceiling(me.transform.GetComponent<PlayerTexture>()._UPlayer.Health) + "/100";
+            //  DAMAGE
         }
         Destroy(gameObject);
     }
@@ -48,21 +46,8 @@ public class Grenade : MonoBehaviour
     {
         if (Other.gameObject.layer != 0 && Other.gameObject != Sender)
         {
-            Debug.Log("EEEEEE");
             gameObject.transform.SetParent(Other.gameObject.transform);
             gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-        }
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(Sender);
-        }
-        else
-        {
-            Sender = (GameObject)stream.ReceiveNext();
         }
     }
 }

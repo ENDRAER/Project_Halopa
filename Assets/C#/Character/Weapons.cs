@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using Photon.Pun;
 
 public class Weapons : MonoBehaviour
 {
@@ -10,19 +9,19 @@ public class Weapons : MonoBehaviour
 
     // Balance Weapon
     [Header("Assault Rifle")]
-    [SerializeField] private GameObject ARDamageZone;
+    [SerializeField] private float ARDamage;
     [SerializeField] private bool ARReady = true;
     [SerializeField] private float ARRateOfFire;
     [SerializeField] public float ARReloadSpeed;
 
     [Header("Pistol")]
-    [SerializeField] private GameObject PistolDamageZone;
+    [SerializeField] private float PistolDamage;
     [SerializeField] private bool PistolReady = true;
     [SerializeField] private float PistolRateOfFire;
     [SerializeField] public float PistolReloadSpeed;
 
     [Header("SG")]
-    [SerializeField] private GameObject SGDamageZone;
+    [SerializeField] private float SGDamage;
     [SerializeField] private bool SGReady = true;
     [SerializeField] private float SGRateOfFire;
     [SerializeField] public float SGReloadSpeed;
@@ -35,7 +34,7 @@ public class Weapons : MonoBehaviour
 
     public void Fire(float playerScaleX, float WeaponScaleX)
     {
-        //AR
+        #region AR
         if (_UPlayer.WeaponInfo1[0] == 0 && ARReady == true && _UPlayer.WeaponInfo1[1] > 0 && _UPlayer.IsReloaded == false)
         {
             ARReady = false;
@@ -56,12 +55,13 @@ public class Weapons : MonoBehaviour
 
             if (rayHit.collider != null && rayHit.collider.gameObject.GetComponent<PlayerTexture>() != null)
             {
-                PhotonNetwork.Instantiate(ARDamageZone.name, rayHit.collider.gameObject.transform.position, Quaternion.identity);
+                //  DAMAGE
             } // hit
             StartCoroutine(ARWait(ARRateOfFire));
         }
-        
-        //Pistol
+        #endregion
+
+        #region Pistol
         if (_UPlayer.WeaponInfo1[0] == 1 && PistolReady == true && _UPlayer.WeaponInfo1[1] > 0 && _UPlayer.IsReloaded == false)
         {
             PistolReady = false;
@@ -82,13 +82,14 @@ public class Weapons : MonoBehaviour
 
             if (rayHit && rayHit.collider.gameObject.GetComponent<PlayerTexture>() != null)
             {
-                PhotonNetwork.Instantiate(PistolDamageZone.name, rayHit.collider.gameObject.transform.position, Quaternion.identity);
+                //  DAMAGE
             } // hit
 
             StartCoroutine(PistolWait(PistolRateOfFire));
         }
+        #endregion
 
-        //ShotGun
+        #region ShotGun
         if (_UPlayer.WeaponInfo1[0] == 2 && SGReady == true && _UPlayer.WeaponInfo1[1] > 0 && _UPlayer.IsReloaded == false)
         {
             SGReady = false;
@@ -112,12 +113,13 @@ public class Weapons : MonoBehaviour
                 
                 if (rayHit && rayHit.collider.gameObject.GetComponent<PlayerTexture>() != null)
                 {
-                    PhotonNetwork.Instantiate(SGDamageZone.name, rayHit.collider.gameObject.transform.position, Quaternion.identity);
+                    //  DAMAGE
                 } // hit
             }
             gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
             StartCoroutine(SGWait(SGRateOfFire));
         }
+        #endregion
     }
 
     private IEnumerator ARWait(float waitTime)
