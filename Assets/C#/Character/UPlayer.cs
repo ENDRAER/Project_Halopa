@@ -3,12 +3,12 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using Mirror;
 
-public class UPlayer : MonoBehaviour
+public class UPlayer : NetworkBehaviour
 {
     [Header("Links")]
     [SerializeField] private Weapons _Weapons;
-    [SerializeField] private PlayerTexture _playerTexture;
     [SerializeField] private Rigidbody2D PlayerRB;
     [SerializeField] private GameObject CharacterGO;
     [SerializeField] private GameObject LegsGO;
@@ -24,11 +24,7 @@ public class UPlayer : MonoBehaviour
     [SerializeField] public IEnumerator ReloadCor;
     [Header("joystick")]
     [SerializeField] private bl_Joystick LJS;
-    [SerializeField] private bl_Joystick RJS;
-    [SerializeField] private GameObject _LUlookAt;
-    [SerializeField] private GameObject _RUlookAt;
-    [SerializeField] private GameObject _LLookAt;
-    [SerializeField] private GameObject _RLookAt;
+    [SerializeField] public bl_Joystick RJS;
     [Header("values")]
     private float ForceThrowGrenate = 10;
     private int FactorForceThrowGrenate;
@@ -49,65 +45,74 @@ public class UPlayer : MonoBehaviour
     [SerializeField] public int[] WeaponInfo1 = { 0, 30, 30, 90 , 120};
     [SerializeField] public int[] WeaponInfo2 = { 1, 6, 6, 18 , 24};
 
+    private void Start()
+    {
+        if (!isLocalPlayer) return;
+
+        #region FindButtons
+        LJS = GameObject.Find("LJS").GetComponent<bl_Joystick>();
+        RJS = GameObject.Find("RJS").GetComponent<bl_Joystick>();
+        AmmoBar = GameObject.Find("AmmoBarText").GetComponent<Text>();
+        #endregion
+    }
+
     void Update()
     {
-        {
-            AmmoBar.text = (WeaponInfo1[1] + " | " + WeaponInfo1[3]);
-        } // change textures    // REBUILD THIS AND HARRY UP *****************************
+        if (!isLocalPlayer) return;
 
-        {
-            for (int a = 0; WeaponsTextures.Length > a; a++)
-            {
-                if (WeaponInfo1[0] == a)
-                {
-                    WeaponsTextures[a].SetActive(true);
-                }
-                else
-                {
-                    WeaponsTextures[a].SetActive(false);
-                }
-            }
-        } // ammo changer       // REBUILD THIS AND HARRY UP *****************************
+        #region This NEED to rebuild ***************************
+        AmmoBar.text = (WeaponInfo1[1] + " | " + WeaponInfo1[3]);
 
+        for (int a = 0; WeaponsTextures.Length > a; a++)
         {
-            if (WeaponInfo1[1] < 1 && IsReloaded == false && WeaponInfo1[3] != 0)
+            if (WeaponInfo1[0] == a)
             {
-                StartCoroutine(ReloadCor = RealoadIE());
+                WeaponsTextures[a].SetActive(true);
             }
-        } // reload weapon      // REBUILD THIS AND HARRY UP *****************************
+            else
+            {
+                WeaponsTextures[a].SetActive(false);
+            }
+        }
+
+        if (WeaponInfo1[1] < 1 && IsReloaded == false && WeaponInfo1[3] != 0)
+        {
+            StartCoroutine(ReloadCor = RealoadIE());
+        }
+        #endregion 
 
         #region Katets of stiks
         double KatetLJS = Math.Sqrt((LJS.Vertical * LJS.Vertical) + (LJS.Horizontal * LJS.Horizontal));
         double KatetRJS = Math.Sqrt((RJS.Vertical * RJS.Vertical) + (RJS.Horizontal * RJS.Horizontal));
         #endregion
 
-        #region weapon rot
-        _RUlookAt.transform.LookAt(_RLookAt.transform);
-        _LUlookAt.transform.LookAt(_LLookAt.transform);
-        #endregion
-
         #region run and aim
+
         PlayerRB.AddForce(new Vector2(LJS.Horizontal * speed * Time.deltaTime, LJS.Vertical * speed * Time.deltaTime)); //move
+
         if (KatetLJS > 0.1) 
         {
-            LegsGO.transform.rotation = Quaternion.Euler(0, 0, LJS.Horizontal <= 0 ? _LUlookAt.transform.eulerAngles.x : -_LUlookAt.transform.eulerAngles.x);
-            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, LJS.Horizontal <= 0 ? _LUlookAt.transform.eulerAngles.x : -_LUlookAt.transform.eulerAngles.x);
+            LegsGO.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(LJS.Vertical, LJS.Horizontal) * Mathf.Rad2Deg);
+            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(LJS.Vertical, LJS.Horizontal) * Mathf.Rad2Deg);
         } // rotate Player
 
         if (KatetRJS > 0.2)
         {
-            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, RJS.Horizontal <= 0 ? _RUlookAt.transform.eulerAngles.x : -_RUlookAt.transform.eulerAngles.x);
+            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(RJS.Vertical, RJS.Horizontal) * Mathf.Rad2Deg);
         } // rotate
 
         if (KatetRJS > 4.8)
         {
-            _Weapons.Fire(RJS.Horizontal, WeaponsEmpty.transform.localScale.x);
+            _Weapons.Fire();
         } // fire Weapon
+
         #endregion
     }
 
     private void FixedUpdate()
     {
+        if (!isLocalPlayer) return;
+
         ForceThrowGrenate += ForceThrowGrenate > 30 ? 0 : 0.2f * FactorForceThrowGrenate;
     }
 
@@ -137,11 +142,11 @@ public class UPlayer : MonoBehaviour
     {
         float MinDistance = 600;
         int nearestWeapon=0;
-        for (int i = 0; i < _playerTexture.WeaponsGO.Count; )
+        for (int i = 0; i < _Weapons.WeaponsGO.Count; )
         {
-            if (MinDistance > Vector2.Distance(gameObject.transform.position, _playerTexture.WeaponsGO[i].transform.position))
+            if (MinDistance > Vector2.Distance(gameObject.transform.position, _Weapons.WeaponsGO[i].transform.position))
             {
-                MinDistance = Vector2.Distance(gameObject.transform.position, _playerTexture.WeaponsGO[i].transform.position);
+                MinDistance = Vector2.Distance(gameObject.transform.position, _Weapons.WeaponsGO[i].transform.position);
                 nearestWeapon = i;
             }
             i++;
@@ -149,7 +154,7 @@ public class UPlayer : MonoBehaviour
 
         //set values
         int[] InfoCache = WeaponInfo1;
-        UniversalBridge _UniversalBridge = _playerTexture.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
+        UniversalBridge _UniversalBridge = _Weapons.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
         WeaponInfo1 = _UniversalBridge._weaponInfo.ItemInfo;
         _UniversalBridge._weaponInfo.PreDestroy();
         //create new Item
@@ -201,6 +206,7 @@ public class UPlayer : MonoBehaviour
     }
     #endregion
 
+    #region Grenate
     public void ForceGrenateClass()
     {
         ForceThrowGrenate = 10;
@@ -215,4 +221,5 @@ public class UPlayer : MonoBehaviour
         createdGrenateRB.AddForce(new Vector2(RJS.Horizontal * ForceThrowGrenate * TotalForceThrowGrenate, RJS.Vertical * ForceThrowGrenate * TotalForceThrowGrenate));
         Debug.Log(new Vector2(RJS.Vertical, RJS.Vertical));
     }
+    #endregion
 }

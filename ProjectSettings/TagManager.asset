@@ -16,8 +16,8 @@ TagManager:
   - 
   - 
   - 
-  - me
-  - enemies
+  - Character
+  - Bullets
   - allies
   - OnlyDefault
   - InteractiveObjects
