@@ -222,4 +222,9 @@ public class UPlayer : NetworkBehaviour
         Debug.Log(new Vector2(RJS.Vertical, RJS.Vertical));
     }
     #endregion
+
+    public void NetWorkCreator(GameObject _ThisBulletGO)
+    {
+        NetworkServer.Spawn(_ThisBulletGO);
+    }
 }

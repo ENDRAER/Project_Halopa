@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using Mirror;
 
 public class Weapons : MonoBehaviour
 {
@@ -31,7 +30,8 @@ public class Weapons : MonoBehaviour
     [SerializeField] public float SGReloadSpeed;
     [SerializeField] public float SGBulletsRange;
     [SerializeField] public float SGRandScale;
-    
+
+
     public void Fire()
     {
         #region AR
@@ -41,7 +41,6 @@ public class Weapons : MonoBehaviour
             _UPlayer.WeaponInfo1[1]--;
 
             GameObject ThisBulletGO = Instantiate(ARBullet, gameObject.transform.position, new Quaternion(0, 0, gameObject.transform.rotation.z, 0));
-            NetworkServer.Spawn(ThisBulletGO);
             Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
             ThisBulletCS.DontDrendlyFire = Team;
 
@@ -82,7 +81,7 @@ public class Weapons : MonoBehaviour
             for (int i = 0; i < SGBulletsRange; i++)
             {
                 GameObject ThisBulletGO = Instantiate(SGBullet, gameObject.transform.position, new Quaternion(0, 0, gameObject.transform.rotation.z, 0));
-                NetworkServer.Spawn(ThisBulletGO);
+                _UPlayer.NetWorkCreator(ThisBulletGO);
                 Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
                 ThisBulletCS.DontDrendlyFire = Team;
 

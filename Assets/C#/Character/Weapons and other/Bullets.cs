@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Bullets : MonoBehaviour
 {
     public int DontDrendlyFire;
@@ -15,6 +16,7 @@ public class Bullets : MonoBehaviour
     private void Start()
     {
         StartCoroutine(CorTimeToDestroy());
+        print("ololo");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
