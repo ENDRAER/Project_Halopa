@@ -5,25 +5,24 @@ using UnityEngine;
 
 public class Bullets : MonoBehaviour
 {
-    public int DontDrendlyFire;
+    [HideInInspector] public int DontFrendlyFire;
     public float BulletDamage;
     public float BulletSpeed;
     public float timeToDestroy;
     public enum _TypeOfBullet { rifles, plasma, explosions};
     public _TypeOfBullet TypeOfBullet;
 
-
     private void Start()
     {
+        gameObject.GetComponent<Rigidbody2D>().AddForce(transform.right * BulletSpeed, ForceMode2D.Impulse);
         StartCoroutine(CorTimeToDestroy());
-        print("ololo");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Weapons>() != null)
+        if (other.gameObject.GetComponent<PlayerTexture>() != null)
         {
-            if (other.gameObject.GetComponent<Weapons>().Team != DontDrendlyFire)
+            if (other.gameObject.GetComponent<PlayerTexture>()._UPlayer.TeamID != DontFrendlyFire)
             {
                 switch (TypeOfBullet)
                 {

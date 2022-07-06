@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4774744915932866475}
   m_RootOrder: 1
@@ -42,6 +43,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -109,6 +111,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4774744915932866475}
   m_RootOrder: 2
@@ -124,6 +127,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -173,8 +177,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4774744915932866475}
-  - component: {fileID: 1737040089419165176}
   - component: {fileID: 4212707203718074780}
+  - component: {fileID: 4835949163205943334}
   m_Layer: 0
   m_Name: Weapons
   m_TagString: Player
@@ -192,6 +196,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9202209830677518886}
   - {fileID: 4011740039594102879}
@@ -199,39 +204,6 @@ Transform:
   m_Father: {fileID: 4774744917709354689}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1737040089419165176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4774744915932866474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1166cb2e95819a942a740ee67bdf73a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WeaponsGO:
-  - {fileID: 5327691292667730157}
-  - {fileID: 743816533664536867}
-  - {fileID: 2013551897185394252}
-  Team: 0
-  _UPlayer: {fileID: 4774744917709354688}
-  _CharacterGO: {fileID: 4774744917709354691}
-  ARReady: 1
-  ARBullet: {fileID: 3182902504192978362, guid: a7d7625840ec9344aa3949675c1666b3, type: 3}
-  ARRateOfFire: 0.2
-  ARReloadSpeed: 3
-  PistolReady: 1
-  PistolBullet: {fileID: 565324386472133723, guid: 4fde34908492f034da8f939e98f25f8e, type: 3}
-  PistolRateOfFire: 1
-  PistolReloadSpeed: 3
-  SGReady: 1
-  SGBullet: {fileID: 879322776821770043, guid: b10f70375e1f30c43ac854f9323106a7, type: 3}
-  SGRateOfFire: 0.5
-  SGReloadSpeed: 3
-  SGBulletsRange: 6
-  SGRandScale: 1
 --- !u!61 &4212707203718074780
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -258,6 +230,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4835949163205943334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4774744915932866474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1166cb2e95819a942a740ee67bdf73a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeaponsGO: []
+  _UPlayer: {fileID: 4774744917709354688}
+  _CharacterGO: {fileID: 4774744917709354691}
 --- !u!1 &4774744917709354691
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +278,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6268878345899890141}
   - {fileID: 4774744915932866475}
@@ -311,35 +299,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  _Weapons: {fileID: 1737040089419165176}
+  TeamID: 0
+  speed: 400000
   PlayerRB: {fileID: 4774744917709354703}
-  CharacterGO: {fileID: 4774744917709354691}
   LegsGO: {fileID: 4896736625842141831}
+  _playerTexture: {fileID: 4835949163205943334}
   WeaponsEmpty: {fileID: 4774744915932866474}
-  HPBar: {fileID: 0}
-  AmmoBar: {fileID: 0}
-  TakeWeaponButton: {fileID: 0}
   FGrenade: {fileID: 1537798876478734871, guid: ea884ba9e69f50948a87874d7095534e, type: 3}
   PGrenade: {fileID: 6676294010237908591, guid: 22607629485a6c24db55f9d97050938c, type: 3}
+  IsReloaded: 0
   WeaponItemPrefab: {fileID: 875858668415275194, guid: 3230fbc3a32ceb747ab0f7ca42eb9f34, type: 3}
   WeaponsTextures:
   - {fileID: 5327691292667730157}
   - {fileID: 743816533664536867}
   - {fileID: 2013551897185394252}
-  IsReloaded: 0
+  TakeWeaponButton: {fileID: 0}
+  HPBar: {fileID: 0}
+  AmmoBar: {fileID: 0}
+  ConsoleText: {fileID: 0}
   LJS: {fileID: 0}
   RJS: {fileID: 0}
   TotalForceThrowGrenate: 50
-  speed: 400000
+  ForceThrowGrenate: 10
+  FactorForceThrowGrenate: 0
   HealthMax: 100
   HealthNow: 100
   ShieldMax: 300
   ShieldNow: 300
   MaxTimeToRegShield: 0
   NowTimeToRegShield: 0
+  WeaponReady: 1
   GrenadeInfo: 01000000020000000200000002000000
   WeaponInfo1: 02000000e80300001e0000005a00000078000000
   WeaponInfo2: 010000000600000006000000180000001e000000
+  ARBullet: {fileID: 3182902504192978362, guid: a7d7625840ec9344aa3949675c1666b3, type: 3}
+  ARRateOfFire: 0.1
+  ARReloadSpeed: 1
+  PistolBullet: {fileID: 565324386472133723, guid: 4fde34908492f034da8f939e98f25f8e, type: 3}
+  PistolRateOfFire: 0.5
+  PistolReloadSpeed: 1
+  SGBullet: {fileID: 879322776821770043, guid: b10f70375e1f30c43ac854f9323106a7, type: 3}
+  SGRateOfFire: 0.2
+  SGReloadSpeed: 1
+  SGBulletsRange: 10
+  SGRandScale: 0.5
 --- !u!50 &4774744917709354703
 Rigidbody2D:
   serializedVersion: 4
@@ -407,9 +410,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.005
   clientAuthority: 1
-  sendInterval: 0.05
+  sendInterval: 0.005
   syncPosition: 1
   syncRotation: 0
   syncScale: 0
@@ -441,9 +444,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.005
   clientAuthority: 0
-  sendInterval: 0.05
+  sendInterval: 0.005
   syncPosition: 0
   syncRotation: 1
   syncScale: 0
@@ -476,9 +479,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.005
   clientAuthority: 0
-  sendInterval: 0.05
+  sendInterval: 0.005
   syncPosition: 0
   syncRotation: 1
   syncScale: 0
@@ -525,6 +528,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.8, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4774744917709354689}
   m_RootOrder: 0
@@ -540,6 +544,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -607,6 +612,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4774744915932866475}
   m_RootOrder: 0
@@ -622,6 +628,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -656,7 +663,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.15, y: 1.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
