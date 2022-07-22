@@ -259,8 +259,9 @@ GameObject:
   - component: {fileID: 2380906489833911543}
   - component: {fileID: 4842491047962883760}
   - component: {fileID: 2169594457868600348}
-  - component: {fileID: 2049247227089500808}
-  - component: {fileID: 3501511768066372033}
+  - component: {fileID: 1185158798818028539}
+  - component: {fileID: 8553809743228351763}
+  - component: {fileID: 5685145866992389236}
   m_Layer: 2
   m_Name: C_Character
   m_TagString: Untagged
@@ -298,7 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 1
   TeamID: 0
   speed: 400000
   PlayerRB: {fileID: 4774744917709354703}
@@ -307,8 +308,8 @@ MonoBehaviour:
   WeaponsEmpty: {fileID: 4774744915932866474}
   FGrenade: {fileID: 1537798876478734871, guid: ea884ba9e69f50948a87874d7095534e, type: 3}
   PGrenade: {fileID: 6676294010237908591, guid: 22607629485a6c24db55f9d97050938c, type: 3}
-  IsReloaded: 0
   WeaponItemPrefab: {fileID: 875858668415275194, guid: 3230fbc3a32ceb747ab0f7ca42eb9f34, type: 3}
+  IsReloaded: 0
   WeaponsTextures:
   - {fileID: 5327691292667730157}
   - {fileID: 743816533664536867}
@@ -326,7 +327,7 @@ MonoBehaviour:
   HealthNow: 100
   ShieldMax: 300
   ShieldNow: 300
-  MaxTimeToRegShield: 0
+  MaxTimeToRegShield: 10
   NowTimeToRegShield: 0
   WeaponReady: 1
   GrenadeInfo: 01000000020000000200000002000000
@@ -341,8 +342,8 @@ MonoBehaviour:
   SGBullet: {fileID: 879322776821770043, guid: b10f70375e1f30c43ac854f9323106a7, type: 3}
   SGRateOfFire: 0.2
   SGReloadSpeed: 1
-  SGBulletsRange: 10
-  SGRandScale: 0.5
+  SGBulletsRange: 7
+  SGRandScale: 10
 --- !u!50 &4774744917709354703
 Rigidbody2D:
   serializedVersion: 4
@@ -431,7 +432,7 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
---- !u!114 &2049247227089500808
+--- !u!114 &1185158798818028539
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -445,12 +446,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.005
-  clientAuthority: 0
+  clientAuthority: 1
   sendInterval: 0.005
-  syncPosition: 0
+  syncPosition: 1
   syncRotation: 1
   syncScale: 0
-  interpolatePosition: 0
+  interpolatePosition: 1
   interpolateRotation: 1
   interpolateScale: 0
   bufferTimeMultiplier: 1
@@ -466,7 +467,7 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   target: {fileID: 6268878345899890141}
---- !u!114 &3501511768066372033
+--- !u!114 &8553809743228351763
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -480,9 +481,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.005
-  clientAuthority: 0
+  clientAuthority: 1
   sendInterval: 0.005
-  syncPosition: 0
+  syncPosition: 1
   syncRotation: 1
   syncScale: 0
   interpolatePosition: 0
@@ -501,6 +502,41 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   target: {fileID: 4774744915932866475}
+--- !u!114 &5685145866992389236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4774744917709354691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 1
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 0
+  bufferTimeMultiplier: 1
+  bufferSizeLimit: 64
+  catchupThreshold: 4
+  catchupMultiplier: 0.1
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  target: {fileID: 9202209830677518886}
 --- !u!1 &4896736625842141831
 GameObject:
   m_ObjectHideFlags: 0

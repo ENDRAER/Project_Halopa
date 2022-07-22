@@ -10,7 +10,7 @@ public class UPlayer : NetworkBehaviour
 {
     #region Other Links
     [Header("Other Links")]
-    [SerializeField] public int TeamID;
+    [SerializeField][SyncVar] public int TeamID;
     [SerializeField] private float speed;
     [SerializeField] private Rigidbody2D PlayerRB;
     [SerializeField] private GameObject LegsGO;
@@ -18,10 +18,11 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private GameObject WeaponsEmpty;
     [SerializeField] private GameObject FGrenade;
     [SerializeField] private GameObject PGrenade;
-    [SerializeField] public bool IsReloaded;
-    [SerializeField] public IEnumerator ReloadCor;
     [SerializeField] private GameObject WeaponItemPrefab;
+    [SerializeField] public IEnumerator ReloadCor;
+    [SerializeField] public bool IsReloaded;
     [SerializeField] public GameObject[] WeaponsTextures;
+    [SerializeField] public List<GameObject> Spawns = new List<GameObject>();
     #endregion
 
     #region UI
@@ -32,21 +33,27 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] public Text ConsoleText;
     [SerializeField] private bl_Joystick LJS;
     [SerializeField] public bl_Joystick RJS;
+    [SerializeField] public GameObject DeadPanel;
     #endregion
 
+    #region Grenate
     [Header("Grenate")]
     [SerializeField] private int TotalForceThrowGrenate;
     [SerializeField] private float ForceThrowGrenate = 10;
     [SerializeField] private int FactorForceThrowGrenate;
+    #endregion
 
+    #region Health
     [Header("Health")]
+    [SerializeField] public bool IsDead;
     [SerializeField] public float HealthMax;
-    [SerializeField] public float HealthNow;
+    [SerializeField][SyncVar] public float HealthNow;
     [SerializeField] public float ShieldMax;
-    [SerializeField] public float ShieldNow;
+    [SerializeField][SyncVar] public float ShieldNow;
     [SerializeField] public float MaxTimeToRegShield;
     [SerializeField] public float NowTimeToRegShield;
     [SerializeField] public Coroutine CorRegShield;
+    #endregion
 
     #region Weapon
     [Header("PlayerWeaponInfo")]
@@ -71,7 +78,7 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private GameObject SGBullet;
     [SerializeField] private float SGRateOfFire;
     [SerializeField] public float SGReloadSpeed;
-    [SerializeField] public float SGBulletsRange;
+    [SerializeField] public int SGBulletsRange;
     [SerializeField] public float SGRandScale;
     #endregion
 
@@ -85,6 +92,17 @@ public class UPlayer : NetworkBehaviour
         RJS = GameObject.Find("RJS").GetComponent<bl_Joystick>();
         AmmoBar = GameObject.Find("AmmoBarText").GetComponent<Text>();
         ConsoleText = GameObject.Find("Console").GetComponent<Text>();
+        DeadPanel = GameObject.Find("DeadPanel");
+        GameObject.Find("YouNeverDie").GetComponent<Button>().onClick.AddListener(revive);
+        DeadPanel.SetActive(false);
+        GameObject.Find("Camera").transform.SetParent(gameObject.transform);
+        for (int a = 0; a <= 11;)
+        {
+            print("Spawn " + a);
+            Spawns.Add(GameObject.Find("Spawn " + a));
+            a++;
+        }
+        gameObject.transform.position = Spawns[UnityEngine.Random.Range(0,11)].transform.position;
         #endregion
     }
 
@@ -195,6 +213,13 @@ public class UPlayer : NetworkBehaviour
         _weaponInfoCache.CustomStart(InfoCache);
     }
 
+    public void revive()
+    {
+        gameObject.transform.position = Spawns[UnityEngine.Random.Range(0, 11)].transform.position;
+        DeadPanel.SetActive(false);
+        IsDead = false;
+    }
+
     #region reload
     public void ReloadStartClass()
     {
@@ -271,20 +296,17 @@ public class UPlayer : NetworkBehaviour
             WeaponReady = false;
             WeaponInfo1[1]--;
 
-            GameObject ThisBulletGO = Instantiate(ARBullet, gameObject.transform.position, new Quaternion(0, 0, gameObject.transform.rotation.z, 0));
+            GameObject ThisBulletGO = Instantiate(ARBullet, gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z));
+            NetworkServer.Spawn(ThisBulletGO);
+
             Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
             ThisBulletCS.DontFrendlyFire = TeamID;
-
-            //addForce
-            ThisBulletGO.transform.rotation = transform.rotation;
-            Rigidbody2D BulletRB = ThisBulletGO.GetComponent<Rigidbody2D>();
-            BulletRB.AddForce(new Vector2(RJS.Horizontal, RJS.Vertical) * ThisBulletCS.BulletSpeed, ForceMode2D.Impulse);
 
             StartCoroutine(WeaponWait(ARRateOfFire));
         }
         #endregion
 
-        #region Pistol
+        #region Pistol //to rebuild
         if (WeaponInfo1[0] == 1 && WeaponReady == true && WeaponInfo1[1] > 0 && IsReloaded == false)
         {
             WeaponReady = false;
@@ -301,7 +323,7 @@ public class UPlayer : NetworkBehaviour
 
             StartCoroutine(WeaponWait(PistolRateOfFire));
         }
-        #endregion//to rebuild
+        #endregion
 
         #region ShotGun
         if (WeaponInfo1[0] == 2 && WeaponReady == true && WeaponInfo1[1] > 0 && IsReloaded == false)
@@ -311,7 +333,7 @@ public class UPlayer : NetworkBehaviour
 
             for (int i = 0; i < SGBulletsRange; i++)
             {
-                GameObject ThisBulletGO = Instantiate(SGBullet, gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z));
+                GameObject ThisBulletGO = Instantiate(SGBullet, gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale,SGRandScale)));
                 NetworkServer.Spawn(ThisBulletGO);
                 
                 Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
@@ -324,6 +346,7 @@ public class UPlayer : NetworkBehaviour
     }
     #endregion
 }
+
 /*
-ConsoleText.text= ConsoleText.text + "\n" + "";
+ConsoleText.text= ConsoleText.text + ";" + gg;
 */

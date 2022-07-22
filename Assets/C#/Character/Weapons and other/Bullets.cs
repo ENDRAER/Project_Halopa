@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-
-public class Bullets : MonoBehaviour
+public class Bullets : NetworkBehaviour
 {
-    [HideInInspector] public int DontFrendlyFire;
+    [SyncVar] public int DontFrendlyFire;
     public float BulletDamage;
     public float BulletSpeed;
     public float timeToDestroy;
@@ -22,56 +22,58 @@ public class Bullets : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerTexture>() != null)
         {
-            if (other.gameObject.GetComponent<PlayerTexture>()._UPlayer.TeamID != DontFrendlyFire)
+            PlayerTexture _PlayerTexture = other.gameObject.GetComponent<PlayerTexture>();
+            UPlayer _UPlayer = _PlayerTexture._UPlayer;
+
+            if (_UPlayer.TeamID != DontFrendlyFire && _UPlayer.IsDead == false)
             {
                 switch (TypeOfBullet)
                 {
                     #region rifle
                     case _TypeOfBullet.rifles:
-                        if (other.gameObject.GetComponent<UPlayer>() != null)
                         {
-                            UPlayer uPlayer = other.gameObject.GetComponent<UPlayer>();
-                            if (uPlayer.ShieldNow >= BulletDamage)
+                            if (_UPlayer.ShieldNow >= BulletDamage)
                             {
-                                uPlayer.ShieldNow -= BulletDamage;
+                                _UPlayer.ShieldNow -= BulletDamage;
                             }
-                            else if (uPlayer.ShieldNow < BulletDamage && uPlayer.HealthNow + uPlayer.ShieldNow > BulletDamage)
+                            else if (_UPlayer.ShieldNow < BulletDamage && _UPlayer.HealthNow + _UPlayer.ShieldNow > BulletDamage)
                             {
-                                uPlayer.HealthNow -= BulletDamage - uPlayer.ShieldNow;
-                                uPlayer.ShieldNow = 0;
+                                _UPlayer.HealthNow -= BulletDamage - _UPlayer.ShieldNow;
+                                _UPlayer.ShieldNow = 0;
                             }
                             else
                             {
-                                uPlayer.ShieldNow = 0;
-                                uPlayer.HealthNow = 0;
+                                _UPlayer.IsDead = true;
+                                _UPlayer.DeadPanel.SetActive(true);
+                                _UPlayer.ShieldNow = 0;
+                                _UPlayer.HealthNow = 0;
                             }
+                            Destroy(gameObject);
+                            break;
                         }
-                        Destroy(gameObject);
-                        break;
                     #endregion
 
                     #region plasma
                     case _TypeOfBullet.plasma:
-                        if (other.gameObject.GetComponent<UPlayer>() != null)
                         {
-                            UPlayer uPlayer = other.gameObject.GetComponent<UPlayer>();
-                            if (uPlayer.ShieldNow >= BulletDamage * 2)
+                            if (_UPlayer.ShieldNow >= BulletDamage * 2)
                             {
-                                uPlayer.ShieldNow -= BulletDamage * 2;
+                                _UPlayer.ShieldNow -= BulletDamage * 2;
                             }
-                            else if (uPlayer.ShieldNow < BulletDamage * 2 && uPlayer.HealthNow + uPlayer.ShieldNow/2 > BulletDamage)
+                            else if (_UPlayer.ShieldNow < BulletDamage * 2 && _UPlayer.HealthNow + _UPlayer.ShieldNow/2 > BulletDamage)
                             {
-                                uPlayer.HealthNow -= BulletDamage - uPlayer.ShieldNow/2;
-                                uPlayer.ShieldNow = 0;
+                                _UPlayer.HealthNow -= BulletDamage - _UPlayer.ShieldNow/2;
+                                _UPlayer.ShieldNow = 0;
                             }
                             else
                             {
-                                uPlayer.ShieldNow = 0;
-                                uPlayer.HealthNow = 0;
+                                _UPlayer.IsDead = true;
+                                _UPlayer.ShieldNow = 0;
+                                _UPlayer.HealthNow = 0;
                             }
+                            Destroy(gameObject);
+                            break;
                         }
-                        Destroy(gameObject);
-                        break;
                     #endregion
                 }
             }

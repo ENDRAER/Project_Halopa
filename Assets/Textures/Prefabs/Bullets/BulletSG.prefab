@@ -50,6 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de62e7931ebfe1146b1c788558170efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   DontFrendlyFire: 0
   BulletDamage: 12
   BulletSpeed: 100
