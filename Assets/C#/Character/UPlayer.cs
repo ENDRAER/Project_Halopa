@@ -8,39 +8,28 @@ using Mirror;
 
 public class UPlayer : NetworkBehaviour
 {
-    #region Other Links
-    [Header("Other Links")]
+    #region Player
+    [Header("Player")]
     [SerializeField][SyncVar] public int TeamID;
     [SerializeField] private float speed;
+    [SerializeField] private PlayerTexture PlayerTexture;
     [SerializeField] private Rigidbody2D PlayerRB;
-    [SerializeField] private GameObject LegsGO;
-    [SerializeField] private PlayerTexture _playerTexture;
+    [SerializeField] private NetworkAnimator PlayerAnimator;
+    [SerializeField] private Animator LegsAnimator;
     [SerializeField] private GameObject WeaponsEmpty;
-    [SerializeField] private GameObject FGrenade;
-    [SerializeField] private GameObject PGrenade;
-    [SerializeField] private GameObject WeaponItemPrefab;
-    [SerializeField] public IEnumerator ReloadCor;
-    [SerializeField] public bool IsReloaded;
+    [SerializeField] private GameObject Camera;
+    [SerializeField] private GameObject LegsGO;
     [SerializeField] public GameObject[] WeaponsTextures;
-    [SerializeField] public List<GameObject> Spawns = new List<GameObject>();
     #endregion
 
     #region UI
     [Header("UI")]
-    [SerializeField] public GameObject TakeWeaponButton;
-    [SerializeField] public Text HPBar;
-    [SerializeField] public Text AmmoBar;
-    [SerializeField] public Text ConsoleText;
-    [SerializeField] private bl_Joystick LJS;
-    [SerializeField] public bl_Joystick RJS;
-    [SerializeField] public GameObject DeadPanel;
-    #endregion
-
-    #region Grenate
-    [Header("Grenate")]
-    [SerializeField] private int TotalForceThrowGrenate;
-    [SerializeField] private float ForceThrowGrenate = 10;
-    [SerializeField] private int FactorForceThrowGrenate;
+    [NonSerialized] private bl_Joystick LJS;
+    [NonSerialized] public bl_Joystick RJS;
+    [NonSerialized] public Text AmmoBar;
+    [NonSerialized] public Text HPBar;
+    [NonSerialized] public GameObject TakeWeaponButton;
+    [NonSerialized] public GameObject DeadPanel;
     #endregion
 
     #region Health
@@ -57,12 +46,15 @@ public class UPlayer : NetworkBehaviour
 
     #region Weapon
     [Header("PlayerWeaponInfo")]
+
     [SerializeField] public bool WeaponReady = true;
+
     // 0-index; 1-2-vallue grenades; 3-max grenades
     [SerializeField] public int[] GrenadeInfo = { 1, 2, 0, 2};
-    // 0-index; 1-rounds in the magazine; 2-max rounds in the magazine; 3-total ammunition; 4-max ammunition // THIS IS THE DEFAULT FOR AR + PISTOL
-    [SerializeField] public int[] WeaponInfo1 = { 0, 30, 30, 90 , 120};
-    [SerializeField] public int[] WeaponInfo2 = { 1, 6, 6, 18 , 24};
+
+    // 0-index; 1-rounds in the magazine; 2-max rounds in the magazine; 3-total ammunition; 4-max ammunition; 5-reload type(magazine, OneRound, overheat) // THIS IS THE DEFAULT FOR AR + PISTOL
+    [SerializeField] public int[] WeaponInfo1 = { 0, 30, 30, 90 , 120, 0};
+    [SerializeField] public int[] WeaponInfo2 = { 1, 6, 6, 18 , 24, 0};
 
     [Header("Assault Rifle")]
     [SerializeField] private GameObject ARBullet;
@@ -82,23 +74,45 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] public float SGRandScale;
     #endregion
 
+    #region Grenate
+    [Header("Grenate")]
+    [NonSerialized] private GameObject FGrenade;
+    [NonSerialized] private GameObject PGrenade;
+    [NonSerialized] private int TotalForceThrowGrenate;
+    [NonSerialized] private float ForceThrowGrenate = 10;
+    [NonSerialized] private int FactorForceThrowGrenate;
+    #endregion
+
+    #region Other Links
+    [Header("Other Links")]
+    [SerializeField] private GameObject WeaponItemPrefab;
+    [NonSerialized] private float VStickRH;
+    [NonSerialized] private float VStickRV;
+    [NonSerialized] private float VStickLH;
+    [NonSerialized] private float VStickLV;
+    [NonSerialized] public List<GameObject> Spawns = new List<GameObject>();
+    #endregion
+
 
     private void Start()
     {
         if (!isLocalPlayer) return;
 
         #region FindButtons
+        //Button Links
         LJS = GameObject.Find("LJS").GetComponent<bl_Joystick>();
         RJS = GameObject.Find("RJS").GetComponent<bl_Joystick>();
         AmmoBar = GameObject.Find("AmmoBarText").GetComponent<Text>();
-        ConsoleText = GameObject.Find("Console").GetComponent<Text>();
         DeadPanel = GameObject.Find("DeadPanel");
+
+        //buttons
+        Camera = GameObject.Find("Camera");
+        GameObject.Find("ReloadButton").GetComponent<Button>().onClick.AddListener(ReloadButtonClass);
         GameObject.Find("YouNeverDie").GetComponent<Button>().onClick.AddListener(revive);
         DeadPanel.SetActive(false);
-        GameObject.Find("Camera").transform.SetParent(gameObject.transform);
+
         for (int a = 0; a <= 11;)
         {
-            print("Spawn " + a);
             Spawns.Add(GameObject.Find("Spawn " + a));
             a++;
         }
@@ -109,6 +123,25 @@ public class UPlayer : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
+
+        #region compatibility
+        //LS
+        VStickLH = LJS.Vertical + LJS.Horizontal != 0 ? LJS.Horizontal : Input.GetAxis("Horizontal") * 5;
+        VStickLV = LJS.Vertical + LJS.Horizontal != 0 ? LJS.Vertical : Input.GetAxis("Vertical") * 5;
+        //RS
+        VStickRH = RJS.Vertical + RJS.Horizontal != 0 ? RJS.Horizontal : Input.GetAxis("RS Horizontal") * 5;
+        VStickRV = RJS.Vertical + RJS.Horizontal != 0 ? RJS.Vertical : Input.GetAxis("RS Vertical") * 5;
+
+        if (Input.GetButton("Reload"))
+        {
+            ReloadButtonClass();
+        }
+        #endregion
+
+        #region Katets of stiks
+        double KatetLJS = Math.Sqrt((VStickLV * VStickLV) + (VStickLH * VStickLH));
+        double KatetRJS = Math.Sqrt((VStickRV * VStickRV) + (VStickRH * VStickRH));
+        #endregion
 
         #region This NEED to rebuild ***************************
         AmmoBar.text = (WeaponInfo1[1] + " | " + WeaponInfo1[3]);
@@ -123,54 +156,55 @@ public class UPlayer : NetworkBehaviour
             {
                 WeaponsTextures[a].SetActive(false);
             }
-        }
+        }//weapon textures changer
 
-        if (WeaponInfo1[1] < 1 && IsReloaded == false && WeaponInfo1[3] != 0)
+        if (WeaponInfo1[1] == 0 && WeaponInfo1[3] != 0)
         {
-            StartCoroutine(ReloadCor = RealoadIE());
-        }
-        #endregion 
-
-        #region Katets of stiks
-        double KatetLJS = Math.Sqrt((LJS.Vertical * LJS.Vertical) + (LJS.Horizontal * LJS.Horizontal));
-        double KatetRJS = Math.Sqrt((RJS.Vertical * RJS.Vertical) + (RJS.Horizontal * RJS.Horizontal));
+            PlayerAnimator.SetTrigger("Reload");
+        } // auto reload when u have 0 rounds
         #endregion
 
         #region run and aim
 
-        PlayerRB.AddForce(new Vector2(LJS.Horizontal * speed * Time.deltaTime, LJS.Vertical * speed * Time.deltaTime)); //move
-
-        if (KatetLJS > 0.1) 
+        if (KatetLJS > 1)
         {
-            LegsGO.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(LJS.Vertical, LJS.Horizontal) * Mathf.Rad2Deg);
-            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(LJS.Vertical, LJS.Horizontal) * Mathf.Rad2Deg);
+            PlayerRB.AddForce(new Vector2(VStickLH * speed * Time.deltaTime, VStickLV * speed * Time.deltaTime)); //move
+            LegsAnimator.SetFloat("Speed", (100 / 5 * (float)KatetLJS)/100);
+        }
+        else
+            LegsAnimator.SetFloat("Speed", 0);
+
+        if (KatetLJS > 1) 
+        {
+            LegsGO.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickLV, VStickLH) * Mathf.Rad2Deg);
+            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickLV, VStickLH) * Mathf.Rad2Deg);
         } // rotate Player
 
-        if (KatetRJS > 0.2)
-        {
-            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(RJS.Vertical, RJS.Horizontal) * Mathf.Rad2Deg);
-        } // rotate
+        if (KatetRJS > 1)
+            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickRV, VStickRH) * Mathf.Rad2Deg); 
+        // rotate
 
-        if (KatetRJS > 4.8)
-        {
+        if (KatetRJS > 4)
             Fire();
-        } // fire Weapon
+        // fire Weapon
 
         #endregion
+
+        Camera.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y,-10);
     }
 
-    private void FixedUpdate()
-    {
-        if (!isLocalPlayer) return;
+    #region touch screen Buttons
 
-        ForceThrowGrenate += ForceThrowGrenate > 30 ? 0 : 0.2f * FactorForceThrowGrenate;
+    public void ReloadButtonClass()
+    {
+        if (WeaponInfo1[1] != WeaponInfo1[2] && WeaponInfo1[3] != 0)
+        {
+            PlayerAnimator.SetTrigger("Reload");
+        }
     }
 
     public void SwapWeaponClass()
     {
-        StopCoroutine(ReloadCor);
-        IsReloaded = false;
-
         int[] WeaponCashe = WeaponInfo2;
         WeaponInfo2 = WeaponInfo1;
         WeaponInfo1 = WeaponCashe;
@@ -192,11 +226,11 @@ public class UPlayer : NetworkBehaviour
     {
         float MinDistance = 600;
         int nearestWeapon=0;
-        for (int i = 0; i < _playerTexture.WeaponsGO.Count; )
+        for (int i = 0; i < PlayerTexture.WeaponsGO.Count; )
         {
-            if (MinDistance > Vector2.Distance(gameObject.transform.position, _playerTexture.WeaponsGO[i].transform.position))
+            if (MinDistance > Vector2.Distance(gameObject.transform.position, PlayerTexture.WeaponsGO[i].transform.position))
             {
-                MinDistance = Vector2.Distance(gameObject.transform.position, _playerTexture.WeaponsGO[i].transform.position);
+                MinDistance = Vector2.Distance(gameObject.transform.position, PlayerTexture.WeaponsGO[i].transform.position);
                 nearestWeapon = i;
             }
             i++;
@@ -204,7 +238,7 @@ public class UPlayer : NetworkBehaviour
 
         //set values
         int[] InfoCache = WeaponInfo1;
-        UniversalBridge _UniversalBridge = _playerTexture.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
+        UniversalBridge _UniversalBridge = PlayerTexture.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
         WeaponInfo1 = _UniversalBridge._weaponInfo.ItemInfo;
         _UniversalBridge._weaponInfo.PreDestroy();
         //create new Item
@@ -212,59 +246,56 @@ public class UPlayer : NetworkBehaviour
         WeaponItemInfo _weaponInfoCache = NewWeaponItem.GetComponent<WeaponItemInfo>();
         _weaponInfoCache.CustomStart(InfoCache);
     }
-
+  
     public void revive()
     {
         gameObject.transform.position = Spawns[UnityEngine.Random.Range(0, 11)].transform.position;
         DeadPanel.SetActive(false);
         IsDead = false;
+        ShieldNow = ShieldMax;
+        HealthNow = HealthMax;
     }
 
-    #region reload
-    public void ReloadStartClass()
+    #endregion
+
+    #region Reload
+    public void ReloadEvent()
     {
-        if (IsReloaded == false && WeaponInfo1[1] != WeaponInfo1[2] && WeaponInfo1[3] != 0)
+        PlayerAnimator.ResetTrigger("Shoot");
+        switch (WeaponInfo1[5])
         {
-            StartCoroutine(ReloadCor = RealoadIE());
+            case 0: // Magazine
+                if (WeaponInfo1[3] >= WeaponInfo1[2] - WeaponInfo1[1])
+                {
+                    WeaponInfo1[3] -= WeaponInfo1[2] - WeaponInfo1[1];
+                    WeaponInfo1[1] = WeaponInfo1[2];
+                }
+                else
+                {
+                    WeaponInfo1[1] += WeaponInfo1[3];
+                    WeaponInfo1[3] = 0;
+                }
+                break;
+
+            case 1: // OneRound
+                WeaponInfo1[1]++;
+                WeaponInfo1[3]--;
+
+                if (WeaponInfo1[1] != WeaponInfo1[2] && WeaponInfo1[3] != 0)
+                {
+                    PlayerAnimator.SetTrigger("Reload");
+                }
+                else
+                {
+                    PlayerAnimator.ResetTrigger("Reload");
+                    PlayerAnimator.SetTrigger("EndReload");
+                }
+                break;
         }
     }
 
-    private IEnumerator RealoadIE()
+    private void WeaponROF()
     {
-        IsReloaded = true;
-        Debug.Log("Reloading...");
-        #region Reloading speed
-        switch (WeaponInfo1[0])
-        {
-            case 0:
-                yield return new WaitForSeconds(ARReloadSpeed);
-                break;
-            case 1:
-                yield return new WaitForSeconds(PistolReloadSpeed);
-                break;
-            case 2:
-                yield return new WaitForSeconds(SGReloadSpeed);
-                break;
-        }
-        #endregion
-
-        if (WeaponInfo1[3] >= WeaponInfo1[2] - WeaponInfo1[1])
-        {
-            WeaponInfo1[3] -= WeaponInfo1[2] - WeaponInfo1[1];
-            WeaponInfo1[1] = WeaponInfo1[2];
-        }
-        else
-        {
-            WeaponInfo1[1] += WeaponInfo1[3];
-            WeaponInfo1[3] = 0;
-        }
-        Debug.Log("%Reloaded%");
-        IsReloaded = false;
-    }
-
-    private IEnumerator WeaponWait(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
         WeaponReady = true;
     }
     #endregion
@@ -281,8 +312,7 @@ public class UPlayer : NetworkBehaviour
         GameObject createdGrenate = Instantiate(GrenadeInfo[0] == 1? FGrenade : PGrenade, transform.position, Quaternion.identity);
         createdGrenate.GetComponent<Grenade>().Sender = WeaponsEmpty;
         Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
-        createdGrenateRB.AddForce(new Vector2(RJS.Horizontal * ForceThrowGrenate * TotalForceThrowGrenate, RJS.Vertical * ForceThrowGrenate * TotalForceThrowGrenate));
-        Debug.Log(new Vector2(RJS.Vertical, RJS.Vertical));
+        createdGrenateRB.AddForce(new Vector2(VStickRH * ForceThrowGrenate * TotalForceThrowGrenate, VStickRV * ForceThrowGrenate * TotalForceThrowGrenate));
     }
     #endregion
 
@@ -290,8 +320,15 @@ public class UPlayer : NetworkBehaviour
     [Command]
     public void Fire()
     {
+        #region Animation
+        if (WeaponInfo1[1] != 0 && WeaponReady == true)
+        {
+            PlayerAnimator.SetTrigger("Shoot");
+        }
+        #endregion
+
         #region AR
-        if (WeaponInfo1[0] == 0 && WeaponReady == true && WeaponInfo1[1] > 0 && IsReloaded == false)
+        if (WeaponInfo1[0] == 0 && WeaponReady == true && WeaponInfo1[1] > 0)
         {
             WeaponReady = false;
             WeaponInfo1[1]--;
@@ -301,32 +338,18 @@ public class UPlayer : NetworkBehaviour
 
             Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
             ThisBulletCS.DontFrendlyFire = TeamID;
-
-            StartCoroutine(WeaponWait(ARRateOfFire));
         }
         #endregion
 
         #region Pistol //to rebuild
-        if (WeaponInfo1[0] == 1 && WeaponReady == true && WeaponInfo1[1] > 0 && IsReloaded == false)
+        if (WeaponInfo1[0] == 1 && WeaponReady == true && WeaponInfo1[1] > 0)
         {
-            WeaponReady = false;
-            WeaponInfo1[1]--;
-
-            GameObject ThisBulletGO = Instantiate(PistolBullet, gameObject.transform.position, new Quaternion(0, 0, gameObject.transform.rotation.z, 0));
-            Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
-            ThisBulletCS.DontFrendlyFire = TeamID;
-
-            //addForce
-            ThisBulletGO.transform.rotation = transform.rotation;
-            Rigidbody2D BulletRB = ThisBulletGO.GetComponent<Rigidbody2D>();
-            BulletRB.AddForce(new Vector2(RJS.Horizontal, RJS.Vertical) * ThisBulletCS.BulletSpeed, ForceMode2D.Impulse);
-
-            StartCoroutine(WeaponWait(PistolRateOfFire));
+            Debug.LogWarning("NEED TO REBUILD");
         }
         #endregion
 
         #region ShotGun
-        if (WeaponInfo1[0] == 2 && WeaponReady == true && WeaponInfo1[1] > 0 && IsReloaded == false)
+        if (WeaponInfo1[0] == 2 && WeaponReady == true && WeaponInfo1[1] > 0)
         {
             WeaponReady = false;
             WeaponInfo1[1]--;
@@ -339,14 +362,8 @@ public class UPlayer : NetworkBehaviour
                 Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
                 ThisBulletCS.DontFrendlyFire = TeamID;
             }
-
-            StartCoroutine(WeaponWait(SGRateOfFire));
         }
         #endregion
     }
     #endregion
 }
-
-/*
-ConsoleText.text= ConsoleText.text + ";" + gg;
-*/
