@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 1
+  syncInterval: 0.001
   TeamID: 0
   speed: 400000
   PlayerTexture: {fileID: 4835949163205943334}
@@ -310,11 +310,14 @@ MonoBehaviour:
   PlayerAnimator: {fileID: 1247781560808608831}
   LegsAnimator: {fileID: 2760977295722692800}
   WeaponsEmpty: {fileID: 4774744915932866474}
+  Camera: {fileID: 0}
   LegsGO: {fileID: 4896736625842141831}
   WeaponsTextures:
   - {fileID: 5327691292667730157}
   - {fileID: 743816533664536867}
   - {fileID: 2013551897185394252}
+  LJS: {fileID: 0}
+  RJS: {fileID: 0}
   IsDead: 0
   HealthMax: 100
   HealthNow: 100
@@ -323,9 +326,7 @@ MonoBehaviour:
   MaxTimeToRegShield: 10
   NowTimeToRegShield: 0
   WeaponReady: 1
-  GrenadeInfo: 01000000020000000200000002000000
-  WeaponInfo1: 020000000600000006000000e70300001200000001000000
-  WeaponInfo2: 010000000600000006000000180000001e00000001000000
+  WeaponUseIndex: 0
   ARBullet: {fileID: 3182902504192978362, guid: a7d7625840ec9344aa3949675c1666b3, type: 3}
   ARRateOfFire: 0.1
   ARReloadSpeed: 1

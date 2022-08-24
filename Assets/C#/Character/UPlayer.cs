@@ -24,8 +24,8 @@ public class UPlayer : NetworkBehaviour
 
     #region UI
     [Header("UI")]
-    [NonSerialized] private bl_Joystick LJS;
-    [NonSerialized] public bl_Joystick RJS;
+    [SerializeField] private bl_Joystick LJS;
+    [SerializeField] public bl_Joystick RJS;
     [NonSerialized] public Text AmmoBar;
     [NonSerialized] public Text HPBar;
     [NonSerialized] public GameObject TakeWeaponButton;
@@ -47,14 +47,11 @@ public class UPlayer : NetworkBehaviour
     #region Weapon
     [Header("PlayerWeaponInfo")]
 
-    [SerializeField] public bool WeaponReady = true;
+    [SerializeField][SyncVar] public bool WeaponReady = true;
 
-    // 0-index; 1-2-vallue grenades; 3-max grenades
-    [SerializeField] public int[] GrenadeInfo = { 1, 2, 0, 2};
-
-    // 0-index; 1-rounds in the magazine; 2-max rounds in the magazine; 3-total ammunition; 4-max ammunition; 5-reload type(magazine, OneRound, overheat) // THIS IS THE DEFAULT FOR AR + PISTOL
-    [SerializeField] public int[] WeaponInfo1 = { 0, 30, 30, 90 , 120, 0};
-    [SerializeField] public int[] WeaponInfo2 = { 1, 6, 6, 18 , 24, 0};
+    // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
+    [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 99, 99, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
+    [SerializeField][SyncVar] public int WeaponUseIndex;
 
     [Header("Assault Rifle")]
     [SerializeField] private GameObject ARBullet;
@@ -75,12 +72,14 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Grenate
+    /*
     [Header("Grenate")]
     [NonSerialized] private GameObject FGrenade;
     [NonSerialized] private GameObject PGrenade;
     [NonSerialized] private int TotalForceThrowGrenate;
     [NonSerialized] private float ForceThrowGrenate = 10;
     [NonSerialized] private int FactorForceThrowGrenate;
+    */
     #endregion
 
     #region Other Links
@@ -144,11 +143,11 @@ public class UPlayer : NetworkBehaviour
         #endregion
 
         #region This NEED to rebuild ***************************
-        AmmoBar.text = (WeaponInfo1[1] + " | " + WeaponInfo1[3]);
+        AmmoBar.text = (WeaponInfo[WeaponUseIndex][1] + " | " + WeaponInfo[WeaponUseIndex][3]);
 
         for (int a = 0; WeaponsTextures.Length > a; a++)
         {
-            if (WeaponInfo1[0] == a)
+            if (WeaponInfo[WeaponUseIndex][0] == a)
             {
                 WeaponsTextures[a].SetActive(true);
             }
@@ -158,7 +157,7 @@ public class UPlayer : NetworkBehaviour
             }
         }//weapon textures changer
 
-        if (WeaponInfo1[1] == 0 && WeaponInfo1[3] != 0)
+        if (WeaponInfo[WeaponUseIndex][1] == 0 && WeaponInfo[WeaponUseIndex][3] != 0)
         {
             PlayerAnimator.SetTrigger("Reload");
         } // auto reload when u have 0 rounds
@@ -174,6 +173,8 @@ public class UPlayer : NetworkBehaviour
         else
             LegsAnimator.SetFloat("Speed", 0);
 
+        Camera.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y,-10);
+        
         if (KatetLJS > 1) 
         {
             LegsGO.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickLV, VStickLH) * Mathf.Rad2Deg);
@@ -185,19 +186,22 @@ public class UPlayer : NetworkBehaviour
         // rotate
 
         if (KatetRJS > 4)
-            Fire();
+        {
+            if (WeaponInfo[WeaponUseIndex][1] != 0 && WeaponReady == true)
+            {
+                PlayerAnimator.SetTrigger("Shoot");
+            }
+        }
         // fire Weapon
 
         #endregion
-
-        Camera.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y,-10);
     }
 
     #region touch screen Buttons
 
     public void ReloadButtonClass()
     {
-        if (WeaponInfo1[1] != WeaponInfo1[2] && WeaponInfo1[3] != 0)
+        if (WeaponInfo[WeaponUseIndex][1] != WeaponInfo[WeaponUseIndex][2] && WeaponInfo[WeaponUseIndex][3] != 0)
         {
             PlayerAnimator.SetTrigger("Reload");
         }
@@ -205,21 +209,7 @@ public class UPlayer : NetworkBehaviour
 
     public void SwapWeaponClass()
     {
-        int[] WeaponCashe = WeaponInfo2;
-        WeaponInfo2 = WeaponInfo1;
-        WeaponInfo1 = WeaponCashe;
-    }
-    
-    public void SwapGrenadeClass()
-    {
-        if (GrenadeInfo[0] == 1 && GrenadeInfo[2] != 0)
-        {
-            GrenadeInfo[0] = 2;
-        }
-        else if (GrenadeInfo[0] == 2 && GrenadeInfo[1] != 0)
-        {
-            GrenadeInfo[0] = 1;
-        }
+        WeaponUseIndex = WeaponUseIndex == 0 ? 1 : 0;
     }
 
     public void TakeWeaponClass()
@@ -236,15 +226,15 @@ public class UPlayer : NetworkBehaviour
             i++;
         }
 
-        //set values
-        int[] InfoCache = WeaponInfo1;
-        UniversalBridge _UniversalBridge = PlayerTexture.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
-        WeaponInfo1 = _UniversalBridge._weaponInfo.ItemInfo;
-        _UniversalBridge._weaponInfo.PreDestroy();
-        //create new Item
-        GameObject NewWeaponItem = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
-        WeaponItemInfo _weaponInfoCache = NewWeaponItem.GetComponent<WeaponItemInfo>();
-        _weaponInfoCache.CustomStart(InfoCache);
+        ////set values
+        //int[] InfoCache = WeaponInfo[WeaponUseIndex];
+        //UniversalBridge _UniversalBridge = PlayerTexture.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
+        //WeaponInfo[WeaponUseIndex] = _UniversalBridge._WeaponInfo[WeaponUseIndex].ItemInfo;
+        //_UniversalBridge._WeaponInfo[WeaponUseIndex].PreDestroy();
+        ////create new Item
+        //GameObject NewWeaponItem = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
+        //WeaponItemInfo _WeaponInfo[WeaponUseIndex]Cache = NewWeaponItem.GetComponent<WeaponItemInfo>();
+        //_WeaponInfo[WeaponUseIndex]Cache.CustomStart(InfoCache);
     }
   
     public void revive()
@@ -259,29 +249,30 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Reload
+    [Command]
     public void ReloadEvent()
     {
         PlayerAnimator.ResetTrigger("Shoot");
-        switch (WeaponInfo1[5])
+        switch (WeaponInfo[WeaponUseIndex][5])
         {
             case 0: // Magazine
-                if (WeaponInfo1[3] >= WeaponInfo1[2] - WeaponInfo1[1])
+                if (WeaponInfo[WeaponUseIndex][3] >= WeaponInfo[WeaponUseIndex][2] - WeaponInfo[WeaponUseIndex][1])
                 {
-                    WeaponInfo1[3] -= WeaponInfo1[2] - WeaponInfo1[1];
-                    WeaponInfo1[1] = WeaponInfo1[2];
+                    WeaponInfo[WeaponUseIndex][3] -= WeaponInfo[WeaponUseIndex][2] - WeaponInfo[WeaponUseIndex][1];
+                    WeaponInfo[WeaponUseIndex][1] = WeaponInfo[WeaponUseIndex][2];
                 }
                 else
                 {
-                    WeaponInfo1[1] += WeaponInfo1[3];
-                    WeaponInfo1[3] = 0;
+                    WeaponInfo[WeaponUseIndex][1] += WeaponInfo[WeaponUseIndex][3];
+                    WeaponInfo[WeaponUseIndex][3] = 0;
                 }
                 break;
 
             case 1: // OneRound
-                WeaponInfo1[1]++;
-                WeaponInfo1[3]--;
+                WeaponInfo[WeaponUseIndex][1]++;
+                WeaponInfo[WeaponUseIndex][3]--;
 
-                if (WeaponInfo1[1] != WeaponInfo1[2] && WeaponInfo1[3] != 0)
+                if (WeaponInfo[WeaponUseIndex][1] != WeaponInfo[WeaponUseIndex][2] && WeaponInfo[WeaponUseIndex][3] != 0)
                 {
                     PlayerAnimator.SetTrigger("Reload");
                 }
@@ -303,16 +294,16 @@ public class UPlayer : NetworkBehaviour
     #region Grenate
     public void ForceGrenateClass()
     {
-        ForceThrowGrenate = 10;
-        FactorForceThrowGrenate = 1;
+        //ForceThrowGrenate = 10;
+        //FactorForceThrowGrenate = 1;
     }
     public void ThrowGrenateClass()
     {
-        if (GrenadeInfo[GrenadeInfo[0]]==0) { return; }
-        GameObject createdGrenate = Instantiate(GrenadeInfo[0] == 1? FGrenade : PGrenade, transform.position, Quaternion.identity);
-        createdGrenate.GetComponent<Grenade>().Sender = WeaponsEmpty;
-        Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
-        createdGrenateRB.AddForce(new Vector2(VStickRH * ForceThrowGrenate * TotalForceThrowGrenate, VStickRV * ForceThrowGrenate * TotalForceThrowGrenate));
+        //if (GrenadeInfo[GrenadeInfo[0]]==0) { return; }
+        //GameObject createdGrenate = Instantiate(GrenadeInfo[0] == 1? FGrenade : PGrenade, transform.position, Quaternion.identity);
+        //createdGrenate.GetComponent<Grenade>().Sender = WeaponsEmpty;
+        //Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
+        //createdGrenateRB.AddForce(new Vector2(VStickRH * ForceThrowGrenate * TotalForceThrowGrenate, VStickRV * ForceThrowGrenate * TotalForceThrowGrenate));
     }
     #endregion
 
@@ -320,18 +311,11 @@ public class UPlayer : NetworkBehaviour
     [Command]
     public void Fire()
     {
-        #region Animation
-        if (WeaponInfo1[1] != 0 && WeaponReady == true)
-        {
-            PlayerAnimator.SetTrigger("Shoot");
-        }
-        #endregion
-
         #region AR
-        if (WeaponInfo1[0] == 0 && WeaponReady == true && WeaponInfo1[1] > 0)
+        if (WeaponInfo[WeaponUseIndex][0] == 0)
         {
             WeaponReady = false;
-            WeaponInfo1[1]--;
+            WeaponInfo[WeaponUseIndex][1]--;
 
             GameObject ThisBulletGO = Instantiate(ARBullet, gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z));
             NetworkServer.Spawn(ThisBulletGO);
@@ -342,17 +326,17 @@ public class UPlayer : NetworkBehaviour
         #endregion
 
         #region Pistol //to rebuild
-        if (WeaponInfo1[0] == 1 && WeaponReady == true && WeaponInfo1[1] > 0)
+        if (WeaponInfo[WeaponUseIndex][0] == 1)
         {
             Debug.LogWarning("NEED TO REBUILD");
         }
         #endregion
 
         #region ShotGun
-        if (WeaponInfo1[0] == 2 && WeaponReady == true && WeaponInfo1[1] > 0)
+        if (WeaponInfo[WeaponUseIndex][0] == 2)
         {
             WeaponReady = false;
-            WeaponInfo1[1]--;
+            WeaponInfo[WeaponUseIndex][1]--;
 
             for (int i = 0; i < SGBulletsRange; i++)
             {

@@ -15,29 +15,29 @@ public class PlayerTexture : MonoBehaviour
         if (other.gameObject.tag == "WeaponItem")
         {
             WeaponItemInfo _weaponItemInfo = other.gameObject.GetComponent<UniversalBridge>()._weaponInfo;
-            if (_weaponItemInfo.ItemInfo[0] == _UPlayer.WeaponInfo1[0])
+            if (_weaponItemInfo.ItemInfo[0] == _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][0])
             {
-                if (_weaponItemInfo.ItemInfo[3] >= _UPlayer.WeaponInfo1[4] - _UPlayer.WeaponInfo1[3])
+                if (_weaponItemInfo.ItemInfo[3] >= _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][4] - _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][3])
                 {
-                    _weaponItemInfo.ItemInfo[3] -= _UPlayer.WeaponInfo1[4] - _UPlayer.WeaponInfo1[3];
-                    _UPlayer.WeaponInfo1[3] = _UPlayer.WeaponInfo1[4];
+                    _weaponItemInfo.ItemInfo[3] -= _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][4] - _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][3];
+                    _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][3] = _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][4];
                 }
                 else
                 {
-                    _UPlayer.WeaponInfo1[3] += _weaponItemInfo.ItemInfo[3];
+                    _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][3] += _weaponItemInfo.ItemInfo[3];
                     _weaponItemInfo.PreDestroy();
                 }
             } // weapon 1
-            else if (_weaponItemInfo.ItemInfo[0] == _UPlayer.WeaponInfo2[0])
+            else if (_weaponItemInfo.ItemInfo[0] == _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][0])
             {
-                if (_weaponItemInfo.ItemInfo[3] >= _UPlayer.WeaponInfo2[4] - _UPlayer.WeaponInfo2[3])
+                if (_weaponItemInfo.ItemInfo[3] >= _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][4] - _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][3])
                 {
-                    _weaponItemInfo.ItemInfo[3] -= _UPlayer.WeaponInfo2[4] - _UPlayer.WeaponInfo2[3];
-                    _UPlayer.WeaponInfo2[3] = _UPlayer.WeaponInfo2[4];
+                    _weaponItemInfo.ItemInfo[3] -= _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][4] - _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][3];
+                    _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][3] = _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][4];
                 }
                 else
                 {
-                    _UPlayer.WeaponInfo2[3] += _weaponItemInfo.ItemInfo[3];
+                    _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][3] += _weaponItemInfo.ItemInfo[3];
                     _weaponItemInfo.PreDestroy();
                 }
             } // weapon 2
