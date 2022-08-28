@@ -107,15 +107,15 @@ public class UPlayer : NetworkBehaviour
         //buttons
         Camera = GameObject.Find("Camera");
         GameObject.Find("ReloadButton").GetComponent<Button>().onClick.AddListener(ReloadButtonClass);
-        GameObject.Find("YouNeverDie").GetComponent<Button>().onClick.AddListener(revive);
-        DeadPanel.SetActive(false);
-
         for (int a = 0; a <= 11;)
         {
             Spawns.Add(GameObject.Find("Spawn " + a));
             a++;
         }
+
         gameObject.transform.position = Spawns[UnityEngine.Random.Range(0,11)].transform.position;
+        GameObject.Find("YouNeverDie").GetComponent<Button>().onClick.AddListener(revive);
+        DeadPanel.SetActive(false);
         #endregion
     }
 
@@ -249,7 +249,6 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Reload
-    [Command]
     public void ReloadEvent()
     {
         PlayerAnimator.ResetTrigger("Shoot");
@@ -308,7 +307,6 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Weapons
-    [Command]
     public void Fire()
     {
         #region AR
@@ -317,11 +315,7 @@ public class UPlayer : NetworkBehaviour
             WeaponReady = false;
             WeaponInfo[WeaponUseIndex][1]--;
 
-            GameObject ThisBulletGO = Instantiate(ARBullet, gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z));
-            NetworkServer.Spawn(ThisBulletGO);
-
-            Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
-            ThisBulletCS.DontFrendlyFire = TeamID;
+            SpawmBullets(ARBullet);
         }
         #endregion
 
@@ -340,14 +334,20 @@ public class UPlayer : NetworkBehaviour
 
             for (int i = 0; i < SGBulletsRange; i++)
             {
-                GameObject ThisBulletGO = Instantiate(SGBullet, gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale,SGRandScale)));
-                NetworkServer.Spawn(ThisBulletGO);
-                
-                Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
-                ThisBulletCS.DontFrendlyFire = TeamID;
+                SpawmBullets(SGBullet);
             }
         }
         #endregion
+    }
+
+    [Command]
+    public void SpawmBullets(GameObject BulletPrefab)
+    {
+        GameObject ThisBulletGO = Instantiate(BulletPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
+        NetworkServer.Spawn(ThisBulletGO);
+
+        Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
+        ThisBulletCS.DontFrendlyFire = TeamID;
     }
     #endregion
 }

@@ -336,7 +336,7 @@ MonoBehaviour:
   SGBullet: {fileID: 879322776821770043, guid: b10f70375e1f30c43ac854f9323106a7, type: 3}
   SGRateOfFire: 0.2
   SGReloadSpeed: 1
-  SGBulletsRange: 7
+  SGBulletsRange: 1
   SGRandScale: 10
   WeaponItemPrefab: {fileID: 875858668415275194, guid: 3230fbc3a32ceb747ab0f7ca42eb9f34, type: 3}
 --- !u!50 &4774744917709354703
