@@ -52,10 +52,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  TeamChanger: 0
   DontFrendlyFire: 0
-  BulletDamage: 12
-  BulletSpeed: 100
-  timeToDestroy: 1
+  BulletDamage: 9999
+  BulletSpeed: 10
+  timeToDestroy: 10000
   TypeOfBullet: 0
 --- !u!212 &1979069694591247255
 SpriteRenderer:

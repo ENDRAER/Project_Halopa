@@ -34,7 +34,7 @@ public class UPlayer : NetworkBehaviour
 
     #region Health
     [Header("Health")]
-    [SerializeField] public bool IsDead;
+    [SerializeField][SyncVar] public bool IsDead;
     [SerializeField] public float HealthMax;
     [SerializeField][SyncVar] public float HealthNow;
     [SerializeField] public float ShieldMax;
@@ -48,23 +48,21 @@ public class UPlayer : NetworkBehaviour
     [Header("PlayerWeaponInfo")]
 
     [SerializeField][SyncVar] public bool WeaponReady = true;
+    [SerializeField] private GameObject[] Bullets;
 
     // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
     [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 99, 99, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
     [SerializeField][SyncVar] public int WeaponUseIndex;
 
     [Header("Assault Rifle")]
-    [SerializeField] private GameObject ARBullet;
     [SerializeField] private float ARRateOfFire;
     [SerializeField] public float ARReloadSpeed;
 
     [Header("Pistol")]
-    [SerializeField] private GameObject PistolBullet;
     [SerializeField] private float PistolRateOfFire;
     [SerializeField] public float PistolReloadSpeed;
 
     [Header("SG")]
-    [SerializeField] private GameObject SGBullet;
     [SerializeField] private float SGRateOfFire;
     [SerializeField] public float SGReloadSpeed;
     [SerializeField] public int SGBulletsRange;
@@ -96,6 +94,8 @@ public class UPlayer : NetworkBehaviour
     private void Start()
     {
         if (!isLocalPlayer) return;
+
+        TeamID = UnityEngine.Random.Range(0,999);
 
         #region FindButtons
         //Button Links
@@ -254,7 +254,8 @@ public class UPlayer : NetworkBehaviour
         PlayerAnimator.ResetTrigger("Shoot");
         switch (WeaponInfo[WeaponUseIndex][5])
         {
-            case 0: // Magazine
+            #region Magazine
+            case 0:
                 if (WeaponInfo[WeaponUseIndex][3] >= WeaponInfo[WeaponUseIndex][2] - WeaponInfo[WeaponUseIndex][1])
                 {
                     WeaponInfo[WeaponUseIndex][3] -= WeaponInfo[WeaponUseIndex][2] - WeaponInfo[WeaponUseIndex][1];
@@ -266,8 +267,10 @@ public class UPlayer : NetworkBehaviour
                     WeaponInfo[WeaponUseIndex][3] = 0;
                 }
                 break;
+            #endregion
 
-            case 1: // OneRound
+            #region RoundPerRound
+            case 1:
                 WeaponInfo[WeaponUseIndex][1]++;
                 WeaponInfo[WeaponUseIndex][3]--;
 
@@ -281,13 +284,21 @@ public class UPlayer : NetworkBehaviour
                     PlayerAnimator.SetTrigger("EndReload");
                 }
                 break;
+            #endregion
         }
     }
-
-    private void WeaponROF()
+    #region WeaponROF
+    private void WeaponROFTrue()
     {
         WeaponReady = true;
     }
+
+    private void WeaponROFFalse()
+    {
+        WeaponReady = false;
+    }
+    #endregion
+
     #endregion
 
     #region Grenate
@@ -309,45 +320,42 @@ public class UPlayer : NetworkBehaviour
     #region Weapons
     public void Fire()
     {
-        #region AR
-        if (WeaponInfo[WeaponUseIndex][0] == 0)
+        switch (WeaponInfo[WeaponUseIndex][0])
         {
-            WeaponReady = false;
-            WeaponInfo[WeaponUseIndex][1]--;
+            #region AR
+            case 0:
+                WeaponReady = false;
+                WeaponInfo[WeaponUseIndex][1]--;
 
-            SpawmBullets(ARBullet);
+                SpawmBullets();
+                break;
+            #endregion
+
+            #region Pisotl
+            case 1:
+                print("NEED TO REBUILD");
+                break;
+            #endregion
+
+            #region ShotGun
+            case 2:
+                WeaponReady = false;
+                WeaponInfo[WeaponUseIndex][1]--;
+
+                for (int i = 0; i < SGBulletsRange; i++)
+                {
+                    SpawmBullets();
+                }
+                break;
+            #endregion
         }
-        #endregion
-
-        #region Pistol //to rebuild
-        if (WeaponInfo[WeaponUseIndex][0] == 1)
-        {
-            Debug.LogWarning("NEED TO REBUILD");
-        }
-        #endregion
-
-        #region ShotGun
-        if (WeaponInfo[WeaponUseIndex][0] == 2)
-        {
-            WeaponReady = false;
-            WeaponInfo[WeaponUseIndex][1]--;
-
-            for (int i = 0; i < SGBulletsRange; i++)
-            {
-                SpawmBullets(SGBullet);
-            }
-        }
-        #endregion
     }
 
     [Command]
-    public void SpawmBullets(GameObject BulletPrefab)
+    public void SpawmBullets()
     {
-        GameObject ThisBulletGO = Instantiate(BulletPrefab, gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
+        GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
         NetworkServer.Spawn(ThisBulletGO);
-
-        Bullets ThisBulletCS = ThisBulletGO.GetComponent<Bullets>();
-        ThisBulletCS.DontFrendlyFire = TeamID;
     }
     #endregion
 }

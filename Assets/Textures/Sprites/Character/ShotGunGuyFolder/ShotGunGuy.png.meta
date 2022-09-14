@@ -116,15 +116,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ShotGunGuy_0
+      name: ShotGunGuy_GetWeapon4
       rect:
         serializedVersion: 2
         x: 1
-        y: 49
+        y: 97
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -137,15 +137,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShotGunGuy_1
+      name: ShotGunGuy_fire1
       rect:
         serializedVersion: 2
         x: 49
-        y: 49
+        y: 97
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -158,15 +158,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShotGunGuy_2
+      name: ShotGunGuy_fire0
       rect:
         serializedVersion: 2
         x: 97
-        y: 49
+        y: 97
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,11 +183,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1
+        y: 49
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -204,11 +204,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 49
-        y: 1
+        y: 49
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,11 +225,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 97
-        y: 1
+        y: 49
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -246,11 +246,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 145
-        y: 1
+        y: 49
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -267,11 +267,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 193
-        y: 1
+        y: 49
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -288,11 +288,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 241
-        y: 1
+        y: 49
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -309,11 +309,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 289
-        y: 1
+        y: 49
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -330,11 +330,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 337
-        y: 1
+        y: 49
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -351,11 +351,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 145
-        y: 49
+        y: 97
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -372,11 +372,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 193
-        y: 49
+        y: 97
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -393,11 +393,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 241
-        y: 49
+        y: 97
         width: 46
         height: 46
       alignment: 9
-      pivot: {x: 0.3043478, y: 0.51086956}
+      pivot: {x: 0.3478261, y: 0.51086956}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -405,6 +405,90 @@ TextureImporter:
       bones: []
       spriteID: c6f0c198ba56c3145986435ce74798ec
       internalID: -1138698856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GetWeapon3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f2b1c90e5e86ed4fa0e01836564e056
+      internalID: -1835185809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GetWeapon2
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48ccb62d5c4a2ec4abf98c6fb8c130e0
+      internalID: -623048240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GetWeapon1
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a5315620f426214a8576649e5a424d7
+      internalID: 2063099593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GetWeapon0
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9d0d9c94a3d24344806a4023abdf106
+      internalID: 766534559
       vertices: []
       indices: 
       edges: []
@@ -420,7 +504,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ShotGunGuy_2: -853290822
+      ShotGunGuy_GetWeapon1: 2063099593
+      ShotGunGuy_GetWeapon0: 766534559
+      ShotGunGuy_fire1: -2064848778
+      ShotGunGuy_GetWeapon4: -1542123162
       ShotGunGuy_reload0: 677802220
       ShotGunGuy_reload1: -1198501104
       ShotGunGuy_reload3: 913857023
@@ -428,12 +515,13 @@ TextureImporter:
       ShotGunGuy_reload10: -1138698856
       ShotGunGuy_reload5: 1140014283
       ShotGunGuy_reload2: 970801591
+      ShotGunGuy_fire0: -853290822
       ShotGunGuy_reload4: 922477258
       ShotGunGuy_reload6: -960489760
-      ShotGunGuy_1: -2064848778
+      ShotGunGuy_GetWeapon3: -1835185809
       ShotGunGuy_reload7: -1939804750
       ShotGunGuy_reload8: 952244475
-      ShotGunGuy_0: -1542123162
+      ShotGunGuy_GetWeapon2: -623048240
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
