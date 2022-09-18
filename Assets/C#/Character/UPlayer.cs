@@ -14,12 +14,12 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private float speed;
     [SerializeField] private PlayerTexture PlayerTexture;
     [SerializeField] private Rigidbody2D PlayerRB;
-    [SerializeField] private NetworkAnimator PlayerAnimator;
+    [SerializeField] private NetworkAnimator PlayerNetworkAnimator;
+    [SerializeField] private Animator PlayerAnimator;
     [SerializeField] private Animator LegsAnimator;
     [SerializeField] private GameObject WeaponsEmpty;
     [SerializeField] private GameObject Camera;
     [SerializeField] private GameObject LegsGO;
-    [SerializeField] public GameObject[] WeaponsTextures;
     #endregion
 
     #region UI
@@ -47,11 +47,10 @@ public class UPlayer : NetworkBehaviour
     #region Weapon
     [Header("PlayerWeaponInfo")]
 
-    [SerializeField][SyncVar] public bool WeaponReady = true;
     [SerializeField] private GameObject[] Bullets;
 
     // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
-    [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 99, 99, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
+    [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 99, 99, 1 }, new int[] { 1, 30, 30, 999, 999, 0 } };
     [SerializeField][SyncVar] public int WeaponUseIndex;
 
     [Header("Assault Rifle")]
@@ -91,11 +90,15 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
 
+
+
     private void Start()
     {
         if (!isLocalPlayer) return;
 
         TeamID = UnityEngine.Random.Range(0,999);
+
+        PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
 
         #region FindButtons
         //Button Links
@@ -106,6 +109,7 @@ public class UPlayer : NetworkBehaviour
 
         //buttons
         Camera = GameObject.Find("Camera");
+        GameObject.Find("SwapWeapon").GetComponent<Button>().onClick.AddListener(SwapWeaponButton);
         GameObject.Find("ReloadButton").GetComponent<Button>().onClick.AddListener(ReloadButtonClass);
         for (int a = 0; a <= 11;)
         {
@@ -135,6 +139,11 @@ public class UPlayer : NetworkBehaviour
         {
             ReloadButtonClass();
         }
+
+        if (Input.GetButton("SwapWeapon"))
+        {
+            SwapWeaponButton();
+        }
         #endregion
 
         #region Katets of stiks
@@ -145,21 +154,9 @@ public class UPlayer : NetworkBehaviour
         #region This NEED to rebuild ***************************
         AmmoBar.text = (WeaponInfo[WeaponUseIndex][1] + " | " + WeaponInfo[WeaponUseIndex][3]);
 
-        for (int a = 0; WeaponsTextures.Length > a; a++)
-        {
-            if (WeaponInfo[WeaponUseIndex][0] == a)
-            {
-                WeaponsTextures[a].SetActive(true);
-            }
-            else
-            {
-                WeaponsTextures[a].SetActive(false);
-            }
-        }//weapon textures changer
-
         if (WeaponInfo[WeaponUseIndex][1] == 0 && WeaponInfo[WeaponUseIndex][3] != 0)
         {
-            PlayerAnimator.SetTrigger("Reload");
+            PlayerNetworkAnimator.SetTrigger("Reload");
         } // auto reload when u have 0 rounds
         #endregion
 
@@ -182,34 +179,38 @@ public class UPlayer : NetworkBehaviour
         } // rotate Player
 
         if (KatetRJS > 1)
-            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickRV, VStickRH) * Mathf.Rad2Deg); 
+            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickRV, VStickRH) * Mathf.Rad2Deg);
         // rotate
 
-        if (KatetRJS > 4)
+        if (KatetRJS > 4 && WeaponInfo[WeaponUseIndex][1] != 0) 
         {
-            if (WeaponInfo[WeaponUseIndex][1] != 0 && WeaponReady == true)
-            {
-                PlayerAnimator.SetTrigger("Shoot");
-            }
+            PlayerAnimator.SetBool("AutoFire",true);
         }
+        else
+            PlayerAnimator.SetBool("AutoFire", false);
         // fire Weapon
 
         #endregion
     }
 
     #region touch screen Buttons
-
     public void ReloadButtonClass()
     {
         if (WeaponInfo[WeaponUseIndex][1] != WeaponInfo[WeaponUseIndex][2] && WeaponInfo[WeaponUseIndex][3] != 0)
         {
-            PlayerAnimator.SetTrigger("Reload");
+            PlayerNetworkAnimator.SetTrigger("Reload");
         }
     }
 
-    public void SwapWeaponClass()
+    public void SwapWeaponButton()
     {
+        PlayerNetworkAnimator.SetTrigger("SwapWeapon");
+    }
+    public void SwapWeaponEvent()
+    {
+        PlayerNetworkAnimator.ResetTrigger("SwapWeapon");
         WeaponUseIndex = WeaponUseIndex == 0 ? 1 : 0;
+        PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
     }
 
     public void TakeWeaponClass()
@@ -251,7 +252,7 @@ public class UPlayer : NetworkBehaviour
     #region Reload
     public void ReloadEvent()
     {
-        PlayerAnimator.ResetTrigger("Shoot");
+        PlayerNetworkAnimator.ResetTrigger("Reload");
         switch (WeaponInfo[WeaponUseIndex][5])
         {
             #region Magazine
@@ -276,29 +277,18 @@ public class UPlayer : NetworkBehaviour
 
                 if (WeaponInfo[WeaponUseIndex][1] != WeaponInfo[WeaponUseIndex][2] && WeaponInfo[WeaponUseIndex][3] != 0)
                 {
-                    PlayerAnimator.SetTrigger("Reload");
+                    PlayerNetworkAnimator.ResetTrigger("EndReload");
+                    PlayerNetworkAnimator.SetTrigger("Reload");
                 }
                 else
                 {
-                    PlayerAnimator.ResetTrigger("Reload");
-                    PlayerAnimator.SetTrigger("EndReload");
+                    PlayerNetworkAnimator.ResetTrigger("Reload");
+                    PlayerNetworkAnimator.SetTrigger("EndReload");
                 }
                 break;
             #endregion
         }
     }
-    #region WeaponROF
-    private void WeaponROFTrue()
-    {
-        WeaponReady = true;
-    }
-
-    private void WeaponROFFalse()
-    {
-        WeaponReady = false;
-    }
-    #endregion
-
     #endregion
 
     #region Grenate
@@ -324,27 +314,27 @@ public class UPlayer : NetworkBehaviour
         {
             #region AR
             case 0:
-                WeaponReady = false;
                 WeaponInfo[WeaponUseIndex][1]--;
 
-                SpawmBullets();
+                SpawnBullets();
                 break;
             #endregion
 
             #region Pisotl
             case 1:
-                print("NEED TO REBUILD");
+                WeaponInfo[WeaponUseIndex][1]--;
+
+                SpawnBullets();
                 break;
             #endregion
 
             #region ShotGun
             case 2:
-                WeaponReady = false;
                 WeaponInfo[WeaponUseIndex][1]--;
 
                 for (int i = 0; i < SGBulletsRange; i++)
                 {
-                    SpawmBullets();
+                    SpawnBullets();
                 }
                 break;
             #endregion
@@ -352,7 +342,7 @@ public class UPlayer : NetworkBehaviour
     }
 
     [Command]
-    public void SpawmBullets()
+    public void SpawnBullets()
     {
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
         NetworkServer.Spawn(ThisBulletGO);

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using Mirror;
 
-public class WeaponSpawner : MonoBehaviour
+public class WeaponSpawner : NetworkBehaviour
 {
     [SerializeField] private int TimePassed;
     [SerializeField] private float TimeToSpawn;
@@ -20,9 +21,16 @@ public class WeaponSpawner : MonoBehaviour
         {
             TimePassed = 0;
             Weapon = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
+            SpawnWeapon();
             WeaponItemInfo _weaponInfoCache = Weapon.GetComponent<WeaponItemInfo>();
             _weaponInfoCache.CustomStart(ItemInfo);
-            _weaponInfoCache.NeedToBeDestroy = false;
+            _weaponInfoCache.MustBeDestroyed = false;
         }
+    }
+
+    [Command]
+    public void SpawnWeapon()
+    {
+        NetworkServer.Spawn(Weapon);
     }
 }

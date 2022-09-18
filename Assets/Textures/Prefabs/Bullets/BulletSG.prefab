@@ -18,7 +18,7 @@ GameObject:
   m_Layer: 10
   m_Name: BulletSG
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -52,11 +52,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  TeamChanger: 0
-  DontFrendlyFire: 0
-  BulletDamage: 9999
-  BulletSpeed: 10
-  timeToDestroy: 10000
+  FirstHit: 1
+  TeamId: 0
+  BulletDamage: 20
+  BulletSpeed: 200
+  timeToDestroy: 1
   TypeOfBullet: 0
 --- !u!212 &1979069694591247255
 SpriteRenderer:
@@ -100,7 +100,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0.6886792, g: 0.43854573, b: 0.43854573, a: 1}
+  m_Color: {r: 0.8235295, g: 0.427451, b: 0.023529414, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

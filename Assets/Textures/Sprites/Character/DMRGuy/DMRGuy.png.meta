@@ -1,0 +1,431 @@
+fileFormatVersion: 2
+guid: 4203a0a9e9e0c084e9a8b7e8e0509da8
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 19
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DMR_Stay
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e7278fe57754ec4e9ec3a1900742c6f
+      internalID: -1231471943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMR_Fire0
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e610d6001912eb1458a7a6708cc35405
+      internalID: 169969422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMR_Fire1
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a482448be3951564bbb4d27b6e1bbf0b
+      internalID: 180107117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMR_TakeOff0
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7661eed3eaa50234582bf197bbb85197
+      internalID: -94109761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMR_TakeOff1
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6b1828534e40fa46ab60fafea6650af
+      internalID: -1497629633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMR_TakeOff2
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbf7e04c61ded1f488b39a1767b375ad
+      internalID: 977812687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMRGuy_Reload0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f31cdef9a1f8a445827eb04ef2a4560
+      internalID: -1087709491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMRGuy_Reload1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d11390a58fa40e540812953f66a735a6
+      internalID: -1823845553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMRGuy_Reload2
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61f9dc1ab05a3fd49a5be7b947ea4b93
+      internalID: -281413204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMRGuy_Reload3
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a16668e6b4685340bc831caf344bdf5
+      internalID: -554843360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMRGuy_Reload4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b184e5b180161aa40a6d667fb4c5796c
+      internalID: 420148612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMRGuy_Reload5
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee76ae570bc60254987a764e972ed43e
+      internalID: 101709378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMRGuy_Reload6
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc4db13e7de1386478484a025cb330ac
+      internalID: 2002489078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DMRGuy_Reload7
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ac5c5b73c6138d4586a0b1f3cb0b9cc
+      internalID: 802085744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      DMRGuy_Reload1: -1823845553
+      DMRGuy_Reload3: -554843360
+      DMR_Fire0: 169969422
+      DMRGuy_Reload7: 802085744
+      DMR_TakeOff2: 977812687
+      DMR_Fire1: 180107117
+      DMRGuy_Reload4: 420148612
+      DMR_TakeOff0: -94109761
+      DMRGuy_Reload5: 101709378
+      DMR_Stay: -1231471943
+      DMRGuy_Reload2: -281413204
+      DMR_TakeOff1: -1497629633
+      DMRGuy_Reload0: -1087709491
+      DMRGuy_Reload6: 2002489078
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -13,7 +13,7 @@ public class PlayerTexture : MonoBehaviour
     {
         #region Weapons Item
         if (other.gameObject.tag == "WeaponItem")
-        {
+        {/*
             WeaponItemInfo _weaponItemInfo = other.gameObject.GetComponent<UniversalBridge>()._weaponInfo;
             if (_weaponItemInfo.ItemInfo[0] == _UPlayer.WeaponInfo[_UPlayer.WeaponUseIndex][0])
             {
@@ -45,7 +45,7 @@ public class PlayerTexture : MonoBehaviour
             {
                 WeaponsGO.Add(other.gameObject);
                 _UPlayer.TakeWeaponButton.SetActive(true);
-            }
+            }*/
         }
         #endregion
     }

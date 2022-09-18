@@ -1,0 +1,453 @@
+fileFormatVersion: 2
+guid: 4e1aa87b508952d468a9a00f93a56dcf
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 19
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AR_Stay
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e3f22e74dcd4df4fbc017f7c48b4dd0
+      internalID: -181426925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Fire
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a969fcbf1d222504a9bd359f77d42173
+      internalID: -697063698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Get0
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eab51133897fe424088875afd0cc1088
+      internalID: 1525712371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Get1
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be33eb0d05a06f445845a573980e2dc9
+      internalID: 690818359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Get2
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 97
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b2531018d68a7145817d4b18d418fb3
+      internalID: -556282511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Reload0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 426b621c76b953b419c9c42855a34457
+      internalID: -1301090789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Reload1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 320f13b87c316254db5abf8ab82ec9b2
+      internalID: -1947719150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Reload2
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30fc8d1f5630992429bb696fcb749521
+      internalID: -1366800108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Reload3
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c962e14ebe3d66941a75fcf16bd71503
+      internalID: -419362940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Reload4
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee36d83c9dfc9b241b6d31487f5e457a
+      internalID: -1925233667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Reload5
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1db2aa2d8d89a341a4220880ae19c7b
+      internalID: 1695519594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Reload6
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 726f3b7a5dfc51448942933cb2798aad
+      internalID: 1578540509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Reload7
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56141176391c2464da2d6a9799b06c51
+      internalID: -637330206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_Reload8
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 728319f64dc8f1042986406b989302f3
+      internalID: -1148985036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AR_FireFullAuto
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 200b0a08181045d46b3f132bf1dc28b3
+      internalID: 1271976778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      AR_Fire: -697063698
+      AR_Reload2: -1366800108
+      AR_Get1: 690818359
+      AR_Reload4: -1925233667
+      AR_Reload0: -1301090789
+      AR_FireFullAuto: 1271976778
+      AR_Reload1: -1947719150
+      AR_Reload6: 1578540509
+      AR_Reload3: -419362940
+      AR_Get0: 1525712371
+      AR_Reload7: -637330206
+      AR_Get2: -556282511
+      AR_Reload8: -1148985036
+      AR_Stay: -181426925
+      AR_Reload5: 1695519594
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
