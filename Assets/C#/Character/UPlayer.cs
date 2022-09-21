@@ -50,7 +50,7 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private GameObject[] Bullets;
 
     // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
-    [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 99, 99, 1 }, new int[] { 1, 30, 30, 999, 999, 0 } };
+    [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 1, 6, 6, 99, 99, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
     [SerializeField][SyncVar] public int WeaponUseIndex;
 
     [Header("Assault Rifle")]
