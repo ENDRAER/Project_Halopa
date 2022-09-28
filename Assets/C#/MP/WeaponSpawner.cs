@@ -8,7 +8,7 @@ public class WeaponSpawner : NetworkBehaviour
     [SerializeField] private int TimePassed;
     [SerializeField] private float TimeToSpawn;
     [SerializeField] private GameObject WeaponItemPrefab;
-    [SerializeField] private int[] ItemInfo = { 0, 30, 30, 90, 120 };
+    [SerializeField] private int[] ItemInfo = { 2, 6, 6, 30, 30 };
     [SerializeField] private GameObject Weapon;
 
     private void FixedUpdate()

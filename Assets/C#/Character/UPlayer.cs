@@ -12,14 +12,14 @@ public class UPlayer : NetworkBehaviour
     [Header("Player")]
     [SerializeField][SyncVar] public int TeamID;
     [SerializeField] private float speed;
-    [SerializeField] private PlayerTexture PlayerTexture;
+    [SerializeField] private InteractiveZone InteractiveZone;
     [SerializeField] private Rigidbody2D PlayerRB;
     [SerializeField] private NetworkAnimator PlayerNetworkAnimator;
     [SerializeField] private Animator PlayerAnimator;
     [SerializeField] private Animator LegsAnimator;
     [SerializeField] private GameObject WeaponsEmpty;
-    [SerializeField] private GameObject Camera;
     [SerializeField] private GameObject LegsGO;
+    [SerializeField] private GameObject Camera;
     #endregion
 
     #region UI
@@ -28,7 +28,7 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] public bl_Joystick RJS;
     [NonSerialized] public Text AmmoBar;
     [NonSerialized] public Text HPBar;
-    [NonSerialized] public GameObject TakeWeaponButton;
+    [NonSerialized] public GameObject GetWeaponButton;
     [NonSerialized] public GameObject DeadPanel;
     #endregion
 
@@ -50,7 +50,7 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private GameObject[] Bullets;
 
     // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
-    [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 1, 6, 6, 99, 99, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
+    [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 0, 30, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
     [SerializeField][SyncVar] public int WeaponUseIndex;
 
     [Header("Assault Rifle")]
@@ -106,6 +106,7 @@ public class UPlayer : NetworkBehaviour
         RJS = GameObject.Find("RJS").GetComponent<bl_Joystick>();
         AmmoBar = GameObject.Find("AmmoBarText").GetComponent<Text>();
         DeadPanel = GameObject.Find("DeadPanel");
+        GetWeaponButton = GameObject.Find("GetWeapon");
 
         //buttons
         Camera = GameObject.Find("Camera");
@@ -217,11 +218,11 @@ public class UPlayer : NetworkBehaviour
     {
         float MinDistance = 600;
         int nearestWeapon=0;
-        for (int i = 0; i < PlayerTexture.WeaponsGO.Count; )
+        for (int i = 0; i < InteractiveZone.WeaponsGO.Count; )
         {
-            if (MinDistance > Vector2.Distance(gameObject.transform.position, PlayerTexture.WeaponsGO[i].transform.position))
+            if (MinDistance > Vector2.Distance(gameObject.transform.position, InteractiveZone.WeaponsGO[i].transform.position))
             {
-                MinDistance = Vector2.Distance(gameObject.transform.position, PlayerTexture.WeaponsGO[i].transform.position);
+                MinDistance = Vector2.Distance(gameObject.transform.position, InteractiveZone.WeaponsGO[i].transform.position);
                 nearestWeapon = i;
             }
             i++;
@@ -229,7 +230,7 @@ public class UPlayer : NetworkBehaviour
 
         ////set values
         //int[] InfoCache = WeaponInfo[WeaponUseIndex];
-        //UniversalBridge _UniversalBridge = PlayerTexture.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
+        //UniversalBridge _UniversalBridge = InteractiveZone.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
         //WeaponInfo[WeaponUseIndex] = _UniversalBridge._WeaponInfo[WeaponUseIndex].ItemInfo;
         //_UniversalBridge._WeaponInfo[WeaponUseIndex].PreDestroy();
         ////create new Item
