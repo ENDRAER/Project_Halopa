@@ -196,9 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1166cb2e95819a942a740ee67bdf73a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponsGO: []
   _UPlayer: {fileID: 4774744917709354688}
-  _CharacterGO: {fileID: 4774744917709354691}
 --- !u!61 &4195498830409801186
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -359,6 +357,11 @@ MonoBehaviour:
   - {fileID: 3182902504192978362, guid: a7d7625840ec9344aa3949675c1666b3, type: 3}
   - {fileID: 565324386472133723, guid: 4fde34908492f034da8f939e98f25f8e, type: 3}
   - {fileID: 879322776821770043, guid: b10f70375e1f30c43ac854f9323106a7, type: 3}
+  WeaponTextures:
+  - {fileID: 59477588, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
+  - {fileID: -1280464743, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
+  - {fileID: 1014829353, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
+  SpawnWeaponItem: {fileID: 0}
   WeaponUseIndex: 0
   ARRateOfFire: 0.1
   ARReloadSpeed: 1

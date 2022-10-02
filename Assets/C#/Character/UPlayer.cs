@@ -29,6 +29,7 @@ public class UPlayer : NetworkBehaviour
     [NonSerialized] public Text AmmoBar;
     [NonSerialized] public Text HPBar;
     [NonSerialized] public GameObject GetWeaponButton;
+    [NonSerialized] public Image ImageGetWeaponButton;
     [NonSerialized] public GameObject DeadPanel;
     #endregion
 
@@ -48,6 +49,8 @@ public class UPlayer : NetworkBehaviour
     [Header("PlayerWeaponInfo")]
 
     [SerializeField] private GameObject[] Bullets;
+    [SerializeField] private Sprite[] WeaponTextures;
+    [SerializeField] private GameObject SpawnWeaponItem;
 
     // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
     [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 0, 30, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
@@ -107,11 +110,15 @@ public class UPlayer : NetworkBehaviour
         AmmoBar = GameObject.Find("AmmoBarText").GetComponent<Text>();
         DeadPanel = GameObject.Find("DeadPanel");
         GetWeaponButton = GameObject.Find("GetWeapon");
+        ImageGetWeaponButton = GetWeaponButton.GetComponent<Image>();
+        GetWeaponButton.SetActive(false);
 
         //buttons
         Camera = GameObject.Find("Camera");
         GameObject.Find("SwapWeapon").GetComponent<Button>().onClick.AddListener(SwapWeaponButton);
         GameObject.Find("ReloadButton").GetComponent<Button>().onClick.AddListener(ReloadButtonClass);
+        GetWeaponButton.GetComponent<Button>().onClick.AddListener(TakeWeaponClass);
+        
         for (int a = 0; a <= 11;)
         {
             Spawns.Add(GameObject.Find("Spawn " + a));
@@ -192,6 +199,24 @@ public class UPlayer : NetworkBehaviour
         // fire Weapon
 
         #endregion
+
+        #region other
+        float MinDistance = 600;
+        int nearestWeapon = 0;
+        if (InteractiveZone.WeaponsGO.Count != 0)
+        {
+            for (int i = 0; i < InteractiveZone.WeaponsGO.Count;)
+            {
+                if (MinDistance > Vector2.Distance(gameObject.transform.position, InteractiveZone.WeaponsGO[i].transform.position))
+                {
+                    MinDistance = Vector2.Distance(gameObject.transform.position, InteractiveZone.WeaponsGO[i].transform.position);
+                    nearestWeapon = i;
+                }
+                i++;
+            }
+            ImageGetWeaponButton.sprite = WeaponTextures[InteractiveZone.WeaponsGO[nearestWeapon].GetComponent<WeaponItemInfo>().ItemInfo[0][0]];
+        }
+        #endregion
     }
 
     #region touch screen Buttons
@@ -216,8 +241,9 @@ public class UPlayer : NetworkBehaviour
 
     public void TakeWeaponClass()
     {
+        print("a");
         float MinDistance = 600;
-        int nearestWeapon=0;
+        int nearestWeapon = 0;
         for (int i = 0; i < InteractiveZone.WeaponsGO.Count; )
         {
             if (MinDistance > Vector2.Distance(gameObject.transform.position, InteractiveZone.WeaponsGO[i].transform.position))
@@ -228,15 +254,16 @@ public class UPlayer : NetworkBehaviour
             i++;
         }
 
-        ////set values
-        //int[] InfoCache = WeaponInfo[WeaponUseIndex];
-        //UniversalBridge _UniversalBridge = InteractiveZone.WeaponsGO[nearestWeapon].GetComponent<UniversalBridge>();
-        //WeaponInfo[WeaponUseIndex] = _UniversalBridge._WeaponInfo[WeaponUseIndex].ItemInfo;
-        //_UniversalBridge._WeaponInfo[WeaponUseIndex].PreDestroy();
-        ////create new Item
-        //GameObject NewWeaponItem = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
-        //WeaponItemInfo _WeaponInfo[WeaponUseIndex]Cache = NewWeaponItem.GetComponent<WeaponItemInfo>();
-        //_WeaponInfo[WeaponUseIndex]Cache.CustomStart(InfoCache);
+        //set values & delete original
+        int[] InfoCache = WeaponInfo[WeaponUseIndex];
+        WeaponInfo[WeaponUseIndex] = InteractiveZone.WeaponsGO[nearestWeapon].GetComponent<WeaponItemInfo>().ItemInfo[0];
+        Destroy(InteractiveZone.WeaponsGO[nearestWeapon]);
+        //create new Item
+        SpawnWeaponItem = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
+        SpawnWeapon();
+        WeaponItemInfo _weaponInfoCache = SpawnWeaponItem.GetComponent<WeaponItemInfo>();
+        _weaponInfoCache.CustomStart(InfoCache);
+        _weaponInfoCache.MustBeDestroyed = false;
     }
   
     public void revive()
@@ -347,6 +374,14 @@ public class UPlayer : NetworkBehaviour
     {
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
         NetworkServer.Spawn(ThisBulletGO);
+    }
+    #endregion
+
+    #region SpawnsCommand
+    [Command]
+    public void SpawnWeapon()
+    {
+        NetworkServer.Spawn(SpawnWeaponItem);
     }
     #endregion
 }

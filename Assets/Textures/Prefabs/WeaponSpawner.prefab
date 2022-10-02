@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -4
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
   TimePassed: 0
   TimeToSpawn: 100
   WeaponItemPrefab: {fileID: 875858668415275194, guid: 3230fbc3a32ceb747ab0f7ca42eb9f34, type: 3}
-  ItemInfo: 000000001e0000001e0000005a00000078000000
+  ItemInfo: 0100000009000000090000001b0000001b000000
   Weapon: {fileID: 0}
 --- !u!114 &5901226997746128678
 MonoBehaviour:
