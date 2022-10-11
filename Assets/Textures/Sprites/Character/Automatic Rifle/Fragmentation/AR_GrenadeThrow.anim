@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SGPutDown
+  m_Name: AR_GrenadeThrow
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,15 +20,11 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -1835185809, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
+      value: {fileID: -129806229, guid: 4e1aa87b508952d468a9a00f93a56dcf, type: 3}
     - time: 0.16666667
-      value: {fileID: -623048240, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
+      value: {fileID: 1370898965, guid: 4e1aa87b508952d468a9a00f93a56dcf, type: 3}
     - time: 0.33333334
-      value: {fileID: 2063099593, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
-    - time: 0.5
-      value: {fileID: 766534559, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
-    - time: 0.6666667
-      value: {fileID: 766534559, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
+      value: {fileID: 1271976778, guid: 4e1aa87b508952d468a9a00f93a56dcf, type: 3}
     attribute: m_Sprite
     path: Weapons/WeaponTexture
     classID: 212
@@ -48,22 +44,20 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -1835185809, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
-    - {fileID: -623048240, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
-    - {fileID: 2063099593, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
-    - {fileID: 766534559, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
-    - {fileID: 766534559, guid: 3b49b17e25d440f49b9a5562462875f3, type: 3}
+    - {fileID: -129806229, guid: 4e1aa87b508952d468a9a00f93a56dcf, type: 3}
+    - {fileID: 1370898965, guid: 4e1aa87b508952d468a9a00f93a56dcf, type: 3}
+    - {fileID: 1271976778, guid: 4e1aa87b508952d468a9a00f93a56dcf, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.68333334
+    m_StopTime: 0.35000002
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -77,18 +71,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.65
-    functionName: SwapWeaponEvent
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.6666667
-    functionName: ExitAnimator_event
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

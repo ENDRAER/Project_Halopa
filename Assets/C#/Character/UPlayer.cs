@@ -53,7 +53,7 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private GameObject SpawnWeaponItem;
 
     // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
-    [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 0, 30, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
+    [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 30, 30, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
     [SerializeField][SyncVar] public int WeaponUseIndex;
 
     [Header("Assault Rifle")]
@@ -72,14 +72,13 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Grenate
-    /*
+    
     [Header("Grenate")]
-    [NonSerialized] private GameObject FGrenade;
-    [NonSerialized] private GameObject PGrenade;
-    [NonSerialized] private int TotalForceThrowGrenate;
-    [NonSerialized] private float ForceThrowGrenate = 10;
-    [NonSerialized] private int FactorForceThrowGrenate;
-    */
+    [SerializeField] private GameObject FGrenade;
+    [SerializeField] private GameObject PGrenade;
+    [SerializeField] private int ScaleForceGreande = 1;
+    [SerializeField] private float ForceThrowGrenate = 10;
+    
     #endregion
 
     #region Other Links
@@ -113,12 +112,18 @@ public class UPlayer : NetworkBehaviour
         ImageGetWeaponButton = GetWeaponButton.GetComponent<Image>();
         GetWeaponButton.SetActive(false);
 
+
         //buttons
         Camera = GameObject.Find("Camera");
         GameObject.Find("SwapWeapon").GetComponent<Button>().onClick.AddListener(SwapWeaponButton);
         GameObject.Find("ReloadButton").GetComponent<Button>().onClick.AddListener(ReloadButtonClass);
         GetWeaponButton.GetComponent<Button>().onClick.AddListener(TakeWeaponClass);
-        
+
+        EventTrigger ThrowGrenadeTrigger = GameObject.Find("ThrowGrenade").GetComponent<EventTrigger>();
+        EventTrigger.Entry entryD = new EventTrigger.Entry(); entryD.eventID = EventTriggerType.PointerDown; entryD.callback.AddListener((data) => { GrenadeGet(); }); ThrowGrenadeTrigger.triggers.Add(entryD);
+        EventTrigger.Entry entryU = new EventTrigger.Entry(); entryU.eventID = EventTriggerType.PointerUp; entryU.callback.AddListener((data) => { GrenadeThrow(); }); ThrowGrenadeTrigger.triggers.Add(entryU);
+
+
         for (int a = 0; a <= 11;)
         {
             Spawns.Add(GameObject.Find("Spawn " + a));
@@ -235,13 +240,12 @@ public class UPlayer : NetworkBehaviour
     public void SwapWeaponEvent()
     {
         PlayerNetworkAnimator.ResetTrigger("SwapWeapon");
-        WeaponUseIndex = WeaponUseIndex == 0 ? 1 : 0;
+        WeaponUseIndex = -WeaponUseIndex;
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
     }
 
     public void TakeWeaponClass()
     {
-        print("a");
         float MinDistance = 600;
         int nearestWeapon = 0;
         for (int i = 0; i < InteractiveZone.WeaponsGO.Count; )
@@ -258,6 +262,8 @@ public class UPlayer : NetworkBehaviour
         int[] InfoCache = WeaponInfo[WeaponUseIndex];
         WeaponInfo[WeaponUseIndex] = InteractiveZone.WeaponsGO[nearestWeapon].GetComponent<WeaponItemInfo>().ItemInfo[0];
         Destroy(InteractiveZone.WeaponsGO[nearestWeapon]);
+        PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
+        PlayerNetworkAnimator.SetTrigger("Exit");
         //create new Item
         SpawnWeaponItem = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
         SpawnWeapon();
@@ -273,6 +279,15 @@ public class UPlayer : NetworkBehaviour
         IsDead = false;
         ShieldNow = ShieldMax;
         HealthNow = HealthMax;
+    }
+
+    public void GrenadeGet()
+    {
+        PlayerAnimator.SetBool("GrenadeThrow", true);
+    }
+    public void GrenadeThrow()
+    {
+        PlayerAnimator.SetBool("GrenadeThrow", false);
     }
 
     #endregion
@@ -311,7 +326,7 @@ public class UPlayer : NetworkBehaviour
                 else
                 {
                     PlayerNetworkAnimator.ResetTrigger("Reload");
-                    PlayerNetworkAnimator.SetTrigger("EndReload");
+                    PlayerNetworkAnimator.SetTrigger("ReloadEnd");
                 }
                 break;
             #endregion
@@ -320,12 +335,11 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Grenate
-    public void ForceGrenateClass()
+    public void ScaleForceGreande_event()
     {
-        //ForceThrowGrenate = 10;
-        //FactorForceThrowGrenate = 1;
+        ScaleForceGreande++;
     }
-    public void ThrowGrenateClass()
+    public void ThrowGrenate_event()
     {
         //if (GrenadeInfo[GrenadeInfo[0]]==0) { return; }
         //GameObject createdGrenate = Instantiate(GrenadeInfo[0] == 1? FGrenade : PGrenade, transform.position, Quaternion.identity);
@@ -382,6 +396,13 @@ public class UPlayer : NetworkBehaviour
     public void SpawnWeapon()
     {
         NetworkServer.Spawn(SpawnWeaponItem);
+    }
+    #endregion
+
+    #region Animator
+    public void ExitAnimator_event()
+    {
+        PlayerNetworkAnimator.SetTrigger("Exit");
     }
     #endregion
 }

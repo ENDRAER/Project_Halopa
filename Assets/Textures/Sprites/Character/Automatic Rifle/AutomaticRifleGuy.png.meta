@@ -109,7 +109,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 97
+        y: 193
         width: 46
         height: 46
       alignment: 9
@@ -130,7 +130,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 49
-        y: 97
+        y: 193
         width: 46
         height: 46
       alignment: 9
@@ -151,7 +151,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 193
-        y: 97
+        y: 193
         width: 46
         height: 46
       alignment: 9
@@ -172,7 +172,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 145
-        y: 97
+        y: 193
         width: 46
         height: 46
       alignment: 9
@@ -193,7 +193,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 97
-        y: 97
+        y: 193
         width: 46
         height: 46
       alignment: 9
@@ -214,7 +214,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 49
+        y: 145
         width: 46
         height: 46
       alignment: 9
@@ -235,7 +235,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 49
-        y: 49
+        y: 145
         width: 46
         height: 46
       alignment: 9
@@ -256,7 +256,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 97
-        y: 49
+        y: 145
         width: 46
         height: 46
       alignment: 9
@@ -277,7 +277,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 145
-        y: 49
+        y: 145
         width: 46
         height: 46
       alignment: 9
@@ -298,7 +298,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 193
-        y: 49
+        y: 145
         width: 46
         height: 46
       alignment: 9
@@ -319,7 +319,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1
-        y: 1
+        y: 97
         width: 46
         height: 46
       alignment: 9
@@ -340,7 +340,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 49
-        y: 1
+        y: 97
         width: 46
         height: 46
       alignment: 9
@@ -361,7 +361,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 97
-        y: 1
+        y: 97
         width: 46
         height: 46
       alignment: 9
@@ -382,7 +382,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 145
-        y: 1
+        y: 97
         width: 46
         height: 46
       alignment: 9
@@ -403,7 +403,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 193
-        y: 1
+        y: 97
         width: 46
         height: 46
       alignment: 9
@@ -415,6 +415,174 @@ TextureImporter:
       bones: []
       spriteID: 200b0a08181045d46b3f132bf1dc28b3
       internalID: 1271976778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GrenadeSwing0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7976065709c974345a39a7c478e51e0d
+      internalID: 1370898965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GrenadeSwing1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e411d7b74fe2ecb45b079cb930ed480a
+      internalID: -784513184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GrenadeSwing2
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a8bf794c2093104fa1bfbb11302cf5f
+      internalID: 1322807051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GrenadeSwing3
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca7629a141d203b46a2ea4b2bdfd2394
+      internalID: -1306180979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GrenadeSwing4
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 49
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f009e02f16c79443b319ef2b8830725
+      internalID: 885705684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GrenadeSwing5
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cae3da806d97fc4a9b003532f7da160
+      internalID: -1454364039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GrenadeSwing6
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2aadfbbe044afa44a989a740418764b
+      internalID: 1124116728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ShotGunGuy_GrenadeSwing7
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 1
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.3478261, y: 0.51086956}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4965d3a9eaeecf469fbede4a2206d12
+      internalID: -129806229
       vertices: []
       indices: 
       edges: []
@@ -431,19 +599,27 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       AR_Fire: -697063698
+      ShotGunGuy_GrenadeSwing0: -906851831
+      ShotGunGuy_GrenadeSwing1: -784513184
+      ShotGunGuy_GrenadeSwing3: -1306180979
       AR_Reload2: -1366800108
       AR_Get1: 690818359
+      ShotGunGuy_GrenadeSwing4: 885705684
       AR_Reload4: -1925233667
       AR_Reload0: -1301090789
+      ShotGunGuy_GrenadeSwing7: -129806229
       AR_FireFullAuto: 1271976778
       AR_Reload1: -1947719150
       AR_Reload6: 1578540509
+      ShotGunGuy_GrenadeSwing6: 1124116728
       AR_Reload3: -419362940
       AR_Get0: 1525712371
       AR_Reload7: -637330206
       AR_Get2: -556282511
+      ShotGunGuy_GrenadeSwing5: -1454364039
       AR_Reload8: -1148985036
       AR_Stay: -181426925
+      ShotGunGuy_GrenadeSwing2: 1322807051
       AR_Reload5: 1695519594
   spritePackingTag: 
   pSDRemoveMatte: 0
