@@ -41,7 +41,7 @@ public class Grenade : MonoBehaviour
         }
         Destroy(gameObject);
     }
-
+    /*
     private void OnTriggerEnter2D(Collider2D Other)
     {
         if (Other.gameObject.layer != 0 && Other.gameObject != Sender)
@@ -49,5 +49,5 @@ public class Grenade : MonoBehaviour
             gameObject.transform.SetParent(Other.gameObject.transform);
             gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         }
-    }
+    }*/
 }

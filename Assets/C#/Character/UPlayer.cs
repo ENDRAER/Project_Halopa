@@ -76,7 +76,10 @@ public class UPlayer : NetworkBehaviour
     [Header("Grenate")]
     [SerializeField] private GameObject FGrenade;
     [SerializeField] private GameObject PGrenade;
-    [SerializeField] private int ScaleForceGreande = 1;
+    // 0 - grenade type ; 1 - grenades vlue ; 2 - max grenades vlue
+    [SerializeField] public SyncList<int[]> GrenadeInfo = new SyncList<int[]> { new int[] { 0, 2, 2 }, new int[] { 1, 2, 2 } };
+    [SerializeField] private int GrenadesSlotUsing;
+    [SerializeField] private float ScaleForceGreande = 0;
     [SerializeField] private float ForceThrowGrenate = 10;
     
     #endregion
@@ -232,7 +235,7 @@ public class UPlayer : NetworkBehaviour
             PlayerNetworkAnimator.SetTrigger("Reload");
         }
     }
-
+    
     public void SwapWeaponButton()
     {
         PlayerNetworkAnimator.SetTrigger("SwapWeapon");
@@ -240,8 +243,9 @@ public class UPlayer : NetworkBehaviour
     public void SwapWeaponEvent()
     {
         PlayerNetworkAnimator.ResetTrigger("SwapWeapon");
-        WeaponUseIndex = -WeaponUseIndex;
+        WeaponUseIndex = WeaponUseIndex == 0? 1 : 0;
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
+        PlayerNetworkAnimator.SetTrigger("Exit");
     }
 
     public void TakeWeaponClass()
@@ -337,15 +341,15 @@ public class UPlayer : NetworkBehaviour
     #region Grenate
     public void ScaleForceGreande_event()
     {
-        ScaleForceGreande++;
+        ScaleForceGreande += 0.5f;
     }
+    [Command]
     public void ThrowGrenate_event()
     {
-        //if (GrenadeInfo[GrenadeInfo[0]]==0) { return; }
-        //GameObject createdGrenate = Instantiate(GrenadeInfo[0] == 1? FGrenade : PGrenade, transform.position, Quaternion.identity);
-        //createdGrenate.GetComponent<Grenade>().Sender = WeaponsEmpty;
-        //Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
-        //createdGrenateRB.AddForce(new Vector2(VStickRH * ForceThrowGrenate * TotalForceThrowGrenate, VStickRV * ForceThrowGrenate * TotalForceThrowGrenate));
+        GameObject createdGrenate = Instantiate(GrenadeInfo[GrenadesSlotUsing][0] == 0? FGrenade : PGrenade, transform.position, Quaternion.identity);
+        NetworkServer.Spawn(createdGrenate);
+        Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
+        createdGrenateRB.AddForce(new Vector2(VStickRH * ForceThrowGrenate * ScaleForceGreande, VStickRV * ForceThrowGrenate * ScaleForceGreande));
     }
     #endregion
 

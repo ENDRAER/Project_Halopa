@@ -13,10 +13,12 @@ GameObject:
   - component: {fileID: 6460329938628510384}
   - component: {fileID: 5623192983849280601}
   - component: {fileID: 2570520174877764315}
+  - component: {fileID: 4011580671210740339}
+  - component: {fileID: 6554065708867924415}
   m_Layer: 12
   m_Name: GrenadeF
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -48,9 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9572e31457fafe14c826708c1b32b1d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 80
+  Damage: 90
   Distance: 4
-  Time: 3
+  Time: 2
   DeadZone: {fileID: 2989657293791656971}
   RayLayer:
     serializedVersion: 2
@@ -145,6 +147,57 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &4011580671210740339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537798876478734871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: ea884ba9e69f50948a87874d7095534e
+  hasSpawned: 0
+--- !u!114 &6554065708867924415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1537798876478734871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.05
+  clientAuthority: 1
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 0
+  bufferTimeMultiplier: 1
+  bufferSizeLimit: 64
+  catchupThreshold: 4
+  catchupMultiplier: 0.1
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!1 &2989657293791656971
 GameObject:
   m_ObjectHideFlags: 0
