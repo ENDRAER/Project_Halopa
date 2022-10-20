@@ -101,7 +101,7 @@ public class UPlayer : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
 
-        TeamID = UnityEngine.Random.Range(0,999);
+        TeamID = UnityEngine.Random.Range(1,999);
 
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
 
@@ -346,10 +346,11 @@ public class UPlayer : NetworkBehaviour
     [Command]
     public void ThrowGrenate_event()
     {
-        GameObject createdGrenate = Instantiate(GrenadeInfo[GrenadesSlotUsing][0] == 0? FGrenade : PGrenade, transform.position, Quaternion.identity);
+        GameObject createdGrenate = Instantiate(GrenadeInfo[GrenadesSlotUsing][0] == 0? FGrenade : PGrenade, transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z));
         NetworkServer.Spawn(createdGrenate);
         Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
-        createdGrenateRB.AddForce(new Vector2(VStickRH * ForceThrowGrenate * ScaleForceGreande, VStickRV * ForceThrowGrenate * ScaleForceGreande));
+        createdGrenateRB.AddForce(createdGrenate.transform.right * ForceThrowGrenate * ScaleForceGreande, ForceMode2D.Impulse);
+        ScaleForceGreande = 0;
     }
     #endregion
 
@@ -391,7 +392,10 @@ public class UPlayer : NetworkBehaviour
     public void SpawnBullets()
     {
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
+        Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
         NetworkServer.Spawn(ThisBulletGO);
+        ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
+        ThisBulletGOCS.TeamId = TeamID;
     }
     #endregion
 

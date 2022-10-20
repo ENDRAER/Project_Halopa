@@ -8,15 +8,13 @@ public class Bullets : NetworkBehaviour
     [SerializeField][SyncVar] public bool FirstHit = true;
     [SerializeField][SyncVar] public int TeamId;
     [SerializeField] private float BulletDamage;
-    [SerializeField] private float BulletSpeed;
+    [SerializeField] public float BulletSpeed;
     [SerializeField] private float timeToDestroy;
     [SerializeField] private enum _TypeOfBullet { rifles, plasma, explosions};
     [SerializeField] private _TypeOfBullet TypeOfBullet;
 
-
     private void Start()
     {
-        gameObject.GetComponent<Rigidbody2D>().AddForce(transform.right * BulletSpeed, ForceMode2D.Impulse);
         StartCoroutine(CorTimeToDestroy());
     }
 
@@ -36,7 +34,7 @@ public class Bullets : NetworkBehaviour
             PlayerTexture _PlayerTexture = other.gameObject.GetComponent<PlayerTexture>();
             UPlayer _UPlayer = _PlayerTexture._UPlayer;
 
-            if (_UPlayer.TeamID != TeamId && _UPlayer.IsDead == false)
+            if (_UPlayer.TeamID != TeamId && _UPlayer.TeamID != null && _UPlayer.IsDead == false)
             {
                 switch (TypeOfBullet)
                 {
@@ -92,10 +90,5 @@ public class Bullets : NetworkBehaviour
     {
         yield return new WaitForSeconds(timeToDestroy);
         Destroy(gameObject);
-    }
-
-    public void e(int r)
-    {
-        print (r);
     }
 }
