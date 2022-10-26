@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 using Mirror;
+using TMPro;
 
 public class UPlayer : NetworkBehaviour
 {
@@ -95,13 +96,11 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
 
-
-
     private void Start()
     {
         if (!isLocalPlayer) return;
-
-        TeamID = UnityEngine.Random.Range(1,999);
+        
+        TeamChanger();
 
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
 
@@ -144,12 +143,26 @@ public class UPlayer : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         #region compatibility
-        //LS
-        VStickLH = LJS.Vertical + LJS.Horizontal != 0 ? LJS.Horizontal : Input.GetAxis("Horizontal") * 5;
-        VStickLV = LJS.Vertical + LJS.Horizontal != 0 ? LJS.Vertical : Input.GetAxis("Vertical") * 5;
-        //RS
-        VStickRH = RJS.Vertical + RJS.Horizontal != 0 ? RJS.Horizontal : Input.GetAxis("RS Horizontal") * 5;
-        VStickRV = RJS.Vertical + RJS.Horizontal != 0 ? RJS.Vertical : Input.GetAxis("RS Vertical") * 5;
+        if (LJS.Vertical != 0 || LJS.Horizontal != 0)
+        {
+            VStickLH = LJS.Horizontal;
+            VStickLV = LJS.Vertical;
+        }
+        else
+        {
+            VStickLH = Input.GetAxis("Horizontal") * 5;
+            VStickLV = Input.GetAxis("Vertical") * 5;
+        }//LS
+        if (RJS.Vertical != 0 || RJS.Horizontal != 0)
+        {
+            VStickRH = RJS.Horizontal;
+            VStickRV = RJS.Vertical;
+        }
+        else
+        {
+            VStickRH = Input.GetAxis("RS Horizontal") * 5;
+            VStickRV = Input.GetAxis("RS Vertical") * 5;
+        }//RS
 
         if (Input.GetButton("Reload"))
         {
@@ -167,22 +180,13 @@ public class UPlayer : NetworkBehaviour
         double KatetRJS = Math.Sqrt((VStickRV * VStickRV) + (VStickRH * VStickRH));
         #endregion
 
-        #region This NEED to rebuild ***************************
-        AmmoBar.text = (WeaponInfo[WeaponUseIndex][1] + " | " + WeaponInfo[WeaponUseIndex][3]);
-
-        if (WeaponInfo[WeaponUseIndex][1] == 0 && WeaponInfo[WeaponUseIndex][3] != 0)
-        {
-            PlayerNetworkAnimator.SetTrigger("Reload");
-        } // auto reload when u have 0 rounds
-        #endregion
-
         #region run and aim
 
         if (KatetLJS > 1)
         {
-            PlayerRB.AddForce(new Vector2(VStickLH * speed * Time.deltaTime, VStickLV * speed * Time.deltaTime)); //move
+            PlayerRB.AddForce(new Vector2(VStickLH * speed * Time.deltaTime, VStickLV * speed * Time.deltaTime)); 
             LegsAnimator.SetFloat("Speed", (100 / 5 * (float)KatetLJS)/100);
-        }
+        }//move
         else
             LegsAnimator.SetFloat("Speed", 0);
 
@@ -208,6 +212,15 @@ public class UPlayer : NetworkBehaviour
 
         #endregion
 
+        #region This NEED to rebuild ***************************
+        AmmoBar.text = (WeaponInfo[WeaponUseIndex][1] + " | " + WeaponInfo[WeaponUseIndex][3]);
+
+        if (WeaponInfo[WeaponUseIndex][1] == 0 && WeaponInfo[WeaponUseIndex][3] != 0)
+        {
+            PlayerNetworkAnimator.SetTrigger("Reload");
+        } // auto reload when u have 0 rounds
+        #endregion
+
         #region other
         float MinDistance = 600;
         int nearestWeapon = 0;
@@ -224,13 +237,15 @@ public class UPlayer : NetworkBehaviour
             }
             ImageGetWeaponButton.sprite = WeaponTextures[InteractiveZone.WeaponsGO[nearestWeapon].GetComponent<WeaponItemInfo>().ItemInfo[0][0]];
         }
+        if (IsDead)
+            DeadPanel.SetActive(true);
         #endregion
     }
 
     #region touch screen Buttons
     public void ReloadButtonClass()
     {
-        if (WeaponInfo[WeaponUseIndex][1] != WeaponInfo[WeaponUseIndex][2] && WeaponInfo[WeaponUseIndex][3] != 0)
+        if (WeaponInfo[WeaponUseIndex][1] < WeaponInfo[WeaponUseIndex][2] && WeaponInfo[WeaponUseIndex][3] > 0)
         {
             PlayerNetworkAnimator.SetTrigger("Reload");
         }
@@ -240,7 +255,7 @@ public class UPlayer : NetworkBehaviour
     {
         PlayerNetworkAnimator.SetTrigger("SwapWeapon");
     }
-    public void SwapWeaponEvent()
+    [Client]public void SwapWeaponEvent()
     {
         PlayerNetworkAnimator.ResetTrigger("SwapWeapon");
         WeaponUseIndex = WeaponUseIndex == 0? 1 : 0;
@@ -322,7 +337,7 @@ public class UPlayer : NetworkBehaviour
                 WeaponInfo[WeaponUseIndex][1]++;
                 WeaponInfo[WeaponUseIndex][3]--;
 
-                if (WeaponInfo[WeaponUseIndex][1] != WeaponInfo[WeaponUseIndex][2] && WeaponInfo[WeaponUseIndex][3] != 0)
+                if (WeaponInfo[WeaponUseIndex][1] < WeaponInfo[WeaponUseIndex][2] && WeaponInfo[WeaponUseIndex][3] > 0)
                 {
                     PlayerNetworkAnimator.ResetTrigger("EndReload");
                     PlayerNetworkAnimator.SetTrigger("Reload");
@@ -392,10 +407,10 @@ public class UPlayer : NetworkBehaviour
     public void SpawnBullets()
     {
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
-        Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
         NetworkServer.Spawn(ThisBulletGO);
-        ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
+        Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
         ThisBulletGOCS.TeamId = TeamID;
+        ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
     }
     #endregion
 
@@ -411,6 +426,14 @@ public class UPlayer : NetworkBehaviour
     public void ExitAnimator_event()
     {
         PlayerNetworkAnimator.SetTrigger("Exit");
+    }
+    #endregion
+
+    #region Commands
+    [Command]
+    public void TeamChanger()
+    {
+        TeamID = UnityEngine.Random.Range(1, 999);
     }
     #endregion
 }

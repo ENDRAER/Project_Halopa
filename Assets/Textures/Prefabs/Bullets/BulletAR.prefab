@@ -51,10 +51,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  FirstHit: 1
   TeamId: 0
-  BulletDamage: 20
-  BulletSpeed: 200
+  BulletDamage: 999
+  BulletSpeed: 50
   timeToDestroy: 0.5
   TypeOfBullet: 0
 --- !u!212 &3182902504192978366
