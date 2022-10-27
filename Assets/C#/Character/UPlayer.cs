@@ -339,7 +339,7 @@ public class UPlayer : NetworkBehaviour
 
                 if (WeaponInfo[WeaponUseIndex][1] < WeaponInfo[WeaponUseIndex][2] && WeaponInfo[WeaponUseIndex][3] > 0)
                 {
-                    PlayerNetworkAnimator.ResetTrigger("EndReload");
+                    PlayerNetworkAnimator.ResetTrigger("ReloadEnd");
                     PlayerNetworkAnimator.SetTrigger("Reload");
                 }
                 else
