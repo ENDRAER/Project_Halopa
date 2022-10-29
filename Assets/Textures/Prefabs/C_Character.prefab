@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 2940114560538808313}
   - component: {fileID: 8280498632485876779}
   - component: {fileID: 7333005917405466285}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Weapons
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -395,7 +395,7 @@ MonoBehaviour:
   PGrenade: {fileID: 6676294010237908591, guid: 22607629485a6c24db55f9d97050938c, type: 3}
   GrenadesSlotUsing: 0
   ScaleForceGreande: 0
-  ForceThrowGrenate: 1
+  ForceThrowGrenate: 20
   WeaponItemPrefab: {fileID: 875858668415275194, guid: 3230fbc3a32ceb747ab0f7ca42eb9f34, type: 3}
 --- !u!50 &4774744917709354703
 Rigidbody2D:

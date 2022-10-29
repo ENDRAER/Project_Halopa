@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System;
+using Mirror;
 
 public class Grenade : MonoBehaviour
 {
+    [SerializeField] private bool sticky;
     [SerializeField] private float Damage;
     [SerializeField] private float Distance;
     [SerializeField] private float Time; 
@@ -18,10 +20,11 @@ public class Grenade : MonoBehaviour
         StartCoroutine(TimeToBoom());
     }
 
+    [Client]
     private IEnumerator TimeToBoom()
     {
-        GameObject me = gameObject;
         yield return new WaitForSeconds(Time);
+        GameObject Player = gameObject;
         float MinDistance = 2286669;
         for (float t = 0; t != 180; t++)
         {
@@ -31,23 +34,39 @@ public class Grenade : MonoBehaviour
 
             if (rayHit.collider != null && rayHit.collider.tag == "Player" && MinDistance > Vector3.Distance(transform.position, rayHit.point))
             {
-                me = rayHit.collider.gameObject;
+                Player = rayHit.collider.gameObject;
                 MinDistance = Vector3.Distance(transform.position, rayHit.point);
             }
         }
         if (MinDistance != 2286669)
         {
-            //  DAMAGE
+            float DamageNow = Damage * (1 / Distance * (Distance - MinDistance));
+            UPlayer _UPlayer = Player.GetComponent<PlayerTexture>()._UPlayer;
+            if (_UPlayer.ShieldNow >= DamageNow)
+            {
+                _UPlayer.ShieldNow -= DamageNow;
+            }
+            else if (_UPlayer.ShieldNow < DamageNow && _UPlayer.HealthNow + _UPlayer.ShieldNow > DamageNow)
+            {
+                _UPlayer.HealthNow -= DamageNow - _UPlayer.ShieldNow;
+                _UPlayer.ShieldNow = 0;
+            }
+            else
+            {
+                _UPlayer.IsDead = true;
+                _UPlayer.ShieldNow = 0;
+                _UPlayer.HealthNow = 0;
+            }
         }
         Destroy(gameObject);
     }
-    /*
+    
     private void OnTriggerEnter2D(Collider2D Other)
     {
-        if (Other.gameObject.layer != 0 && Other.gameObject != Sender)
+        if (sticky && Other.gameObject.tag == "Player" && Other.gameObject != Sender && Sender != null)
         {
             gameObject.transform.SetParent(Other.gameObject.transform);
-            gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+            Destroy(gameObject.GetComponent<Rigidbody2D>());
         }
-    }*/
+    }
 }

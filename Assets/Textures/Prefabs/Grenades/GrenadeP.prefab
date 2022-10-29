@@ -51,7 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9572e31457fafe14c826708c1b32b1d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 120
+  sticky: 1
+  Damage: 420
   Distance: 3
   Time: 4
   DeadZone: {fileID: 7401023276704206740}
@@ -126,7 +127,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.57
+  m_Radius: 0.5
 --- !u!58 &5695370586228998012
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -142,7 +143,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.49999997
+  m_Radius: 0.45
 --- !u!50 &9139925532494386248
 Rigidbody2D:
   serializedVersion: 4

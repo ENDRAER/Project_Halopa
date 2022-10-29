@@ -51,7 +51,8 @@ public class UPlayer : NetworkBehaviour
 
     [SerializeField] private GameObject[] Bullets;
     [SerializeField] private Sprite[] WeaponTextures;
-    [SerializeField] private GameObject SpawnWeaponItem;
+    [SerializeField] private GameObject WeaponItemPrefab;
+    [NonSerialized] private GameObject SpawnWeaponItem;
 
     // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
     [SerializeField] public SyncList<int[]> WeaponInfo = new SyncList<int[]> { new int[] { 2, 6, 6, 30, 30, 1 }, new int[] { 0, 30, 30, 999, 999, 0 } };
@@ -87,7 +88,6 @@ public class UPlayer : NetworkBehaviour
 
     #region Other Links
     [Header("Other Links")]
-    [SerializeField] private GameObject WeaponItemPrefab;
     [NonSerialized] private float VStickRH;
     [NonSerialized] private float VStickRV;
     [NonSerialized] private float VStickLH;
@@ -99,7 +99,9 @@ public class UPlayer : NetworkBehaviour
     private void Start()
     {
         if (!isLocalPlayer) return;
-        
+
+        WeaponsEmpty.layer = 0;
+
         TeamChanger();
 
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
@@ -164,15 +166,25 @@ public class UPlayer : NetworkBehaviour
             VStickRV = Input.GetAxis("RS Vertical") * 5;
         }//RS
 
-        if (Input.GetButton("Reload"))
+        if (Input.GetButtonDown("Reload"))
         {
             ReloadButtonClass();
         }
 
-        if (Input.GetButton("SwapWeapon"))
+        if (Input.GetButtonDown("SwapWeapon"))
         {
             SwapWeaponButton();
         }
+
+        if (Input.GetButtonDown("Grenade"))
+        {
+            GrenadeGet();
+        }
+        if (Input.GetButtonUp("Grenade"))
+        {
+            GrenadeThrow();
+        }
+
         #endregion
 
         #region Katets of stiks
@@ -365,6 +377,7 @@ public class UPlayer : NetworkBehaviour
         NetworkServer.Spawn(createdGrenate);
         Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
         createdGrenateRB.AddForce(createdGrenate.transform.right * ForceThrowGrenate * ScaleForceGreande, ForceMode2D.Impulse);
+        createdGrenate.GetComponent<Grenade>().Sender = gameObject;
         ScaleForceGreande = 0;
     }
     #endregion

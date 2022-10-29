@@ -50,7 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9572e31457fafe14c826708c1b32b1d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 90
+  sticky: 0
+  Damage: 360
   Distance: 4
   Time: 2
   DeadZone: {fileID: 2989657293791656971}
@@ -125,7 +126,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.49999997
+  m_Radius: 0.5
 --- !u!50 &2570520174877764315
 Rigidbody2D:
   serializedVersion: 4
