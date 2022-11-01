@@ -167,6 +167,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Gren_Plasma
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 36
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2571c39230e00874ca102fe80af83c05
+      internalID: 2129513925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gren_Fragmantation
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 36
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e9a74e8fca21af4fa933bbd048b9193
+      internalID: 1021028528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -179,8 +221,10 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       1_DMR: -1280464743
+      Gren_Fragmantation: 1021028528
       2_ShotGun: 1014829353
       0_AutomaticRifle: 59477588
+      Gren_Plasma: 2129513925
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

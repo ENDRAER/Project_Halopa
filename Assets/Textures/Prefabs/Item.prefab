@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1137892375941306682}
   - component: {fileID: 4966241808435335087}
   m_Layer: 13
-  m_Name: WeaponItem
+  m_Name: Item
   m_TagString: WeaponItem
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -51,13 +51,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  ItemType: 0
   MustBeDestroyed: 0
   SecToDestroy: 0
   WeaponSprites:
   - {fileID: 59477588, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
   - {fileID: -1280464743, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
   - {fileID: 1014829353, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
-  a: 
+  GrenadeSprites:
+  - {fileID: 1021028528, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
+  - {fileID: 2129513925, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
+  AbilitySprites: []
 --- !u!70 &1234629564904518622
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

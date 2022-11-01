@@ -8,7 +8,8 @@ public class WeaponSpawner : NetworkBehaviour
     [SerializeField] private int TimePassed;
     [SerializeField] private float TimeToSpawn;
     [SerializeField] private GameObject WeaponItemPrefab;
-    [SerializeField] private int[] ItemInfo;
+    [SerializeField] public ushort ItemType;
+    [SerializeField] private ushort[] ItemInfo;
     [SerializeField] private GameObject Weapon;
 
     private void FixedUpdate()
@@ -23,7 +24,7 @@ public class WeaponSpawner : NetworkBehaviour
             Weapon = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
             SpawnWeapon();
             WeaponItemInfo _weaponInfoCache = Weapon.GetComponent<WeaponItemInfo>();
-            _weaponInfoCache.CustomStart(ItemInfo);
+            _weaponInfoCache.CustomStart(ItemInfo, ItemType);
             _weaponInfoCache.MustBeDestroyed = false;
         }
     }

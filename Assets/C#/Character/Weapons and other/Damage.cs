@@ -12,7 +12,7 @@ public class Damage : MonoBehaviour
         {
             UPlayer _UPlayer = other.GetComponent<UPlayer>();
             //_UPlayer.HealthNow -= damage;
-            _UPlayer.HPBar.text = "HP: " + _UPlayer.HealthNow + "/100";
+            //_UPlayer.HPBar.text = "HP: " + _UPlayer.HealthNow + "/100";
             Destroy(gameObject);
         }
     }

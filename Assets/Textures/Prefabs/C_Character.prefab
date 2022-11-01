@@ -381,7 +381,7 @@ MonoBehaviour:
   - {fileID: 59477588, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
   - {fileID: -1280464743, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
   - {fileID: 1014829353, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
-  SpawnWeaponItem: {fileID: 0}
+  WeaponItemPrefab: {fileID: 875858668415275194, guid: 3230fbc3a32ceb747ab0f7ca42eb9f34, type: 3}
   WeaponUseIndex: 0
   ARRateOfFire: 0.1
   ARReloadSpeed: 1
@@ -391,12 +391,12 @@ MonoBehaviour:
   SGReloadSpeed: 1
   SGBulletsRange: 8
   SGRandScale: 10
-  FGrenade: {fileID: 1537798876478734871, guid: ea884ba9e69f50948a87874d7095534e, type: 3}
-  PGrenade: {fileID: 6676294010237908591, guid: 22607629485a6c24db55f9d97050938c, type: 3}
+  GrenadePrefab:
+  - {fileID: 1537798876478734871, guid: ea884ba9e69f50948a87874d7095534e, type: 3}
+  - {fileID: 6676294010237908591, guid: 22607629485a6c24db55f9d97050938c, type: 3}
   GrenadesSlotUsing: 0
   ScaleForceGreande: 0
   ForceThrowGrenate: 20
-  WeaponItemPrefab: {fileID: 875858668415275194, guid: 3230fbc3a32ceb747ab0f7ca42eb9f34, type: 3}
 --- !u!50 &4774744917709354703
 Rigidbody2D:
   serializedVersion: 4
