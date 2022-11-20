@@ -6,22 +6,31 @@ using Mirror;
 
 public class Grenade : MonoBehaviour
 {
-    [SerializeField] private bool sticky;
+    [SerializeField] public bool CanBeSticky;
+    [NonSerialized] public bool sticky = false;
     [SerializeField] private float Damage;
     [SerializeField] private float Distance;
-    [SerializeField] private float Time; 
+    [NonSerialized] public float Time = 6;
+    [SerializeField] public float TimeToBoomAfterThrow;
     [SerializeField] private GameObject DeadZone;
     [SerializeField] private LayerMask RayLayer;
     [SerializeField] public GameObject Sender;
+    [NonSerialized] public Coroutine coroutine;
     private RaycastHit2D rayHit;
     
     private void Start()
     {
+        coroutine = StartCoroutine(TimeToBoom());
+    }
+
+    public void RestCor()
+    {
+        StopCoroutine(coroutine);
         StartCoroutine(TimeToBoom());
     }
 
     [Client]
-    private IEnumerator TimeToBoom()
+    public IEnumerator TimeToBoom()
     {
         yield return new WaitForSeconds(Time);
         GameObject Player = gameObject;
@@ -38,25 +47,10 @@ public class Grenade : MonoBehaviour
                 MinDistance = Vector3.Distance(transform.position, rayHit.point);
             }
         }
-        if (MinDistance != 2286669)
+        if (MinDistance != 2286669 && Player != gameObject)
         {
             float DamageNow = Damage * (1 / Distance * (Distance - MinDistance));
-            UPlayer _UPlayer = Player.GetComponent<PlayerTexture>()._UPlayer;
-            if (_UPlayer.ShieldNow >= DamageNow)
-            {
-                _UPlayer.ShieldNow -= DamageNow;
-            }
-            else if (_UPlayer.ShieldNow < DamageNow && _UPlayer.HealthNow + _UPlayer.ShieldNow > DamageNow)
-            {
-                _UPlayer.HealthNow -= DamageNow - _UPlayer.ShieldNow;
-                _UPlayer.ShieldNow = 0;
-            }
-            else
-            {
-                _UPlayer.IsDead = true;
-                _UPlayer.ShieldNow = 0;
-                _UPlayer.HealthNow = 0;
-            }
+            Player.GetComponent<PlayerTexture>()._UPlayer.Damage(1, 1, DamageNow, 0);
         }
         Destroy(gameObject);
     }

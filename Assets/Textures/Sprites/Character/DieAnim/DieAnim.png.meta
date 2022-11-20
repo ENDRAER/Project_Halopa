@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4203a0a9e9e0c084e9a8b7e8e0509da8
+guid: 60a736abea45fee4584dc5b0cbbbe329
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,463 +105,547 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DMR_Stay
+      name: DieAnim_stnd
       rect:
         serializedVersion: 2
         x: 1
-        y: 146
+        y: 226
         width: 46
         height: 45
       alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+      pivot: {x: 0.47826087, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e7278fe57754ec4e9ec3a1900742c6f
-      internalID: -1231471943
+      spriteID: f21df94c730128a4db7df02208dfd807
+      internalID: 975088677
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DMR_Fire0
+      name: DieAnim_stndStraight1
       rect:
         serializedVersion: 2
         x: 49
-        y: 146
+        y: 226
         width: 46
         height: 45
       alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+      pivot: {x: 0.47826087, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e610d6001912eb1458a7a6708cc35405
-      internalID: 169969422
+      spriteID: 70c6b9f1e22294b4db20f6fe585b05db
+      internalID: 1889004377
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DMR_Fire1
+      name: DieAnim_stndBack0
       rect:
         serializedVersion: 2
-        x: 97
-        y: 146
+        x: 1
+        y: 178
         width: 46
         height: 45
       alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+      pivot: {x: 0.47826087, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a482448be3951564bbb4d27b6e1bbf0b
-      internalID: 180107117
+      spriteID: 17c2c6e40ebef984496b3bf7c6fb15bb
+      internalID: 2110200485
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DMR_TakeOff0
+      name: DieAnim_stndBack1
       rect:
         serializedVersion: 2
-        x: 145
-        y: 146
+        x: 49
+        y: 178
         width: 46
         height: 45
       alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+      pivot: {x: 0.47826087, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7661eed3eaa50234582bf197bbb85197
-      internalID: -94109761
+      spriteID: 3f6fad80022f5db4d928304135690315
+      internalID: -2056555571
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DMR_TakeOff1
+      name: DieAnim_Light2
       rect:
         serializedVersion: 2
         x: 193
-        y: 146
+        y: 226
         width: 46
         height: 45
       alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+      pivot: {x: 0.47826087, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c6b1828534e40fa46ab60fafea6650af
-      internalID: -1497629633
+      spriteID: 9802620dcc57e8e45ba945adb1c50e90
+      internalID: 1418208523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DMR_TakeOff2
-      rect:
-        serializedVersion: 2
-        x: 241
-        y: 146
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bbf7e04c61ded1f488b39a1767b375ad
-      internalID: 977812687
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DMRGuy_Reload0
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 98
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7f31cdef9a1f8a445827eb04ef2a4560
-      internalID: -1087709491
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DMRGuy_Reload1
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 98
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d11390a58fa40e540812953f66a735a6
-      internalID: -1823845553
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DMRGuy_Reload2
-      rect:
-        serializedVersion: 2
-        x: 97
-        y: 98
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 61f9dc1ab05a3fd49a5be7b947ea4b93
-      internalID: -281413204
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DMRGuy_Reload3
+      name: DieAnim_Light1
       rect:
         serializedVersion: 2
         x: 145
-        y: 98
+        y: 226
         width: 46
         height: 45
       alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+      pivot: {x: 0.47826087, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a16668e6b4685340bc831caf344bdf5
-      internalID: -554843360
+      spriteID: c9ccc384573c3de4fabd6a7a0c68edaf
+      internalID: -2052488158
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DMRGuy_Reload4
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 98
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b184e5b180161aa40a6d667fb4c5796c
-      internalID: 420148612
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DMRGuy_Reload5
-      rect:
-        serializedVersion: 2
-        x: 241
-        y: 98
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ee76ae570bc60254987a764e972ed43e
-      internalID: 101709378
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DMRGuy_Reload6
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 50
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bc4db13e7de1386478484a025cb330ac
-      internalID: 2002489078
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DMRGuy_Reload7
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 50
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5ac5c5b73c6138d4586a0b1f3cb0b9cc
-      internalID: 802085744
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ShotGunGuy_GrenadeSwing0
+      name: DieAnim_Light0
       rect:
         serializedVersion: 2
         x: 97
-        y: 50
+        y: 226
         width: 46
         height: 45
       alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+      pivot: {x: 0.47826087, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2e97435396afeb4e956c09a7113ab44
-      internalID: 1066893316
+      spriteID: c84ee28458d28fd4b99f62253c7db66c
+      internalID: -426783867
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShotGunGuy_GrenadeSwing1
-      rect:
-        serializedVersion: 2
-        x: 145
-        y: 50
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0804ab94226400b4ca82315a506acddb
-      internalID: -1251477093
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ShotGunGuy_GrenadeSwing2
-      rect:
-        serializedVersion: 2
-        x: 193
-        y: 50
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 86370d9c05ed766449ccf8eae2d6125d
-      internalID: -1896828782
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ShotGunGuy_GrenadeSwing3
+      name: DieAnim_bodies0
       rect:
         serializedVersion: 2
         x: 241
-        y: 50
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+        y: 266
+        width: 7
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1530a6980a8449a4a956192c2daca5ac
-      internalID: 2006056309
+      spriteID: cc7f5b6fd8208f84e818da11c5f44011
+      internalID: 1313380523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShotGunGuy_GrenadeSwing4
+      name: DieAnim_bodies1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 2
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+        x: 249
+        y: 264
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e4b59e7e060fca244a8216d58e49a065
-      internalID: -404194278
+      spriteID: 45d263cb1dc14044cba280285099c3c3
+      internalID: -2122826420
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShotGunGuy_GrenadeSwing5
+      name: DieAnim_bodies5
       rect:
         serializedVersion: 2
-        x: 49
-        y: 2
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+        x: 260
+        y: 266
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 80402bc3890c3b8438a43a0ed9a839b3
-      internalID: 476262666
+      spriteID: 732b984f44da912428490695156d3ab9
+      internalID: -1982084580
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShotGunGuy_GrenadeSwing6
+      name: DieAnim_bodies2
       rect:
         serializedVersion: 2
-        x: 97
-        y: 2
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+        x: 241
+        y: 260
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f6e8b3ab2704e74da7d9dda6d9ddf4e
-      internalID: -2138623972
+      spriteID: 62d79fb81b57e73498376b45217dc2fb
+      internalID: -724923648
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShotGunGuy_GrenadeSwing7
+      name: DieAnim_bodies3
       rect:
         serializedVersion: 2
-        x: 145
-        y: 2
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.3478261, y: 0.5}
+        x: 246
+        y: 259
+        width: 6
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6771e632104639c409e4f0e84680efb4
-      internalID: -182488477
+      spriteID: 8c015f680ceb951428e3556395475ef9
+      internalID: -1927017573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies4
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 258
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8a27babe300daf41b74982a46de75e2
+      internalID: 622521569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_13
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 256
+        width: 4
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdbbc0e798d676d4ab9fc049509c3902
+      internalID: 124450317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_14
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 256
+        width: 3
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a63252b590919594792dc86f94d21db1
+      internalID: -1642234287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_15
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 256
+        width: 2
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 748367bb2a4666b46994ebb6fdb7d7b8
+      internalID: 1414984840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies7
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 260
+        width: 9
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 610bc2e796c1a3b499e4d5dbb3c8f584
+      internalID: 799160273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies14
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 251
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21f563038ff57c04c85cb661a0264148
+      internalID: 1332753700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies9
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 252
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d225ff0fb3af0fa4883b0d300769ffef
+      internalID: -554091094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies10
+      rect:
+        serializedVersion: 2
+        x: 258
+        y: 250
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 840f98b1cd06a5c41be0e973fd38696a
+      internalID: 2076248078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies11
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 243
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3333c6091dafd5439f986dbb731384f
+      internalID: 1854691596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies6
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 241
+        width: 5
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3833d2e8cffa0fc4d965b05c95f3bb25
+      internalID: 1006819907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies13
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 244
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5eb3660a22037654bb4af60f2eae609a
+      internalID: -440776818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies12
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 243
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 731854281cb5eba4cb9b0dbb06f0e4f1
+      internalID: -836710458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_bodies8
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 240
+        width: 5
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cc3b0d45be669f4984a5a25e6fd05de
+      internalID: 713425435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_0
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 267
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb256f8459a913c44894de8c9d670ed8
+      internalID: -1394525125
       vertices: []
       indices: 
       edges: []
@@ -577,28 +661,32 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      DMRGuy_Reload1: -1823845553
-      ShotGunGuy_GrenadeSwing0: 1066893316
-      ShotGunGuy_GrenadeSwing1: -1251477093
-      ShotGunGuy_GrenadeSwing3: 2006056309
-      DMRGuy_Reload3: -554843360
-      DMR_Fire0: 169969422
-      DMRGuy_Reload7: 802085744
-      ShotGunGuy_GrenadeSwing4: -404194278
-      DMR_TakeOff2: 977812687
-      ShotGunGuy_GrenadeSwing7: -182488477
-      DMR_Fire1: 180107117
-      DMRGuy_Reload4: 420148612
-      ShotGunGuy_GrenadeSwing6: -2138623972
-      DMR_TakeOff0: -94109761
-      DMRGuy_Reload5: 101709378
-      DMR_Stay: -1231471943
-      ShotGunGuy_GrenadeSwing5: 476262666
-      DMRGuy_Reload2: -281413204
-      ShotGunGuy_GrenadeSwing2: -1896828782
-      DMR_TakeOff1: -1497629633
-      DMRGuy_Reload0: -1087709491
-      DMRGuy_Reload6: 2002489078
+      DieAnim_bodies2: -724923648
+      DieAnim_bodies7: 799160273
+      DieAnim_Light0: -426783867
+      DieAnim_bodies0: 1313380523
+      DieAnim_bodies5: -1982084580
+      DieAnim_0: -1394525125
+      DieAnim_bodies13: -440776818
+      DieAnim_bodies11: 1854691596
+      DieAnim_bodies10: 2076248078
+      DieAnim_bodies4: 622521569
+      DieAnim_stnd: 975088677
+      DieAnim_bodies3: -1927017573
+      DieAnim_bodies8: 713425435
+      DieAnim_Light1: -2052488158
+      DieAnim_stndBack1: -2056555571
+      DieAnim_bodies9: -554091094
+      DieAnim_14: -1642234287
+      DieAnim_Light2: 1418208523
+      DieAnim_bodies6: 1006819907
+      DieAnim_stndStraight1: 1889004377
+      DieAnim_bodies1: -2122826420
+      DieAnim_stndBack0: 2110200485
+      DieAnim_15: 1414984840
+      DieAnim_13: 124450317
+      DieAnim_bodies12: -836710458
+      DieAnim_bodies14: 1332753700
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
