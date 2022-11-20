@@ -11,9 +11,12 @@ public class Bullets : NetworkBehaviour
     [SerializeField][SyncVar] public int TeamId = 0;
     [SerializeField] public float BulletDamage;
     [SerializeField] public float BulletSpeed;
+    [SerializeField] public float Impulse;
     [SerializeField] private float timeToDestroy;
     [SerializeField] public enum _TypeOfBullet { rifles, plasma, explosions };
     [SerializeField] public _TypeOfBullet TypeOfBullet;
+    [SerializeField] private byte DamageModHealth;
+    [SerializeField] private byte DamageModShield;
 
 
     private void Start()
@@ -30,21 +33,8 @@ public class Bullets : NetworkBehaviour
             if (_UPlayer.TeamID != TeamId && TeamId != 0 && _UPlayer.IsDead == false)
             {
                 float hitAngle = Mathf.Atan2(_UPlayer.transform.position.x - transform.position.x, _UPlayer.transform.position.y - transform.position.y) * Mathf.Rad2Deg;
-                switch (TypeOfBullet)
-                {
-                    case _TypeOfBullet.rifles:
-                        if(hitAngle <= 180 && hitAngle >= -180)
-                            _UPlayer.Damage(1, 1, BulletDamage, 0, hitAngle);
-                        else
-                            _UPlayer.Damage(1, 1, BulletDamage, 1, hitAngle);
-                        break;
-                    case _TypeOfBullet.plasma:
-                        _UPlayer.Damage(1, 2, BulletDamage, 2, hitAngle);
-                        break;
-                    case _TypeOfBullet.explosions:
-                        print("build me");
-                        break;
-                }
+                float hitAngleBetweenGOs = _PlayerTexture.transform.rotation.eulerAngles.z + (hitAngle < 0 ? hitAngle + 180 : hitAngle);
+                _UPlayer.Damage(DamageModHealth, DamageModShield, BulletDamage, (byte)TypeOfBullet, hitAngle, Impulse);
             }
         }
         else if (other.gameObject.GetComponent<UPlayer>() == null)

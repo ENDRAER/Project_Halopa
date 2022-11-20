@@ -50,7 +50,7 @@ public class Grenade : MonoBehaviour
         if (MinDistance != 2286669 && Player != gameObject)
         {
             float DamageNow = Damage * (1 / Distance * (Distance - MinDistance));
-            Player.GetComponent<PlayerTexture>()._UPlayer.Damage(1, 1, DamageNow, 0);
+            Player.GetComponent<PlayerTexture>()._UPlayer.Damage(1, 1, DamageNow, 2, Mathf.Atan2(Player.transform.position.x - transform.position.x, Player.transform.position.y - transform.position.y) * Mathf.Rad2Deg, 10);
         }
         Destroy(gameObject);
     }

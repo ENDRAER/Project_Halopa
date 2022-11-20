@@ -147,48 +147,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DieAnim_stndBack0
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 178
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.47826087, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 17c2c6e40ebef984496b3bf7c6fb15bb
-      internalID: 2110200485
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DieAnim_stndBack1
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 178
-        width: 46
-        height: 45
-      alignment: 9
-      pivot: {x: 0.47826087, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3f6fad80022f5db4d928304135690315
-      internalID: -2056555571
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: DieAnim_Light2
       rect:
         serializedVersion: 2
@@ -638,7 +596,7 @@ TextureImporter:
         width: 4
         height: 4
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -646,6 +604,48 @@ TextureImporter:
       bones: []
       spriteID: fb256f8459a913c44894de8c9d670ed8
       internalID: -1394525125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_PlasmaForward0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 178
+        width: 46
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e335d64a14710346b78e909c98e329e
+      internalID: 1541275688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DieAnim_PlasmaForward1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 178
+        width: 46
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfff07cbf2d5b304bb820e4e47d9914e
+      internalID: 1354078837
       vertices: []
       indices: 
       edges: []
@@ -662,7 +662,9 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       DieAnim_bodies2: -724923648
+      DieAnim_PlasmaForward0: 1541275688
       DieAnim_bodies7: 799160273
+      DieAnim_PlasmaForward1: 1354078837
       DieAnim_Light0: -426783867
       DieAnim_bodies0: 1313380523
       DieAnim_bodies5: -1982084580

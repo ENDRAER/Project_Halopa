@@ -18,10 +18,11 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private NetworkAnimator PlayerNetworkAnimator;
     [SerializeField] private Animator PlayerAnimator;
     [SerializeField] private Animator LegsAnimator;
-    [SerializeField] private GameObject WeaponsEmpty;
+    [SerializeField] private GameObject PlayerTextureGO;
     [SerializeField] private GameObject LegsGO;
     [SerializeField] private GameObject Camera;
     [SerializeField] private GameObject DyingDoll;
+    [SerializeField] private GameObject _DyingDoll;
 
     #endregion
 
@@ -104,7 +105,7 @@ public class UPlayer : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         TeamChanger();
-        WeaponsEmpty.layer = 0;
+        PlayerTextureGO.layer = 0;
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
 
         #region FindButtons
@@ -211,11 +212,11 @@ public class UPlayer : NetworkBehaviour
         if (KatetLJS > 1) 
         {
             LegsGO.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickLV, VStickLH) * Mathf.Rad2Deg);
-            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickLV, VStickLH) * Mathf.Rad2Deg);
+            PlayerTextureGO.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickLV, VStickLH) * Mathf.Rad2Deg);
         } // rotate Player
 
         if (KatetRJS > 1)
-            WeaponsEmpty.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickRV, VStickRH) * Mathf.Rad2Deg);
+            PlayerTextureGO.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(VStickRV, VStickRH) * Mathf.Rad2Deg);
         // rotate
 
         if (KatetRJS > 4 && WeaponInfo[WeaponUseIndex][1] != 0) 
@@ -379,7 +380,7 @@ public class UPlayer : NetworkBehaviour
     public void CreateGrenate_event()
     {
         GrenadeInfo[GrenadesSlotUsing][1]--;
-        createdGrenate = Instantiate(GrenadePrefab[GrenadeInfo[GrenadesSlotUsing][0]], GrenadeSlotGO.transform.position, WeaponsEmpty.transform.rotation);
+        createdGrenate = Instantiate(GrenadePrefab[GrenadeInfo[GrenadesSlotUsing][0]], GrenadeSlotGO.transform.position, PlayerTextureGO.transform.rotation);
         createdGrenate.transform.SetParent(GrenadeSlotGO.transform);
         NetworkServer.Spawn(createdGrenate);
     }
@@ -396,7 +397,7 @@ public class UPlayer : NetworkBehaviour
             Grenade createdGrenateCS = createdGrenate.GetComponent<Grenade>();
             createdGrenateCS.Time = createdGrenateCS.TimeToBoomAfterThrow;
             createdGrenateCS.sticky = createdGrenateCS.CanBeSticky? true : false;
-            createdGrenateCS.Sender = WeaponsEmpty;
+            createdGrenateCS.Sender = PlayerTextureGO;
             createdGrenateCS.RestCor();
         }
         ScaleForceGreande = 0;
@@ -440,7 +441,7 @@ public class UPlayer : NetworkBehaviour
     [Command]
     public void SpawnBullets()
     {
-        GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, WeaponsEmpty.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
+        GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
         NetworkServer.Spawn(ThisBulletGO);
         Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
         ThisBulletGOCS.TeamId = TeamID;
@@ -470,7 +471,7 @@ public class UPlayer : NetworkBehaviour
         TeamID = (byte)UnityEngine.Random.Range(1, 999);
     }
     [Client]
-    public void Damage(byte DamageModHealth, byte DamageModShield, float Damage, byte DieType, float HitAngle)
+    public void Damage(byte DamageModHealth, byte DamageModShield, float Damage, byte DieType, float HitAngle, float ForceImpusle)
     {
         if (ShieldNow >= Damage * DamageModShield)
         {
@@ -486,10 +487,14 @@ public class UPlayer : NetworkBehaviour
             ShieldNow = 0;
             HealthNow = 0;
             IsDead = true;
-
-            GameObject _DyingDoll = Instantiate(DyingDoll,transform.position,transform.rotation);
+            if (_DyingDoll != null) Destroy(_DyingDoll);
+            _DyingDoll = Instantiate(DyingDoll,transform.position,transform.rotation);
             NetworkServer.Spawn(_DyingDoll);
             _DyingDoll.GetComponent<Animator>().SetInteger("DieType", DieType);
+            DyingDoll.transform.rotation = Quaternion.Euler(0,0, HitAngle);
+            _DyingDoll.GetComponent<Rigidbody2D>().AddForce(transform.forward * ForceImpusle, ForceMode2D.Impulse);
+            DyingDoll.transform.rotation = Quaternion.Euler(0, 0, PlayerTextureGO.transform.rotation.eulerAngles.z);
+
             DeadPanel.SetActive(true);
             gameObject.SetActive(false);
         }

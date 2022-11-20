@@ -54,8 +54,11 @@ MonoBehaviour:
   TeamId: 0
   BulletDamage: 999
   BulletSpeed: 50
+  Impulse: 1
   timeToDestroy: 0.5
   TypeOfBullet: 0
+  DamageModHealth: 1
+  DamageModShield: 1
 --- !u!212 &3182902504192978366
 SpriteRenderer:
   m_ObjectHideFlags: 0
