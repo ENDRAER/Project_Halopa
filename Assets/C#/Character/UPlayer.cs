@@ -20,9 +20,9 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private Animator LegsAnimator;
     [SerializeField] private GameObject PlayerTextureGO;
     [SerializeField] private GameObject LegsGO;
-    [SerializeField] private GameObject Camera;
     [SerializeField] private GameObject DyingDoll;
     [SerializeField] private GameObject _DyingDoll;
+    [NonSerialized] private GameObject Camera;
 
     #endregion
 
@@ -122,8 +122,8 @@ public class UPlayer : NetworkBehaviour
 
         //buttons
         Camera = GameObject.Find("Camera");
-        GameObject.Find("MPManager").GetComponent<MultiPlayerManager>()._UPlayerGO = gameObject;
-        GameObject.Find("MPManager").GetComponent<MultiPlayerManager>()._UPlayerCS = this;
+        GameObject.Find("MPManager (NI)").GetComponent<MultiPlayerManager>()._UPlayerGO = gameObject;
+        GameObject.Find("MPManager (NI)").GetComponent<MultiPlayerManager>()._UPlayerCS = this;
         GameObject.Find("SwapWeapon").GetComponent<Button>().onClick.AddListener(SwapWeaponButton);
         GameObject.Find("SwapGrenade").GetComponent<Button>().onClick.AddListener(SwapGrenadeButton); 
         GameObject.Find("ReloadButton").GetComponent<Button>().onClick.AddListener(ReloadButtonClass);
@@ -484,17 +484,21 @@ public class UPlayer : NetworkBehaviour
         }
         else
         {
+            // set dying
             ShieldNow = 0;
             HealthNow = 0;
             IsDead = true;
+
+            // create doll
             if (_DyingDoll != null) Destroy(_DyingDoll);
-            _DyingDoll = Instantiate(DyingDoll,transform.position,transform.rotation);
+            _DyingDoll = Instantiate(DyingDoll, transform.position, Quaternion.Euler(0, 0, HitAngle));
             NetworkServer.Spawn(_DyingDoll);
             _DyingDoll.GetComponent<Animator>().SetInteger("DieType", DieType);
-            DyingDoll.transform.rotation = Quaternion.Euler(0,0, HitAngle);
-            _DyingDoll.GetComponent<Rigidbody2D>().AddForce(transform.forward * ForceImpusle, ForceMode2D.Impulse);
-            DyingDoll.transform.rotation = Quaternion.Euler(0, 0, PlayerTextureGO.transform.rotation.eulerAngles.z);
 
+            // impulse
+            float _angle = PlayerTextureGO.transform.rotation.eulerAngles.z; print(_DyingDoll.transform.rotation.eulerAngles.z); print(HitAngle);
+            _DyingDoll.GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.right * ForceImpusle, ForceMode2D.Impulse);
+            DyingDoll.transform.rotation = PlayerTextureGO.transform.rotation; 
             DeadPanel.SetActive(true);
             gameObject.SetActive(false);
         }

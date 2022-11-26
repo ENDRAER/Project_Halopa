@@ -17,12 +17,13 @@ public class MultiPlayerManager : NetworkBehaviour
     public int ShieldMax;
     #endregion
 
-
+    [Client]
     public void ReviveButton()
     {
+        _UPlayerGO.SetActive(true);
+
         _UPlayerCS.WeaponInfo = StartWeaponInfo;
         _UPlayerCS.WeaponUseIndex = 0;
-
 
         _UPlayerCS.GrenadeInfo = StartGrenadeInfo;
         _UPlayerCS.GrenadesSlotUsing = 0;
@@ -32,7 +33,6 @@ public class MultiPlayerManager : NetworkBehaviour
 
         _UPlayerGO.transform.position = _UPlayerCS.Spawns[UnityEngine.Random.Range(0, 11)].transform.position;
         _UPlayerCS.IsDead = false;
-        _UPlayerGO.SetActive(true);
         _UPlayerCS.DeadPanel.SetActive(false);
     }
 }

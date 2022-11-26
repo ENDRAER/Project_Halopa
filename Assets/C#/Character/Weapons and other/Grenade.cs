@@ -4,11 +4,12 @@ using UnityEngine;
 using System;
 using Mirror;
 
-public class Grenade : MonoBehaviour
+public class Grenade : NetworkBehaviour
 {
     [SerializeField] public bool CanBeSticky;
     [NonSerialized] public bool sticky = false;
     [SerializeField] private float Damage;
+    [SerializeField] public float Impulse;
     [SerializeField] private float Distance;
     [NonSerialized] public float Time = 6;
     [SerializeField] public float TimeToBoomAfterThrow;
@@ -50,7 +51,7 @@ public class Grenade : MonoBehaviour
         if (MinDistance != 2286669 && Player != gameObject)
         {
             float DamageNow = Damage * (1 / Distance * (Distance - MinDistance));
-            Player.GetComponent<PlayerTexture>()._UPlayer.Damage(1, 1, DamageNow, 2, Mathf.Atan2(Player.transform.position.x - transform.position.x, Player.transform.position.y - transform.position.y) * Mathf.Rad2Deg, 10);
+            Player.GetComponent<PlayerTexture>()._UPlayer.Damage(1, 1, DamageNow, 2, Mathf.Atan2(Player.transform.position.y - transform.position.y, Player.transform.position.x - transform.position.x) * Mathf.Rad2Deg, Impulse * (1 / Distance * (Distance - MinDistance)));
         }
         Destroy(gameObject);
     }

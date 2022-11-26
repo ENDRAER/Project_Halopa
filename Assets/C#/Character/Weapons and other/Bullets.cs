@@ -32,8 +32,7 @@ public class Bullets : NetworkBehaviour
             UPlayer _UPlayer = _PlayerTexture._UPlayer;
             if (_UPlayer.TeamID != TeamId && TeamId != 0 && _UPlayer.IsDead == false)
             {
-                float hitAngle = Mathf.Atan2(_UPlayer.transform.position.x - transform.position.x, _UPlayer.transform.position.y - transform.position.y) * Mathf.Rad2Deg;
-                float hitAngleBetweenGOs = _PlayerTexture.transform.rotation.eulerAngles.z + (hitAngle < 0 ? hitAngle + 180 : hitAngle);
+                float hitAngle = Mathf.Atan2(_PlayerTexture.transform.position.y - transform.position.y, _PlayerTexture.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
                 _UPlayer.Damage(DamageModHealth, DamageModShield, BulletDamage, (byte)TypeOfBullet, hitAngle, Impulse);
             }
         }

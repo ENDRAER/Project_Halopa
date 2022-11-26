@@ -362,9 +362,11 @@ MonoBehaviour:
   PlayerNetworkAnimator: {fileID: 1247781560808608831}
   PlayerAnimator: {fileID: 4637387726371482178}
   LegsAnimator: {fileID: 2760977295722692800}
-  WeaponsEmpty: {fileID: 4774744915932866474}
+  PlayerTextureGO: {fileID: 4774744915932866474}
   LegsGO: {fileID: 4896736625842141831}
   Camera: {fileID: 0}
+  DyingDoll: {fileID: 6736659163839997934, guid: 304549c15acffc64b95c2d5d8c6d054b, type: 3}
+  _DyingDoll: {fileID: 0}
   LJS: {fileID: 0}
   RJS: {fileID: 0}
   IsDead: 0

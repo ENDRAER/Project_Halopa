@@ -50,8 +50,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9572e31457fafe14c826708c1b32b1d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   CanBeSticky: 0
   Damage: 9999999
+  Impulse: 200
   Distance: 4
   TimeToBoomAfterThrow: 3
   DeadZone: {fileID: 2989657293791656971}
