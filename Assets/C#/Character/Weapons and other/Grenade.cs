@@ -51,7 +51,7 @@ public class Grenade : NetworkBehaviour
         if (MinDistance != 2286669 && Player != gameObject)
         {
             float DamageNow = Damage * (1 / Distance * (Distance - MinDistance));
-            Player.GetComponent<PlayerTexture>()._UPlayer.Damage(1, 1, DamageNow, 2, Mathf.Atan2(Player.transform.position.y - transform.position.y, Player.transform.position.x - transform.position.x) * Mathf.Rad2Deg, Impulse * (1 / Distance * (Distance - MinDistance)));
+            Player.GetComponent<PlayerTexture>()._UPlayer.Damage(1, 1, DamageNow, 3, Mathf.Atan2(Player.transform.position.y - transform.position.y, Player.transform.position.x - transform.position.x) * Mathf.Rad2Deg, Impulse * (1 / Distance * (Distance - MinDistance)));
         }
         Destroy(gameObject);
     }

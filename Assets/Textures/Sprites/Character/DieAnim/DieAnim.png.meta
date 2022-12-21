@@ -336,7 +336,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DieAnim_13
+      name: DieAnim_bodies18
       rect:
         serializedVersion: 2
         x: 258
@@ -357,7 +357,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DieAnim_14
+      name: DieAnim_bodies19
       rect:
         serializedVersion: 2
         x: 263
@@ -378,7 +378,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DieAnim_15
+      name: DieAnim_bodies20
       rect:
         serializedVersion: 2
         x: 267
@@ -441,7 +441,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DieAnim_bodies9
+      name: DieAnim_bodies15
       rect:
         serializedVersion: 2
         x: 251
@@ -462,7 +462,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DieAnim_bodies10
+      name: DieAnim_bodies16
       rect:
         serializedVersion: 2
         x: 258
@@ -483,7 +483,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DieAnim_bodies11
+      name: DieAnim_bodies17
       rect:
         serializedVersion: 2
         x: 265
@@ -669,24 +669,24 @@ TextureImporter:
       DieAnim_bodies0: 1313380523
       DieAnim_bodies5: -1982084580
       DieAnim_0: -1394525125
+      DieAnim_bodies16: 2076248078
       DieAnim_bodies13: -440776818
-      DieAnim_bodies11: 1854691596
-      DieAnim_bodies10: 2076248078
+      DieAnim_bodies20: 1414984840
+      DieAnim_bodies15: -554091094
+      DieAnim_bodies18: 124450317
+      DieAnim_bodies17: 1854691596
       DieAnim_bodies4: 622521569
       DieAnim_stnd: 975088677
       DieAnim_bodies3: -1927017573
       DieAnim_bodies8: 713425435
       DieAnim_Light1: -2052488158
       DieAnim_stndBack1: -2056555571
-      DieAnim_bodies9: -554091094
-      DieAnim_14: -1642234287
+      DieAnim_bodies19: -1642234287
       DieAnim_Light2: 1418208523
       DieAnim_bodies6: 1006819907
       DieAnim_stndStraight1: 1889004377
       DieAnim_bodies1: -2122826420
       DieAnim_stndBack0: 2110200485
-      DieAnim_15: 1414984840
-      DieAnim_13: 124450317
       DieAnim_bodies12: -836710458
       DieAnim_bodies14: 1332753700
   spritePackingTag: 

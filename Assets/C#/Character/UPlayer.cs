@@ -494,11 +494,27 @@ public class UPlayer : NetworkBehaviour
             _DyingDoll = Instantiate(DyingDoll, transform.position, Quaternion.Euler(0, 0, HitAngle));
             NetworkServer.Spawn(_DyingDoll);
             _DyingDoll.GetComponent<Animator>().SetInteger("DieType", DieType);
-
+            
             // impulse
-            float _angle = PlayerTextureGO.transform.rotation.eulerAngles.z; print(_DyingDoll.transform.rotation.eulerAngles.z); print(HitAngle);
-            _DyingDoll.GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.right * ForceImpusle, ForceMode2D.Impulse);
-            DyingDoll.transform.rotation = PlayerTextureGO.transform.rotation; 
+            if (DieType == 3)
+            {
+                for (var a = 1; a != _DyingDoll.transform.childCount; a ++)
+                {
+                    print(_DyingDoll.transform.GetChild(a).name);
+                    _DyingDoll.transform.GetChild(a).gameObject.SetActive(true);
+                    _DyingDoll.transform.GetChild(a).gameObject.transform.rotation = Quaternion.Euler(0,0, PlayerTextureGO.transform.rotation.z + UnityEngine.Random.Range(-10,10));
+                    Rigidbody2D _DyingDollRB = _DyingDoll.transform.GetChild(a).gameObject.GetComponent<Rigidbody2D>();
+                    _DyingDollRB.AddForce(_DyingDoll.transform.right * (ForceImpusle + UnityEngine.Random.Range(-ForceImpusle / 100 * 30, ForceImpusle / 100 * 10)), ForceMode2D.Impulse);
+                    _DyingDollRB.AddTorque(UnityEngine.Random.Range(-40, 40), ForceMode2D.Impulse);
+                }
+            }
+            else
+            {
+                _DyingDoll.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
+                _DyingDoll.transform.GetChild(0).transform.rotation = PlayerTextureGO.transform.rotation;
+                _DyingDoll.transform.GetChild(0).GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.right * ForceImpusle, ForceMode2D.Impulse);
+            }
+
             DeadPanel.SetActive(true);
             gameObject.SetActive(false);
         }
