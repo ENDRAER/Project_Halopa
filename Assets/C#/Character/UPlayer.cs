@@ -376,29 +376,29 @@ public class UPlayer : NetworkBehaviour
         ScaleForceGreande += 0.5f;
     }
 
-    [Command]
+    [Server]
     public void CreateGrenate_event()
     {
         GrenadeInfo[GrenadesSlotUsing][1]--;
         createdGrenate = Instantiate(GrenadePrefab[GrenadeInfo[GrenadesSlotUsing][0]], GrenadeSlotGO.transform.position, PlayerTextureGO.transform.rotation);
-        createdGrenate.transform.SetParent(GrenadeSlotGO.transform);
+        createdGrenate.GetComponent<Grenade>().FollowFor = GrenadeSlotGO.transform;
         NetworkServer.Spawn(createdGrenate);
     }
 
-    [Command]
+    [Server]
     public void ThrowGrenate_event()
     {
         if (createdGrenate != null)
         {
-            createdGrenate.transform.SetParent(null);
-            Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
-            createdGrenateRB.AddForce(createdGrenate.transform.right * ForceThrowGrenate * ScaleForceGreande, ForceMode2D.Impulse);
-            createdGrenateRB.simulated = true;
             Grenade createdGrenateCS = createdGrenate.GetComponent<Grenade>();
+            createdGrenate.GetComponent<Grenade>().FollowFor = null; 
             createdGrenateCS.Time = createdGrenateCS.TimeToBoomAfterThrow;
             createdGrenateCS.sticky = createdGrenateCS.CanBeSticky? true : false;
             createdGrenateCS.Sender = PlayerTextureGO;
             createdGrenateCS.RestCor();
+            Rigidbody2D createdGrenateRB = createdGrenate.GetComponent<Rigidbody2D>();
+            createdGrenateRB.AddForce(createdGrenate.transform.right * ForceThrowGrenate * ScaleForceGreande, ForceMode2D.Impulse);
+            createdGrenateRB.simulated = true;
         }
         ScaleForceGreande = 0;
     }
@@ -484,14 +484,9 @@ public class UPlayer : NetworkBehaviour
         }
         else
         {
-            // set dying
-            ShieldNow = 0;
-            HealthNow = 0;
-            IsDead = true;
-
             // create doll
             if (_DyingDoll != null) Destroy(_DyingDoll);
-            _DyingDoll = Instantiate(DyingDoll, transform.position, Quaternion.Euler(0, 0, HitAngle));
+            _DyingDoll = Instantiate(DyingDoll, transform.position, Quaternion.Euler(0, 0, 0));
             NetworkServer.Spawn(_DyingDoll);
             _DyingDoll.GetComponent<Animator>().SetInteger("DieType", DieType);
             
@@ -500,11 +495,10 @@ public class UPlayer : NetworkBehaviour
             {
                 for (var a = 1; a != _DyingDoll.transform.childCount; a ++)
                 {
-                    print(_DyingDoll.transform.GetChild(a).name);
                     _DyingDoll.transform.GetChild(a).gameObject.SetActive(true);
-                    _DyingDoll.transform.GetChild(a).gameObject.transform.rotation = Quaternion.Euler(0,0, PlayerTextureGO.transform.rotation.z + UnityEngine.Random.Range(-10,10));
+                    _DyingDoll.transform.GetChild(a).gameObject.transform.rotation = Quaternion.Euler(0, 0, HitAngle + UnityEngine.Random.Range(-15, 15));
                     Rigidbody2D _DyingDollRB = _DyingDoll.transform.GetChild(a).gameObject.GetComponent<Rigidbody2D>();
-                    _DyingDollRB.AddForce(_DyingDoll.transform.right * (ForceImpusle + UnityEngine.Random.Range(-ForceImpusle / 100 * 30, ForceImpusle / 100 * 10)), ForceMode2D.Impulse);
+                    _DyingDollRB.AddForce(_DyingDoll.transform.GetChild(a).transform.right * (ForceImpusle + UnityEngine.Random.Range(-ForceImpusle / 100 * 20, ForceImpusle / 100 * 10)), ForceMode2D.Impulse);
                     _DyingDollRB.AddTorque(UnityEngine.Random.Range(-40, 40), ForceMode2D.Impulse);
                 }
             }
@@ -515,6 +509,10 @@ public class UPlayer : NetworkBehaviour
                 _DyingDoll.transform.GetChild(0).GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.right * ForceImpusle, ForceMode2D.Impulse);
             }
 
+            // set dying
+            ShieldNow = 0;
+            HealthNow = 0;
+            IsDead = true;
             DeadPanel.SetActive(true);
             gameObject.SetActive(false);
         }

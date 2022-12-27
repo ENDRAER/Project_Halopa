@@ -17,6 +17,7 @@ public class MultiPlayerManager : NetworkBehaviour
     public int ShieldMax;
     #endregion
 
+
     [Client]
     public void ReviveButton()
     {

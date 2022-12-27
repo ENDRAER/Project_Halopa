@@ -11,12 +11,12 @@ public class Grenade : NetworkBehaviour
     [SerializeField] private float Damage;
     [SerializeField] public float Impulse;
     [SerializeField] private float Distance;
-    [NonSerialized] public float Time = 6;
+    [SerializeField] public float Time = 6;
     [SerializeField] public float TimeToBoomAfterThrow;
-    [SerializeField] private GameObject DeadZone;
     [SerializeField] private LayerMask RayLayer;
     [SerializeField] public GameObject Sender;
     [NonSerialized] public Coroutine coroutine;
+    [SerializeField] public Transform FollowFor;
     private RaycastHit2D rayHit;
     
     private void Start()
@@ -38,9 +38,9 @@ public class Grenade : NetworkBehaviour
         float MinDistance = 2286669;
         for (float t = 0; t != 180; t++)
         {
-            rayHit = Physics2D.Raycast(transform.position, DeadZone.transform.forward, Distance, RayLayer);
-            Debug.DrawRay(transform.position, DeadZone.transform.forward * (rayHit ? Vector3.Distance(transform.position, rayHit.point) : Distance));
-            DeadZone.transform.rotation *= Quaternion.AngleAxis(2, new Vector3(1, 0, 0));
+            rayHit = Physics2D.Raycast(transform.position, transform.right, Distance, RayLayer);
+            Debug.DrawRay(transform.position, transform.right * (rayHit ? Vector3.Distance(transform.position, rayHit.point) : Distance));
+            transform.eulerAngles = new Vector3(0, 0, t * 2);
 
             if (rayHit.collider != null && rayHit.collider.tag == "Player" && MinDistance > Vector3.Distance(transform.position, rayHit.point))
             {
@@ -62,6 +62,15 @@ public class Grenade : NetworkBehaviour
         {
             gameObject.transform.SetParent(Other.gameObject.transform);
             Destroy(gameObject.GetComponent<Rigidbody2D>());
+        }
+    }
+
+    private void Update()
+    {
+        if (FollowFor != null)
+        {
+            transform.rotation = FollowFor.rotation;
+            transform.position = FollowFor.position;
         }
     }
 }
