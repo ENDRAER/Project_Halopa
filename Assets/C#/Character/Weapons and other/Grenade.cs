@@ -60,8 +60,8 @@ public class Grenade : NetworkBehaviour
     {
         if (sticky && Other.gameObject.tag == "Player" && Other.gameObject != Sender && Sender != null)
         {
-            gameObject.transform.SetParent(Other.gameObject.transform);
-            Destroy(gameObject.GetComponent<Rigidbody2D>());
+            //gameObject.transform.SetParent(Other.gameObject.transform);
+            //Destroy(gameObject.GetComponent<Rigidbody2D>());
         }
     }
 

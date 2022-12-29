@@ -371,12 +371,13 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Grenate
+    [Command]
     public void ScaleForceGreande_event()
     {
         ScaleForceGreande += 0.5f;
     }
 
-    [Server]
+    [Client]
     public void CreateGrenate_event()
     {
         GrenadeInfo[GrenadesSlotUsing][1]--;
@@ -385,13 +386,13 @@ public class UPlayer : NetworkBehaviour
         NetworkServer.Spawn(createdGrenate);
     }
 
-    [Server]
+    [Command]
     public void ThrowGrenate_event()
     {
         if (createdGrenate != null)
         {
             Grenade createdGrenateCS = createdGrenate.GetComponent<Grenade>();
-            createdGrenate.GetComponent<Grenade>().FollowFor = null; 
+            createdGrenateCS.FollowFor = null; 
             createdGrenateCS.Time = createdGrenateCS.TimeToBoomAfterThrow;
             createdGrenateCS.sticky = createdGrenateCS.CanBeSticky? true : false;
             createdGrenateCS.Sender = PlayerTextureGO;
@@ -438,7 +439,7 @@ public class UPlayer : NetworkBehaviour
         }
     }
 
-    [Command]
+    [Client]
     public void SpawnBullets()
     {
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
@@ -449,7 +450,7 @@ public class UPlayer : NetworkBehaviour
     }
     #endregion
 
-    #region SpawnsCommand
+    #region SpawnCommands
     [Command]
     public void SpawnWeapon()
     {
