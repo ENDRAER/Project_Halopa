@@ -98,7 +98,7 @@ public class UPlayer : NetworkBehaviour
     [NonSerialized] private float VStickLV;
     [NonSerialized] public List<GameObject> Spawns = new List<GameObject>();
     #endregion
-
+    
 
     private void Start()
     {
@@ -408,6 +408,7 @@ public class UPlayer : NetworkBehaviour
     #region Weapons
     public void Fire()
     {
+        if (!isLocalPlayer) { return; }
         switch (WeaponInfo[WeaponUseIndex][0])
         {
             #region AR
