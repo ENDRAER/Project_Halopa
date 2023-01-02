@@ -22,16 +22,9 @@ public class WeaponSpawner : NetworkBehaviour
         {
             TimePassed = 0;
             Weapon = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
-            SpawnWeapon();
             WeaponItemInfo _weaponInfoCache = Weapon.GetComponent<WeaponItemInfo>();
             _weaponInfoCache.CustomStart(ItemInfo, ItemType);
             _weaponInfoCache.MustBeDestroyed = false;
         }
-    }
-
-    [Command]
-    public void SpawnWeapon()
-    {
-        NetworkServer.Spawn(Weapon);
     }
 }

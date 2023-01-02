@@ -18,10 +18,10 @@ public class MultiPlayerManager : NetworkBehaviour
     #endregion
 
 
-    [Client]
-    public void ReviveButton()
+    [Client]public void ReviveButton()
     {
         _UPlayerGO.SetActive(true);
+        _UPlayerGO.transform.position = _UPlayerCS.Spawns[1].transform.position;
 
         _UPlayerCS.WeaponInfo = StartWeaponInfo;
         _UPlayerCS.WeaponUseIndex = 0;
@@ -32,7 +32,6 @@ public class MultiPlayerManager : NetworkBehaviour
         _UPlayerCS.HealthNow = HealthMax;
         _UPlayerCS.ShieldNow = ShieldMax;
 
-        _UPlayerGO.transform.position = _UPlayerCS.Spawns[UnityEngine.Random.Range(0, 11)].transform.position;
         _UPlayerCS.IsDead = false;
         _UPlayerCS.DeadPanel.SetActive(false);
     }

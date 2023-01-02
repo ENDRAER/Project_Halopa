@@ -7,6 +7,7 @@ using System;
 using Mirror;
 using TMPro;
 
+
 public class UPlayer : NetworkBehaviour
 {
     #region Player
@@ -23,7 +24,6 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private GameObject DyingDoll;
     [SerializeField] private GameObject _DyingDoll;
     [NonSerialized] private GameObject Camera;
-
     #endregion
 
     #region UI
@@ -62,16 +62,10 @@ public class UPlayer : NetworkBehaviour
     [SerializeField][SyncVar] public int WeaponUseIndex = 0;
 
     [Header("Assault Rifle")]
-    [SerializeField] private float ARRateOfFire;
-    [SerializeField] public float ARReloadSpeed;
 
     [Header("Pistol")]
-    [SerializeField] private float PistolRateOfFire;
-    [SerializeField] public float PistolReloadSpeed;
 
     [Header("SG")]
-    [SerializeField] private float SGRateOfFire;
-    [SerializeField] public float SGReloadSpeed;
     [SerializeField] public int SGBulletsRange;
     [SerializeField] public float SGRandScale;
     #endregion
@@ -98,13 +92,15 @@ public class UPlayer : NetworkBehaviour
     [NonSerialized] private float VStickLV;
     [NonSerialized] public List<GameObject> Spawns = new List<GameObject>();
     #endregion
-    
+
+
 
     private void Start()
     {
+        TeamID = (byte)UnityEngine.Random.Range(1, 999);
+        
         if (!isLocalPlayer) return;
 
-        TeamChanger();
         PlayerTextureGO.layer = 0;
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
 
@@ -140,7 +136,7 @@ public class UPlayer : NetworkBehaviour
             a++;
         }
 
-        gameObject.transform.position = Spawns[UnityEngine.Random.Range(0,11)].transform.position;
+        gameObject.transform.position = Spawns[1].transform.position;
         DeadPanel.SetActive(false);
         #endregion
     }
@@ -271,7 +267,7 @@ public class UPlayer : NetworkBehaviour
     {
         PlayerNetworkAnimator.SetTrigger("SwapWeapon");
     }
-    [Client]public void SwapWeaponEvent()
+    public void SwapWeaponEvent()
     {
         PlayerNetworkAnimator.ResetTrigger("SwapWeapon");
         WeaponUseIndex = WeaponUseIndex == 0? 1 : 0;
@@ -371,22 +367,18 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Grenate
-    [Command]
     public void ScaleForceGreande_event()
     {
         ScaleForceGreande += 0.5f;
     }
 
-    [Client]
     public void CreateGrenate_event()
     {
         GrenadeInfo[GrenadesSlotUsing][1]--;
         createdGrenate = Instantiate(GrenadePrefab[GrenadeInfo[GrenadesSlotUsing][0]], GrenadeSlotGO.transform.position, PlayerTextureGO.transform.rotation);
         createdGrenate.GetComponent<Grenade>().FollowFor = GrenadeSlotGO.transform;
-        NetworkServer.Spawn(createdGrenate);
     }
 
-    [Command]
     public void ThrowGrenate_event()
     {
         if (createdGrenate != null)
@@ -408,18 +400,10 @@ public class UPlayer : NetworkBehaviour
     #region Weapons
     public void Fire()
     {
-        if (!isLocalPlayer) { return; }
         switch (WeaponInfo[WeaponUseIndex][0])
         {
-            #region AR
+            #region single bullet
             case 0:
-                WeaponInfo[WeaponUseIndex][1]--;
-
-                SpawnBullets();
-                break;
-            #endregion
-
-            #region Pisotl
             case 1:
                 WeaponInfo[WeaponUseIndex][1]--;
 
@@ -440,11 +424,9 @@ public class UPlayer : NetworkBehaviour
         }
     }
 
-    [Client]
     public void SpawnBullets()
     {
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
-        NetworkServer.Spawn(ThisBulletGO);
         Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
         ThisBulletGOCS.TeamId = TeamID;
         ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
@@ -452,7 +434,6 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region SpawnCommands
-    [Command]
     public void SpawnWeapon()
     {
         NetworkServer.Spawn(SpawnWeaponItem);
@@ -467,14 +448,11 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Commands
-    [Command]
-    public void TeamChanger()
+    public void Damage(byte DamageModHealth, byte DamageModShield, float Damage, byte DieType, GameObject _GO, float ForceImpusle)
     {
-        TeamID = (byte)UnityEngine.Random.Range(1, 999);
-    }
-    [Client]
-    public void Damage(byte DamageModHealth, byte DamageModShield, float Damage, byte DieType, float HitAngle, float ForceImpusle)
-    {
+        float HitAngle = Mathf.Atan2(PlayerTextureGO.transform.position.y - _GO.transform.position.y, PlayerTextureGO.transform.position.x - _GO.transform.position.x) * Mathf.Rad2Deg;
+        Destroy(_GO);
+
         if (ShieldNow >= Damage * DamageModShield)
         {
             ShieldNow -= Damage * DamageModShield;
@@ -488,8 +466,7 @@ public class UPlayer : NetworkBehaviour
         {
             // create doll
             if (_DyingDoll != null) Destroy(_DyingDoll);
-            _DyingDoll = Instantiate(DyingDoll, transform.position, Quaternion.Euler(0, 0, 0));
-            NetworkServer.Spawn(_DyingDoll);
+            _DyingDoll = Instantiate(DyingDoll, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
             _DyingDoll.GetComponent<Animator>().SetInteger("DieType", DieType);
             
             // impulse
@@ -506,17 +483,20 @@ public class UPlayer : NetworkBehaviour
             }
             else
             {
-                _DyingDoll.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
-                _DyingDoll.transform.GetChild(0).transform.rotation = PlayerTextureGO.transform.rotation;
+                _DyingDoll.transform.GetChild(0).gameObject.SetActive(true); 
+                _DyingDoll.transform.GetChild(0).transform.rotation = Quaternion.Euler(0, 0, HitAngle);
                 _DyingDoll.transform.GetChild(0).GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.right * ForceImpusle, ForceMode2D.Impulse);
             }
 
             // set dying
             ShieldNow = 0;
             HealthNow = 0;
-            IsDead = true;
-            DeadPanel.SetActive(true);
-            gameObject.SetActive(false);
+            IsDead = true; 
+            if (DeadPanel != null)
+            {
+                DeadPanel.SetActive(true);
+                gameObject.SetActive(false);
+            }
         }
     }
     #endregion
