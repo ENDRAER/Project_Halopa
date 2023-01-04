@@ -18,7 +18,7 @@ public class MultiPlayerManager : NetworkBehaviour
     #endregion
 
 
-    [Client]public void ReviveButton()
+    [Command]public void ReviveButton()
     {
         _UPlayerGO.SetActive(true);
         _UPlayerGO.transform.position = _UPlayerCS.Spawns[1].transform.position;

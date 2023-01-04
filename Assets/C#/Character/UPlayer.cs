@@ -6,6 +6,7 @@ using UnityEngine;
 using System;
 using Mirror;
 using TMPro;
+using System.Security.Principal;
 
 
 public class UPlayer : NetworkBehaviour
@@ -39,11 +40,11 @@ public class UPlayer : NetworkBehaviour
 
     #region Health
     [Header("Health")]
-    [SerializeField][SyncVar] public bool IsDead;
+    [SerializeField] public bool IsDead;
     [SerializeField] public float HealthMax;
-    [SerializeField][SyncVar] public float HealthNow;
+    [SerializeField] public float HealthNow;
     [SerializeField] public float ShieldMax;
-    [SerializeField][SyncVar] public float ShieldNow;
+    [SerializeField] public float ShieldNow;
     [SerializeField] public float MaxTimeToRegShield;
     [SerializeField] public float NowTimeToRegShield;
     [SerializeField] public Coroutine CorRegShield;
@@ -101,7 +102,6 @@ public class UPlayer : NetworkBehaviour
         
         if (!isLocalPlayer) return;
 
-        PlayerTextureGO.layer = 0;
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
 
         #region FindButtons
@@ -447,9 +447,10 @@ public class UPlayer : NetworkBehaviour
     }
     #endregion
 
-    #region Commands
+    #region Other
     public void Damage(byte DamageModHealth, byte DamageModShield, float Damage, byte DieType, GameObject _GO, float ForceImpusle)
     {
+        float DamagerAngle = _GO.transform.rotation.z;
         float HitAngle = Mathf.Atan2(PlayerTextureGO.transform.position.y - _GO.transform.position.y, PlayerTextureGO.transform.position.x - _GO.transform.position.x) * Mathf.Rad2Deg;
         Destroy(_GO);
 
@@ -465,10 +466,10 @@ public class UPlayer : NetworkBehaviour
         else
         {
             // create doll
-            if (_DyingDoll != null) Destroy(_DyingDoll);
+            if (_DyingDoll != null) Destroy(_DyingDoll); 
             _DyingDoll = Instantiate(DyingDoll, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
             _DyingDoll.GetComponent<Animator>().SetInteger("DieType", DieType);
-            
+
             // impulse
             if (DieType == 3)
             {
@@ -484,14 +485,14 @@ public class UPlayer : NetworkBehaviour
             else
             {
                 _DyingDoll.transform.GetChild(0).gameObject.SetActive(true); 
-                _DyingDoll.transform.GetChild(0).transform.rotation = Quaternion.Euler(0, 0, HitAngle);
+                _DyingDoll.transform.GetChild(0).transform.rotation = Quaternion.Euler(0, 0, DamagerAngle);
                 _DyingDoll.transform.GetChild(0).GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.right * ForceImpusle, ForceMode2D.Impulse);
             }
 
             // set dying
             ShieldNow = 0;
             HealthNow = 0;
-            IsDead = true; 
+            IsDead = true;
             if (DeadPanel != null)
             {
                 DeadPanel.SetActive(true);

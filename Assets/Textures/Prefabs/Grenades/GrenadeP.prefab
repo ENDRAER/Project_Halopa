@@ -12,11 +12,10 @@ GameObject:
   - component: {fileID: 8225203679211410883}
   - component: {fileID: 3826497775390502817}
   - component: {fileID: 8094967831104027073}
-  - component: {fileID: 5695370586228998012}
   - component: {fileID: 9139925532494386248}
   - component: {fileID: 1328753096645335780}
   - component: {fileID: 5967337553671052300}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: GrenadeP
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
@@ -32,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 6676294010237908591}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -58,6 +57,9 @@ MonoBehaviour:
   Distance: 3
   Time: 6
   TimeToBoomAfterThrow: 4
+  ExplosionLayer:
+    serializedVersion: 2
+    m_Bits: 4
   RayLayer:
     serializedVersion: 2
     m_Bits: 513
@@ -131,22 +133,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.12
---- !u!58 &5695370586228998012
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6676294010237908591}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 1eee2ec22a5bac84ca10674daabe5299, type: 2}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.1
 --- !u!50 &9139925532494386248
 Rigidbody2D:
   serializedVersion: 4
