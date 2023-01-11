@@ -496,8 +496,8 @@ public class UPlayer : NetworkBehaviour
             if (DeadPanel != null)
             {
                 DeadPanel.SetActive(true);
-                gameObject.SetActive(false);
             }
+            gameObject.SetActive(false);
         }
     }
     #endregion
