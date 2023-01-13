@@ -40,11 +40,11 @@ public class UPlayer : NetworkBehaviour
 
     #region Health
     [Header("Health")]
-    [SerializeField] public bool IsDead;
+    [SerializeField][SyncVar] public bool IsDead;
     [SerializeField] public float HealthMax;
-    [SerializeField] public float HealthNow;
+    [SerializeField][SyncVar] public float HealthNow;
     [SerializeField] public float ShieldMax;
-    [SerializeField] public float ShieldNow;
+    [SerializeField][SyncVar] public float ShieldNow;
     [SerializeField] public float MaxTimeToRegShield;
     [SerializeField] public float NowTimeToRegShield;
     [SerializeField] public Coroutine CorRegShield;
@@ -143,6 +143,9 @@ public class UPlayer : NetworkBehaviour
 
     void Update()
     {
+        PlayerTextureGO.SetActive(!IsDead); print(IsDead);
+        LegsGO.SetActive(!IsDead);
+
         if (!isLocalPlayer) return;
 
         #region compatibility
@@ -375,7 +378,7 @@ public class UPlayer : NetworkBehaviour
     public void CreateGrenate_event()
     {
         GrenadeInfo[GrenadesSlotUsing][1]--;
-        createdGrenate = Instantiate(GrenadePrefab[GrenadeInfo[GrenadesSlotUsing][0]], GrenadeSlotGO.transform.position, PlayerTextureGO.transform.rotation);
+        createdGrenate = Instantiate(GrenadePrefab[GrenadeInfo[GrenadesSlotUsing][0]], GrenadeSlotGO.transform.position, PlayerTextureGO.transform.rotation); print(createdGrenate.name);
         createdGrenate.GetComponent<Grenade>().FollowFor = GrenadeSlotGO.transform;
     }
 
@@ -490,14 +493,13 @@ public class UPlayer : NetworkBehaviour
             }
 
             // set dying
-            ShieldNow = 0;
-            HealthNow = 0;
-            IsDead = true;
             if (DeadPanel != null)
             {
+                ShieldNow = 0;
+                HealthNow = 0;
+                IsDead = true;
                 DeadPanel.SetActive(true);
             }
-            gameObject.SetActive(false);
         }
     }
     #endregion
