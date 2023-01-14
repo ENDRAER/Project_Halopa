@@ -40,11 +40,11 @@ public class UPlayer : NetworkBehaviour
 
     #region Health
     [Header("Health")]
-    [SerializeField][SyncVar] public bool IsDead;
+    [SerializeField] public bool IsDead;
     [SerializeField] public float HealthMax;
-    [SerializeField][SyncVar] public float HealthNow;
+    [SerializeField] public float HealthNow;
     [SerializeField] public float ShieldMax;
-    [SerializeField][SyncVar] public float ShieldNow;
+    [SerializeField] public float ShieldNow;
     [SerializeField] public float MaxTimeToRegShield;
     [SerializeField] public float NowTimeToRegShield;
     [SerializeField] public Coroutine CorRegShield;
@@ -59,7 +59,8 @@ public class UPlayer : NetworkBehaviour
     [NonSerialized] private GameObject SpawnWeaponItem;
 
     // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
-    [SerializeField] public SyncList<ushort[]> WeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0 }, new ushort[] { 2, 6, 6, 30, 30, 1 } };
+    [NonSerialized] public SyncList<ushort[]> WeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0 }, new ushort[] { 2, 6, 6, 30, 30, 1 } };
+    [NonSerialized] public SyncList<ushort[]> StartWeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0 }, new ushort[] { 2, 6, 6, 30, 30, 1 } };
     [SerializeField][SyncVar] public int WeaponUseIndex = 0;
 
     [Header("Assault Rifle")]
@@ -79,6 +80,7 @@ public class UPlayer : NetworkBehaviour
     [NonSerialized] private GameObject createdGrenate;
     // 0 - grenade type ; 1 - grenades vlue ; 2 - max grenades vlue
     [SerializeField] public SyncList<byte[]> GrenadeInfo = new SyncList<byte[]> { new byte[] { 0, 2, 2 }, new byte[] { 1, 2, 2 } };
+    [NonSerialized] public SyncList<byte[]> StartGrenadeInfo = new SyncList<byte[]> { new byte[] { 0, 2, 2 }, new byte[] { 1, 2, 2 } };
     [SerializeField][SyncVar] public int GrenadesSlotUsing = 0;
     [SerializeField] private float ScaleForceGreande = 0;
     [SerializeField] private float ForceThrowGrenate = 10;
@@ -99,10 +101,9 @@ public class UPlayer : NetworkBehaviour
     private void Start()
     {
         TeamID = (byte)UnityEngine.Random.Range(1, 999);
-        
-        if (!isLocalPlayer) return;
-
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
+
+        if (!isLocalPlayer) return;
 
         #region FindButtons
         //Button Links
@@ -118,8 +119,7 @@ public class UPlayer : NetworkBehaviour
 
         //buttons
         Camera = GameObject.Find("Camera");
-        GameObject.Find("MPManager (NI)").GetComponent<MultiPlayerManager>()._UPlayerGO = gameObject;
-        GameObject.Find("MPManager (NI)").GetComponent<MultiPlayerManager>()._UPlayerCS = this;
+        GameObject.Find("YouNeverDie").GetComponent<Button>().onClick.AddListener(ReviveButton);
         GameObject.Find("SwapWeapon").GetComponent<Button>().onClick.AddListener(SwapWeaponButton);
         GameObject.Find("SwapGrenade").GetComponent<Button>().onClick.AddListener(SwapGrenadeButton); 
         GameObject.Find("ReloadButton").GetComponent<Button>().onClick.AddListener(ReloadButtonClass);
@@ -143,9 +143,6 @@ public class UPlayer : NetworkBehaviour
 
     void Update()
     {
-        PlayerTextureGO.SetActive(!IsDead); print(IsDead);
-        LegsGO.SetActive(!IsDead);
-
         if (!isLocalPlayer) return;
 
         #region compatibility
@@ -277,6 +274,26 @@ public class UPlayer : NetworkBehaviour
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
     }
 
+    [ClientRpc]
+    public void ReviveButton()
+    {
+        PlayerTextureGO.SetActive(true);
+        LegsGO.SetActive(true);
+        transform.position = Spawns[1].transform.position;
+
+        WeaponInfo = StartWeaponInfo;
+        WeaponUseIndex = 0;
+
+        GrenadeInfo = StartGrenadeInfo;
+        GrenadesSlotUsing = 0;
+
+        HealthNow = HealthMax;
+        ShieldNow = ShieldMax;
+
+        IsDead = false;
+        DeadPanel.SetActive(false);
+    }
+
     [Client]
     public void SwapGrenadeButton()
     {
@@ -304,6 +321,7 @@ public class UPlayer : NetworkBehaviour
         Destroy(InteractiveZone.WeaponsGO[nearestWeapon]);
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
         PlayerNetworkAnimator.SetTrigger("Exit");
+
         //create new Item
         SpawnWeaponItem = Instantiate(WeaponItemPrefab, transform.position, Quaternion.identity);
         SpawnWeapon();
@@ -378,7 +396,7 @@ public class UPlayer : NetworkBehaviour
     public void CreateGrenate_event()
     {
         GrenadeInfo[GrenadesSlotUsing][1]--;
-        createdGrenate = Instantiate(GrenadePrefab[GrenadeInfo[GrenadesSlotUsing][0]], GrenadeSlotGO.transform.position, PlayerTextureGO.transform.rotation); print(createdGrenate.name);
+        createdGrenate = Instantiate(GrenadePrefab[GrenadeInfo[GrenadesSlotUsing][0]], GrenadeSlotGO.transform.position, PlayerTextureGO.transform.rotation);
         createdGrenate.GetComponent<Grenade>().FollowFor = GrenadeSlotGO.transform;
     }
 
@@ -493,13 +511,15 @@ public class UPlayer : NetworkBehaviour
             }
 
             // set dying
+            ShieldNow = 0;
+            HealthNow = 0;
+            IsDead = true;
             if (DeadPanel != null)
             {
-                ShieldNow = 0;
-                HealthNow = 0;
-                IsDead = true;
                 DeadPanel.SetActive(true);
             }
+            PlayerTextureGO.SetActive(false);
+            LegsGO.SetActive(false);
         }
     }
     #endregion

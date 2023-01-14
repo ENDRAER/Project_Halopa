@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Mirror;
 
-public class Grenade : NetworkBehaviour
+public class Grenade : MonoBehaviour
 {
     [SerializeField] public bool CanBeSticky;
     [NonSerialized] public bool sticky = false;
@@ -44,6 +44,7 @@ public class Grenade : NetworkBehaviour
         {
             if (Col2D.gameObject.GetComponents<PlayerTexture>() != null)
             {
+                print(Col2D);
                 Col2D.gameObject.layer = 0;
 
                 for (float t = 0; t != 180; t++)
