@@ -274,8 +274,11 @@ public class UPlayer : NetworkBehaviour
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
     }
 
-    [ClientRpc]
     public void ReviveButton()
+    {
+        CmdReviveButton();
+    }
+    [Command(requiresAuthority = false)] public void CmdReviveButton(NetworkConnectionToClient sender = null)
     {
         PlayerTextureGO.SetActive(true);
         LegsGO.SetActive(true);
