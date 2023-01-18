@@ -185,6 +185,10 @@ public class UPlayer : NetworkBehaviour
         {
             GrenadeThrow();
         }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CmdReviveButton();
+        }
 
         #endregion
 
@@ -282,20 +286,31 @@ public class UPlayer : NetworkBehaviour
     {
         PlayerTextureGO.SetActive(true);
         LegsGO.SetActive(true);
-        transform.position = Spawns[1].transform.position;
-
-        WeaponInfo = StartWeaponInfo;
-        WeaponUseIndex = 0;
-
-        GrenadeInfo = StartGrenadeInfo;
-        GrenadesSlotUsing = 0;
 
         HealthNow = HealthMax;
         ShieldNow = ShieldMax;
 
         IsDead = false;
-        DeadPanel.SetActive(false);
+
+        if (DeadPanel != null)
+        {
+            transform.position = Spawns[1].transform.position;
+
+            WeaponInfo = StartWeaponInfo;
+            WeaponUseIndex = 0;
+
+            GrenadeInfo = StartGrenadeInfo;
+            GrenadesSlotUsing = 0;
+
+            DeadPanel.SetActive(false);
+        }
     }
+    public void ActivateTextures()
+    {
+        PlayerTextureGO.SetActive(true);
+        LegsGO.SetActive(true);
+    }
+
 
     [Client]
     public void SwapGrenadeButton()
