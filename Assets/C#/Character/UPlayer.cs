@@ -280,6 +280,22 @@ public class UPlayer : NetworkBehaviour
 
     public void ReviveButton()
     {
+        transform.position = Spawns[1].transform.position;
+
+        PlayerTextureGO.SetActive(true);
+        LegsGO.SetActive(true);
+        DeadPanel.SetActive(false);
+
+        WeaponInfo = StartWeaponInfo;
+        WeaponUseIndex = 0;
+
+        GrenadeInfo = StartGrenadeInfo;
+        GrenadesSlotUsing = 0;
+
+        HealthNow = HealthMax;
+        ShieldNow = ShieldMax;
+        IsDead = false;
+
         CmdReviveButton();
     }
     [Command(requiresAuthority = false)] public void CmdReviveButton(NetworkConnectionToClient sender = null)
@@ -291,19 +307,6 @@ public class UPlayer : NetworkBehaviour
         ShieldNow = ShieldMax;
 
         IsDead = false;
-
-        if (DeadPanel != null)
-        {
-            transform.position = Spawns[1].transform.position;
-
-            WeaponInfo = StartWeaponInfo;
-            WeaponUseIndex = 0;
-
-            GrenadeInfo = StartGrenadeInfo;
-            GrenadesSlotUsing = 0;
-
-            DeadPanel.SetActive(false);
-        }
     }
     public void ActivateTextures()
     {
@@ -358,6 +361,7 @@ public class UPlayer : NetworkBehaviour
     }
     public void GrenadeThrow()
     {
+        PlayerNetworkAnimator.ResetTrigger("GrenadeGet");
         PlayerNetworkAnimator.SetTrigger("GrenadeThrow");
     }
 

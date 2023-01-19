@@ -42,7 +42,7 @@ public class Grenade : MonoBehaviour
         Collider2D[] ExplosionZone = Physics2D.OverlapCircleAll(transform.position, Distance, ExplosionLayer);
         foreach (Collider2D Col2D in ExplosionZone)
         {
-            if (Col2D.gameObject.GetComponents<PlayerTexture>() != null)
+            if (Col2D.gameObject.tag == "Player")
             {
                 print(Col2D);
                 Col2D.gameObject.layer = 0;
