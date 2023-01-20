@@ -295,10 +295,16 @@ public class UPlayer : NetworkBehaviour
         HealthNow = HealthMax;
         ShieldNow = ShieldMax;
         IsDead = false;
-
-        CmdReviveButton();
+        //if (!isServer)
+        {
+            //CmdReviveButton();
+        }
+        //else
+        {
+            TargetReviveButton(this);
+        }
     }
-    [Command(requiresAuthority = false)] public void CmdReviveButton(NetworkConnectionToClient sender = null)
+    [Command(requiresAuthority = false)]public void CmdReviveButton(NetworkConnectionToClient sender = null)
     {
         PlayerTextureGO.SetActive(true);
         LegsGO.SetActive(true);
@@ -308,12 +314,17 @@ public class UPlayer : NetworkBehaviour
 
         IsDead = false;
     }
-    public void ActivateTextures()
+    [TargetRpc]public void TargetReviveButton(UPlayer _UPlayer)
     {
-        PlayerTextureGO.SetActive(true);
-        LegsGO.SetActive(true);
-    }
+        print("a");
+        _UPlayer.PlayerTextureGO.SetActive(true);
+        _UPlayer.LegsGO.SetActive(true);
 
+        _UPlayer.HealthNow = _UPlayer.HealthMax;
+        _UPlayer.ShieldNow = _UPlayer.ShieldMax;
+
+        _UPlayer.IsDead = false;
+    }
 
     [Client]
     public void SwapGrenadeButton()
@@ -443,6 +454,8 @@ public class UPlayer : NetworkBehaviour
     #region Weapons
     public void Fire()
     {
+        if (!isLocalPlayer) return;
+        float RandScale;
         switch (WeaponInfo[WeaponUseIndex][0])
         {
             #region single bullet
@@ -450,7 +463,8 @@ public class UPlayer : NetworkBehaviour
             case 1:
                 WeaponInfo[WeaponUseIndex][1]--;
 
-                SpawnBullets();
+                RandScale = UnityEngine.Random.Range(-SGRandScale, SGRandScale);
+                SpawnBullets(RandScale);
                 break;
             #endregion
 
@@ -460,19 +474,20 @@ public class UPlayer : NetworkBehaviour
 
                 for (int i = 0; i < SGBulletsRange; i++)
                 {
-                    SpawnBullets();
+                    RandScale = UnityEngine.Random.Range(-SGRandScale, SGRandScale);
+                    SpawnBullets(RandScale);
                 }
                 break;
             #endregion
         }
     }
-
-    public void SpawnBullets()
+    [Command(requiresAuthority = false)]public void SpawnBullets(float RandScale, NetworkConnectionToClient sender = null)
     {
-        GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + UnityEngine.Random.Range(-SGRandScale, SGRandScale)));
+        GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + RandScale));
         Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
         ThisBulletGOCS.TeamId = TeamID;
         ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
+        NetworkServer.Spawn(ThisBulletGO);
     }
     #endregion
 
