@@ -100,10 +100,11 @@ public class UPlayer : NetworkBehaviour
 
     private void Start()
     {
-        TeamID = (byte)UnityEngine.Random.Range(1, 999);
         PlayerAnimator.SetInteger("WeaponID", WeaponInfo[WeaponUseIndex][0]);
 
         if (!isLocalPlayer) return;
+
+        TeamID = (byte)UnityEngine.Random.Range(1, 999);
 
         #region FindButtons
         //Button Links
@@ -464,7 +465,10 @@ public class UPlayer : NetworkBehaviour
                 WeaponInfo[WeaponUseIndex][1]--;
 
                 RandScale = UnityEngine.Random.Range(-SGRandScale, SGRandScale);
-                SpawnBullets(RandScale);
+                if (isServer == true)
+                    TargetSpawnBullets(RandScale);
+                else 
+                    CmdSpawnBullets(RandScale, TeamID);
                 break;
             #endregion
 
@@ -475,17 +479,25 @@ public class UPlayer : NetworkBehaviour
                 for (int i = 0; i < SGBulletsRange; i++)
                 {
                     RandScale = UnityEngine.Random.Range(-SGRandScale, SGRandScale);
-                    SpawnBullets(RandScale);
+                    //isServer == true? CmdSpawnBullets(RandScale) :  ;
                 }
                 break;
             #endregion
         }
     }
-    [Command(requiresAuthority = false)]public void SpawnBullets(float RandScale, NetworkConnectionToClient sender = null)
+    [TargetRpc]public void TargetSpawnBullets(float RandScale)
     {
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + RandScale));
         Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
         ThisBulletGOCS.TeamId = TeamID;
+        ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
+        NetworkServer.Spawn(ThisBulletGO);
+    }
+    [Command(requiresAuthority = false)]public void CmdSpawnBullets(float RandScale, int Team, NetworkConnectionToClient sender = null)
+    {
+        GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + RandScale));
+        Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
+        ThisBulletGOCS.TeamId = Team;
         ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
         NetworkServer.Spawn(ThisBulletGO);
     }

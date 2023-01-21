@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.001
+  syncInterval: 0.01
   TeamID: 0
   speed: 400000
   InteractiveZone: {fileID: 3423035976042353177}
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.0001
+  syncInterval: 0.005
   clientAuthority: 1
   sendInterval: 0.005
   syncPosition: 1
@@ -477,7 +477,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.005
   clientAuthority: 1
-  sendInterval: 0.0001
+  sendInterval: 0.005
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
@@ -545,7 +545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.001
+  syncInterval: 0.005
   clientAuthority: 1
   animator: {fileID: 4637387726371482178}
 --- !u!114 &2156342870806339838
@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.001
+  syncInterval: 0.005
   clientAuthority: 1
   animator: {fileID: 2760977295722692800}
 --- !u!1 &4896736625842141831

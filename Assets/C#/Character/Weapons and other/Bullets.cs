@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEngine;
 using Mirror;
 
-public class Bullets : MonoBehaviour
+public class Bullets : NetworkBehaviour
 {
-    [SerializeField] public int TeamId = 0;
+    [SerializeField][SyncVar] public int TeamId = 0;
     [SerializeField] public float BulletDamage;
     [SerializeField] public float BulletSpeed;
     [SerializeField] public float Impulse;
