@@ -104,7 +104,6 @@ public class UPlayer : NetworkBehaviour
 
         if (!isLocalPlayer) return;
 
-        TeamID = (byte)UnityEngine.Random.Range(1, 999);
 
         #region FindButtons
         //Button Links
@@ -501,23 +500,7 @@ public class UPlayer : NetworkBehaviour
         ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
         NetworkServer.Spawn(ThisBulletGO);
     }
-    #endregion
 
-    #region SpawnCommands
-    public void SpawnWeapon()
-    {
-        NetworkServer.Spawn(SpawnWeaponItem);
-    }
-    #endregion
-
-    #region Animator
-    public void ExitAnimator_event()
-    {
-        PlayerNetworkAnimator.SetTrigger("Exit");
-    }
-    #endregion
-
-    #region Other
     public void Damage(byte DamageModHealth, byte DamageModShield, float Damage, byte DieType, GameObject _GO, float ForceImpusle)
     {
         float DamagerAngle = _GO.transform.rotation.z;
@@ -536,14 +519,14 @@ public class UPlayer : NetworkBehaviour
         else
         {
             // create doll
-            if (_DyingDoll != null) Destroy(_DyingDoll); 
+            if (_DyingDoll != null) Destroy(_DyingDoll);
             _DyingDoll = Instantiate(DyingDoll, gameObject.transform.position, Quaternion.Euler(0, 0, 0));
             _DyingDoll.GetComponent<Animator>().SetInteger("DieType", DieType);
 
             // impulse
             if (DieType == 3)
             {
-                for (var a = 1; a != _DyingDoll.transform.childCount; a ++)
+                for (var a = 1; a != _DyingDoll.transform.childCount; a++)
                 {
                     _DyingDoll.transform.GetChild(a).gameObject.SetActive(true);
                     _DyingDoll.transform.GetChild(a).gameObject.transform.rotation = Quaternion.Euler(0, 0, HitAngle + UnityEngine.Random.Range(-15, 15));
@@ -554,7 +537,7 @@ public class UPlayer : NetworkBehaviour
             }
             else
             {
-                _DyingDoll.transform.GetChild(0).gameObject.SetActive(true); 
+                _DyingDoll.transform.GetChild(0).gameObject.SetActive(true);
                 _DyingDoll.transform.GetChild(0).transform.rotation = Quaternion.Euler(0, 0, DamagerAngle);
                 _DyingDoll.transform.GetChild(0).GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.right * ForceImpusle, ForceMode2D.Impulse);
             }
@@ -570,6 +553,28 @@ public class UPlayer : NetworkBehaviour
             PlayerTextureGO.SetActive(false);
             LegsGO.SetActive(false);
         }
+    }
+    #endregion
+
+    #region SpawnCommands
+    public void SpawnWeapon()
+    {
+        NetworkServer.Spawn(SpawnWeaponItem);
+    }
+    #endregion
+
+    #region Animator
+    public void ExitAnimator_event()
+    {
+        PlayerNetworkAnimator.SetTrigger("Exit");
+    }
+    #endregion
+
+    #region Other
+    [Client]
+    public void SetRandTean()
+    {
+        TeamID = (byte)UnityEngine.Random.Range(1, 999);
     }
     #endregion
 }
