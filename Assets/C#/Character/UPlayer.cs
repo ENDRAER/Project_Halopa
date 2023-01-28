@@ -58,22 +58,28 @@ public class UPlayer : NetworkBehaviour
     [SerializeField] private GameObject WeaponItemPrefab;
     [NonSerialized] private GameObject SpawnWeaponItem;
 
-    // 0 - weapon index ; 1 - ammo in magazine ; 2 - max ammo in mag. ; 3 - total ammo ; 4 - max total ammo ; 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat)
-    [NonSerialized] public SyncList<ushort[]> WeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0 }, new ushort[] { 2, 6, 6, 30, 30, 1 } };
-    [NonSerialized] public SyncList<ushort[]> StartWeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0 }, new ushort[] { 2, 6, 6, 30, 30, 1 } };
+    #region WeaponInfo values
+    /* 
+     * 0 - weapon index
+     * 1 - ammo in magazine 
+     * 2 - max ammo in mag. 
+     * 3 - total ammo 
+     * 4 - max total ammo
+     * 5 - reload type (0 mag. ; 1 RoundPerRound ; 2 OverHeat ; )
+     * 6 - fire type (0 - single bullet ; 1 - shotgun)
+     * 7 - repeat shots
+     * 8 - MIN bullet spread
+     * 9 - MAX bullet spread
+     */
+    #endregion
+    [NonSerialized] public SyncList<ushort[]> WeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0, 1, 1, 1, 15 }, new ushort[] { 2, 6, 6, 30, 30, 1, 1, 8, 15, 15 } };
     [SerializeField][SyncVar] public int WeaponUseIndex = 0;
 
-    [Header("Assault Rifle")]
-
-    [Header("Pistol")]
-
-    [Header("SG")]
-    [SerializeField] public int SGBulletsRange;
-    [SerializeField] public float SGRandScale;
+    [NonSerialized] public SyncList<ushort[]> StartWeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0, 1, 1, 1, 15 }, new ushort[] { 2, 6, 6, 30, 30, 1, 1, 8, 15, 15 } };
     #endregion
 
     #region Grenate
-    
+
     [Header("Grenate")]
     [SerializeField] private GameObject[] GrenadePrefab;
     [SerializeField] public GameObject GrenadeSlotGO;
@@ -104,6 +110,7 @@ public class UPlayer : NetworkBehaviour
 
         if (!isLocalPlayer) return;
 
+        SetRandTean();
 
         #region FindButtons
         //Button Links
@@ -281,9 +288,6 @@ public class UPlayer : NetworkBehaviour
     public void ReviveButton()
     {
         transform.position = Spawns[1].transform.position;
-
-        PlayerTextureGO.SetActive(true);
-        LegsGO.SetActive(true);
         DeadPanel.SetActive(false);
 
         WeaponInfo = StartWeaponInfo;
@@ -292,17 +296,20 @@ public class UPlayer : NetworkBehaviour
         GrenadeInfo = StartGrenadeInfo;
         GrenadesSlotUsing = 0;
 
+        if (isServer)
+            TargetReviveButton();
+        else
+            CmdReviveButton();
+    }
+    [TargetRpc]public void TargetReviveButton()
+    {
+        PlayerTextureGO.SetActive(true);
+        LegsGO.SetActive(true);
+
         HealthNow = HealthMax;
         ShieldNow = ShieldMax;
+
         IsDead = false;
-        //if (!isServer)
-        {
-            //CmdReviveButton();
-        }
-        //else
-        {
-            TargetReviveButton(this);
-        }
     }
     [Command(requiresAuthority = false)]public void CmdReviveButton(NetworkConnectionToClient sender = null)
     {
@@ -313,17 +320,6 @@ public class UPlayer : NetworkBehaviour
         ShieldNow = ShieldMax;
 
         IsDead = false;
-    }
-    [TargetRpc]public void TargetReviveButton(UPlayer _UPlayer)
-    {
-        print("a");
-        _UPlayer.PlayerTextureGO.SetActive(true);
-        _UPlayer.LegsGO.SetActive(true);
-
-        _UPlayer.HealthNow = _UPlayer.HealthMax;
-        _UPlayer.ShieldNow = _UPlayer.ShieldMax;
-
-        _UPlayer.IsDead = false;
     }
 
     [Client]
@@ -455,33 +451,29 @@ public class UPlayer : NetworkBehaviour
     public void Fire()
     {
         if (!isLocalPlayer) return;
-        float RandScale;
-        switch (WeaponInfo[WeaponUseIndex][0])
+        float RandScale = UnityEngine.Random.Range(-WeaponInfo[WeaponUseIndex][9], WeaponInfo[WeaponUseIndex][9]); ;
+        switch (WeaponInfo[WeaponUseIndex][6])
         {
-            #region single bullet
             case 0:
-            case 1:
                 WeaponInfo[WeaponUseIndex][1]--;
 
-                RandScale = UnityEngine.Random.Range(-SGRandScale, SGRandScale);
                 if (isServer == true)
                     TargetSpawnBullets(RandScale);
                 else 
-                    CmdSpawnBullets(RandScale, TeamID);
+                    CmdSpawnBullets(RandScale);
                 break;
-            #endregion
 
-            #region ShotGun
-            case 2:
+            case 1:
                 WeaponInfo[WeaponUseIndex][1]--;
 
-                for (int i = 0; i < SGBulletsRange; i++)
+                for (int i = 0; i < WeaponInfo[WeaponUseIndex][7]; i++)
                 {
-                    RandScale = UnityEngine.Random.Range(-SGRandScale, SGRandScale);
-                    //isServer == true? CmdSpawnBullets(RandScale) :  ;
+                    if (isServer)
+                        TargetSpawnBullets(RandScale);
+                    else
+                        CmdSpawnBullets(RandScale);
                 }
                 break;
-            #endregion
         }
     }
     [TargetRpc]public void TargetSpawnBullets(float RandScale)
@@ -492,15 +484,14 @@ public class UPlayer : NetworkBehaviour
         ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
         NetworkServer.Spawn(ThisBulletGO);
     }
-    [Command(requiresAuthority = false)]public void CmdSpawnBullets(float RandScale, int Team, NetworkConnectionToClient sender = null)
+    [Command(requiresAuthority = false)]public void CmdSpawnBullets(float RandScale, NetworkConnectionToClient sender = null)
     {
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + RandScale));
         Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
-        ThisBulletGOCS.TeamId = Team;
+        ThisBulletGOCS.TeamId = TeamID;
         ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
         NetworkServer.Spawn(ThisBulletGO);
     }
-
     public void Damage(byte DamageModHealth, byte DamageModShield, float Damage, byte DieType, GameObject _GO, float ForceImpusle)
     {
         float DamagerAngle = _GO.transform.rotation.z;
@@ -571,8 +562,7 @@ public class UPlayer : NetworkBehaviour
     #endregion
 
     #region Other
-    [Client]
-    public void SetRandTean()
+    [Command(requiresAuthority = false)] public void SetRandTean(NetworkConnectionToClient sender = null)
     {
         TeamID = (byte)UnityEngine.Random.Range(1, 999);
     }
