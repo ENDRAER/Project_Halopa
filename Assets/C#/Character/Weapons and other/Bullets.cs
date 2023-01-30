@@ -2,10 +2,14 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using Mirror;
+using System.Diagnostics;
 
 public class Bullets : NetworkBehaviour
 {
     [SerializeField][SyncVar] public int TeamId = 0;
+    [SerializeField] private float DecayRate;
+    [SerializeField] private GameObject Trace;
+    [SerializeField] public bullets_trace CreatedTraceCS;
     [SerializeField] public float BulletDamage;
     [SerializeField] public float BulletSpeed;
     [SerializeField] public float Impulse;
@@ -19,6 +23,9 @@ public class Bullets : NetworkBehaviour
     private void Start()
     {
         StartCoroutine(CorTimeToDestroy());
+        CreatedTraceCS = Instantiate(Trace, transform.position, transform.rotation).GetComponent<bullets_trace>();
+        CreatedTraceCS.DecayRate = DecayRate;
+        CreatedTraceCS.CurrectPosition = transform;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

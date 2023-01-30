@@ -5,5 +5,8 @@ using System;
 
 public class TestScript : MonoBehaviour
 {
-
+    private void Update()
+    {
+        print("test script");
+    }
 }

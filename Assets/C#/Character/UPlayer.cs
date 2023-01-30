@@ -72,10 +72,10 @@ public class UPlayer : NetworkBehaviour
      * 9 - MAX bullet spread
      */
     #endregion
-    [NonSerialized] public SyncList<ushort[]> WeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0, 1, 1, 1, 15 }, new ushort[] { 2, 6, 6, 30, 30, 1, 1, 8, 15, 15 } };
+    [NonSerialized] public SyncList<ushort[]> WeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0, 1, 1, 1, 7 }, new ushort[] { 2, 6, 6, 30, 30, 1, 1, 8, 15, 15 } };
     [SerializeField][SyncVar] public int WeaponUseIndex = 0;
 
-    [NonSerialized] public SyncList<ushort[]> StartWeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0, 1, 1, 1, 15 }, new ushort[] { 2, 6, 6, 30, 30, 1, 1, 8, 15, 15 } };
+    [NonSerialized] public SyncList<ushort[]> StartWeaponInfo = new SyncList<ushort[]> { new ushort[] { 0, 30, 30, 999, 999, 0, 1, 1, 1, 7 }, new ushort[] { 2, 6, 6, 30, 30, 1, 1, 8, 15, 15 } };
     #endregion
 
     #region Grenate
@@ -451,10 +451,11 @@ public class UPlayer : NetworkBehaviour
     public void Fire()
     {
         if (!isLocalPlayer) return;
-        float RandScale = UnityEngine.Random.Range(-WeaponInfo[WeaponUseIndex][9], WeaponInfo[WeaponUseIndex][9]); ;
+        float RandScale;
         switch (WeaponInfo[WeaponUseIndex][6])
         {
             case 0:
+                RandScale = UnityEngine.Random.Range(-WeaponInfo[WeaponUseIndex][9], WeaponInfo[WeaponUseIndex][9]);
                 WeaponInfo[WeaponUseIndex][1]--;
 
                 if (isServer == true)
@@ -468,6 +469,7 @@ public class UPlayer : NetworkBehaviour
 
                 for (int i = 0; i < WeaponInfo[WeaponUseIndex][7]; i++)
                 {
+                    RandScale = UnityEngine.Random.Range(-WeaponInfo[WeaponUseIndex][9], WeaponInfo[WeaponUseIndex][9]);
                     if (isServer)
                         TargetSpawnBullets(RandScale);
                     else
@@ -529,8 +531,8 @@ public class UPlayer : NetworkBehaviour
             else
             {
                 _DyingDoll.transform.GetChild(0).gameObject.SetActive(true);
-                _DyingDoll.transform.GetChild(0).transform.rotation = Quaternion.Euler(0, 0, DamagerAngle);
-                _DyingDoll.transform.GetChild(0).GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.right * ForceImpusle, ForceMode2D.Impulse);
+                _DyingDoll.transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler(0, 0, HitAngle);
+                _DyingDoll.transform.GetChild(0).gameObject.GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.GetChild(0).transform.right * ForceImpusle, ForceMode2D.Impulse);
             }
 
             // set dying

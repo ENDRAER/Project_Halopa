@@ -52,9 +52,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.009
   TeamId: 0
+  DecayRate: 0.6
+  Trace: {fileID: 1085807434325832233, guid: 43239049b849b9b47ad080c679e5a078, type: 3}
   BulletDamage: 999
-  BulletSpeed: 50
-  Impulse: 1
+  BulletSpeed: 100
+  Impulse: 100
   timeToDestroy: 0.5
   TypeOfBullet: 0
   DamageModHealth: 1

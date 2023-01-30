@@ -345,8 +345,6 @@ MonoBehaviour:
   - {fileID: 1014829353, guid: 9d7ca00786f204343a6cb19ad9db1007, type: 3}
   WeaponItemPrefab: {fileID: 875858668415275194, guid: 3230fbc3a32ceb747ab0f7ca42eb9f34, type: 3}
   WeaponUseIndex: 0
-  SGBulletsRange: 8
-  SGRandScale: 10
   GrenadePrefab:
   - {fileID: 1537798876478734871, guid: ea884ba9e69f50948a87874d7095534e, type: 3}
   - {fileID: 6676294010237908591, guid: 22607629485a6c24db55f9d97050938c, type: 3}
@@ -725,7 +723,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7517928236298449477}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.6541, y: 0.05, z: 0}
+  m_LocalPosition: {x: 4.6541, y: 0, z: 0}
   m_LocalScale: {x: 8.971715, y: 0.02, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
