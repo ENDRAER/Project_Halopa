@@ -483,6 +483,7 @@ public class UPlayer : NetworkBehaviour
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + RandScale));
         Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
         ThisBulletGOCS.TeamId = TeamID;
+        ThisBulletGOCS.BisServer = isServer;
         ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
         NetworkServer.Spawn(ThisBulletGO);
     }
@@ -491,10 +492,11 @@ public class UPlayer : NetworkBehaviour
         GameObject ThisBulletGO = Instantiate(Bullets[WeaponInfo[WeaponUseIndex][0]], gameObject.transform.position, Quaternion.Euler(0, 0, PlayerTextureGO.transform.localRotation.eulerAngles.z + RandScale));
         Bullets ThisBulletGOCS = ThisBulletGO.GetComponent<Bullets>();
         ThisBulletGOCS.TeamId = TeamID;
+        ThisBulletGOCS.BisServer = isServer;
         ThisBulletGO.GetComponent<Rigidbody2D>().AddForce(ThisBulletGO.transform.right * ThisBulletGOCS.BulletSpeed, ForceMode2D.Impulse);
         NetworkServer.Spawn(ThisBulletGO);
     }
-    public void Damage(byte DamageModHealth, byte DamageModShield, float Damage, byte DieType, GameObject _GO, float ForceImpusle)
+    [Command]public void Damage(byte DamageModHealth, byte DamageModShield, float Damage, byte DieType, GameObject _GO, float ForceImpusle)
     {
         float DamagerAngle = _GO.transform.rotation.z;
         float HitAngle = Mathf.Atan2(PlayerTextureGO.transform.position.y - _GO.transform.position.y, PlayerTextureGO.transform.position.x - _GO.transform.position.x) * Mathf.Rad2Deg;
@@ -531,7 +533,7 @@ public class UPlayer : NetworkBehaviour
             else
             {
                 _DyingDoll.transform.GetChild(0).gameObject.SetActive(true);
-                _DyingDoll.transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler(0, 0, HitAngle);
+                _DyingDoll.transform.GetChild(0).gameObject.transform.rotation = Quaternion.Euler(0, 0, DamagerAngle);
                 _DyingDoll.transform.GetChild(0).gameObject.GetComponent<Rigidbody2D>().AddForce(_DyingDoll.transform.GetChild(0).transform.right * ForceImpusle, ForceMode2D.Impulse);
             }
 

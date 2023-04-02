@@ -4,9 +4,10 @@ using UnityEngine;
 using Mirror;
 using System.Diagnostics;
 
-public class Bullets : NetworkBehaviour
+public class Bullets : MonoBehaviour
 {
-    [SerializeField][SyncVar] public int TeamId = 0;
+    [SerializeField] public bool BisServer;
+    [SerializeField] public int TeamId = 0;
     [SerializeField] private float DecayRate;
     [SerializeField] private GameObject Trace;
     [SerializeField] public bullets_trace CreatedTraceCS;
@@ -34,15 +35,14 @@ public class Bullets : NetworkBehaviour
         {
             PlayerTexture _PlayerTexture = other.gameObject.GetComponent<PlayerTexture>();
             UPlayer _UPlayer = _PlayerTexture._UPlayer;
-            if (_UPlayer.TeamID != TeamId && TeamId != 0 && _UPlayer.IsDead == false)
+            if (_UPlayer.TeamID != TeamId && TeamId != 0 && _UPlayer.IsDead == false && BisServer)
             {
-                _UPlayer.Damage(DamageModHealth, DamageModShield, BulletDamage, (byte)TypeOfBullet, gameObject, Impulse);
+                _UPlayer.Damage(DamageModHealth, DamageModShield, BulletDamage, (byte)TypeOfBullet, gameObject, Impulse); print("TheShit");
             }
         }
         else if (other.gameObject.GetComponent<UPlayer>() == null)
             Destroy(gameObject);
     }
-
 
 
     public IEnumerator CorTimeToDestroy()

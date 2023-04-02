@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1979069694591247255}
   - component: {fileID: 3957125504379573119}
   - component: {fileID: 5856779897251109074}
-  - component: {fileID: 3587117069055256537}
   m_Layer: 10
   m_Name: BulletSG
   m_TagString: Untagged
@@ -49,11 +48,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de62e7931ebfe1146b1c788558170efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
+  BisServer: 0
   TeamId: 0
   DecayRate: 0.6
   Trace: {fileID: 1085807434325832233, guid: 43239049b849b9b47ad080c679e5a078, type: 3}
+  CreatedTraceCS: {fileID: 0}
   BulletDamage: 999
   BulletSpeed: 100
   Impulse: 100
@@ -150,23 +149,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &3587117069055256537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 879322776821770043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: b10f70375e1f30c43ac854f9323106a7
-  hasSpawned: 0
 --- !u!1 &2158824519097777060
 GameObject:
   m_ObjectHideFlags: 0

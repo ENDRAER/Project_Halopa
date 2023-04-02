@@ -14,7 +14,7 @@ public class bullets_trace : MonoBehaviour
         DecayRateAtStart = DecayRate;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (CurrectPosition != null)
         {
